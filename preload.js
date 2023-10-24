@@ -5,7 +5,7 @@ const { exec } = require('child_process');
 
 function RunPy(callback) 
 {
-	exec('python hello.py', (error, stdout, stderr) => {
+	exec('python py/listmodules.py', (error, stdout, stderr) => {
 	    if (error) {
 		  callback(error, null);
 	    } else {
