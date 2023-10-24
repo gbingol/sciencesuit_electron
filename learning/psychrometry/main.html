@@ -1,0 +1,63 @@
+<html>
+
+<head>
+    <style>
+        p
+        {
+            text-align: center;
+            
+        }
+        
+        p.header
+        {
+            font-size: 2em;
+        }
+        
+    </style>
+    
+<title>Psychrometry</title>
+</head>
+
+
+
+<body>
+
+<p class="header">Psychrometry</p>
+  
+<P>Y. Onur Devres</P>
+<P>Gokhan Bingol</p>
+
+
+<p>&nbsp;</p>
+
+
+<P>Istanbul Technical University</p>
+<p>Food Engineering Department</p>
+
+
+<p>&nbsp;</p>
+<p>Copyright 2000</P>
+
+<P> Your tutorial will begin in:
+<P id="countdown">&nbsp;</P>
+
+
+
+
+<script>
+    var CountdownTimer=setInterval(function(){myTimer()},1000);
+    var timeleft=3;
+    function myTimer()
+    {
+            document.getElementById("countdown").innerHTML=timeleft;
+            timeleft--;
+            if(timeleft<0)
+            { 
+                    clearInterval(CountdownTimer);
+                    window.location.assign("enh001.html");
+            }
+    }
+</script>
+
+</body>
+</html>
