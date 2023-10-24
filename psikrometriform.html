@@ -166,7 +166,7 @@
 
 	btn.addEventListener("click", (evt) => 
 	{
-		let s = "";
+		let s = "\"";
 		for(let i=0; i<elems.length; ++i)
 		{
 			let lbl = elems[i][0];
@@ -181,6 +181,8 @@
 
 		//remove last comma
 		s = s.slice(0, -1);
+
+		s += "\"";
 		
 		window.electron.runpy((error, output) => 
 		{
