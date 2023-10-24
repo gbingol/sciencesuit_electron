@@ -35,6 +35,15 @@
 <table>
 <tr>
 	<td>
+		<input type="checkbox" id="chkP" name="chkP">
+		<label for="chkP">P: </label>
+	</td>
+	<td>
+		<input type="number" value="" id="txtP" name="txtP" placeholder="Pressure (kPa)" step="0.1" min="0.0">
+	</td>
+</tr>
+<tr>
+	<td>
 		<input type="checkbox" id="chkTdb" name="chkTdb">
 		<label for="chkTdb">T<sub>db</sub>: </label>
 	</td>
@@ -129,8 +138,50 @@
 
 <script>
 	const btn = document.getElementById('compute');
+	const chkP =  document.getElementById('chkP');
+	const chkTdb =  document.getElementById('chkTdb');
+	const chkTwb =  document.getElementById('chkTwb');
+	const chkTdp =  document.getElementById('chkTdp');
+	const chkW =  document.getElementById('chkW');
+	const chkRH =  document.getElementById('chkRH');
+	const chkH =  document.getElementById('chkH');
+	const chkV =  document.getElementById('chkV');
+
+	const txtP =  document.getElementById('txtP');
+	const txtTdb =  document.getElementById('txtTdb');
+	const txtTwb =  document.getElementById('txtTwb');
+	const txtTdp =  document.getElementById('txtTdp');
+	const txtW =  document.getElementById('txtW');
+	const txtRH =  document.getElementById('txtRH');
+	const txtH =  document.getElementById('txtH');
+	const txtV =  document.getElementById('txtV');
+
+	const elems = [
+		["P", chkP, txtP],
+		["Tdb", chkTdb, txtTdb], ["Twb", chkTwb, txtTwb], ["Tdp", chkTdp, txtTdp],
+		["W", chkW, txtW], ["RH", chkRH, txtRH],
+		["H", chkH, txtH],
+		["V", chkV, txtV]
+	]
+
 	btn.addEventListener("click", (evt) => 
 	{
+		let s = "";
+		for(let i=0; i<elems.length; ++i)
+		{
+			let lbl = elems[i][0];
+			let chk = elems[i][1];
+			let txt = elems[i][2];
+			if(chk.checked) 
+			{
+				s += lbl +"|" + txt.value;
+				s += "|"
+			}
+		}
+
+		//remove last comma
+		s = s.slice(0, -1);
+		
 		window.electron.runpy((error, output) => 
 		{
 			if (error) 
@@ -139,9 +190,9 @@
 			} else 
 			{
 				let prg = document.getElementById("modules");
-				prg.innerHTML=output;
+				prg.innerHTML = output
 			}
-		}, "py/psychrometry.py");
+		}, "py/psychrometry.py " + s);
 	});
 </script>
 </body>
