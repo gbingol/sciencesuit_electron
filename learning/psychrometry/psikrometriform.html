@@ -1,28 +1,128 @@
+<!DOCTYPE html>
 <html>
-
+	
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1254">
-<meta name="GENERATOR" content="Microsoft FrontPage 3.0">
-<title>Psychrometric Program</title>
-<meta name="Microsoft Theme" content="none">
+	<meta charset="UTF-8" />
+	<title>Psychrometric Software</title>
+	<style>
+
+		td{
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		tr:nth-child(2n+2){
+			background-color: antiquewhite;
+		}
+
+		tr:nth-child(2n+1){
+			background-color: blanchedalmond;
+		}
+
+		td:nth-child(2)
+		{
+			width: 90%;
+		}
+	</style>
 </head>
 
-<body background="../../docs/scientific/gifs/fd.gif">
-<div align="center"><center>
+<body>
 
-<table border="0" width="100%">
-  <tr>
-    <td width="33%"></td>
-    <td width="33%"><p align="center"><font color="#0080FF" face="Comic Sans MS"><big><big><big>Psychro-Calculator</big></big></big></p>
-    <p align="center">
-    <applet code="PsikrometriForm.class" align="baseline" width="550" height="600">
-    </applet>
-    </p>
-    <p align="center"><font face="Comic Sans MS">If Reset button is not functioning, please
-    use this link&nbsp; <a href="javascript:location.reload()">Reset</a></td>
-    <td width="34%"></td>
-  </tr>
+	
+<h1>Psychrometric Calculator</h1>
+
+<form>
+<table>
+<tr>
+	<td>
+		<input type="checkbox" id="chkTdb" name="chkTdb">
+		<label for="chkTdb">T<sub>db</sub>: </label>
+	</td>
+	<td>
+		<input type="number" value="" id="txtTdb" name="txtTdb" placeholder="Dry-bulb temperature (°C)" step="0.001">
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<input type="checkbox" id="chkTwb" name="chkTwb">
+		<label for="chkTwb">T<sub>wb</sub>: </label>
+	</td>
+	<td>
+		<input type="number" value="" id="txtTwb" name="txtTwb" placeholder="Wet-bulb temperature(°C)" step="0.001">	
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<input type="checkbox" id="chkTdp" name="chkTdp">
+		<label for="chkTdp">T<sub>dp</sub>:</label>
+	</td>
+	<td>
+		<input type="number" id="txtTdp" name="txtTdp" placeholder="Dew-point temperature(°C)" step="0.001">	
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<input type="checkbox" id="chkW" name="chkW">
+		<label for="chkW">W:</label>
+	</td>
+	<td>
+		<input type="number" 
+		id="txtW" name="txtW" 
+		placeholder="Absolute humidity (kg/kg da)" step="0.00001"
+		min="0.0" max="1.0">	
+	</td>
+</tr>
+
+
+<tr>
+	<td>
+		<input type="checkbox" id="chkRH" name="chkRH">
+		<label for="chkRH">RH:</label>
+	</td>
+	<td>
+		<input type="number" 
+		id="txtRH" name="txtRH" 
+		placeholder="Relative humidity" step="0.01"
+		min="0.0" max="100.0">	
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<input type="checkbox" id="chkH" name="chkH">
+		<label for="chkH">H:</label>
+	</td>
+	<td>
+		<input type="number" 
+		id="txtH" name="txtH" 
+		placeholder="Enthalpy (kJ / kg da)" step="0.01"
+		min="0.0">	
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<input type="checkbox" id="chkV" name="chkV">
+		<label for="chkV">V:</label>
+	</td>
+	<td>
+		<input type="number" 
+		id="txtV" name="txtV" 
+		placeholder="V (m3 / kg da)" step="0.00001"
+		min="0.0">	
+	</td>
+</tr>
+
+<tr>
+	<td colspan="2" style="text-align: center; padding-top: 12px;">
+		<button type="submit">Compute</button>
+	</td>
+</tr>
+	
 </table>
-</center></div>
+</form>
 </body>
 </html>
