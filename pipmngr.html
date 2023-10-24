@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Package Manager</title>
+</head>
+
+
+<body>
+<h1>Python Packages</h1>
+
+<p><a href="index.html">Main Screen</a></p>
+
+
+<button id="btnInstalledModules">Installed Modules</button>
+
+
+<div id="modules"></div>
+
+<script>
+	const btn = document.getElementById('btnInstalledModules');
+	btn.addEventListener("click", (callback) => 
+	{
+		window.electron.runpy((error, output) => 
+		{
+			let s ="<table><tr><td>Name</td><td>Location</td></tr>"
+			if (error) 
+			{
+				console.error('Error:', error);
+			} else 
+			{
+				let jsonData = JSON.parse(output);
+
+				for (let i = 0; i <jsonData.length; i++) 
+				{
+					let e = jsonData[i];
+					s += "<tr> \n";
+					s += "<td>" + e.names + "</td>";
+					s += "<td>" + e.locs + "</td>";
+					s += "</tr>";	
+				}
+
+				s += "</table>";
+				let prg = document.getElementById("modules");
+				prg.innerHTML=s;
+			}
+		});
+	}, false);
+</script>
+
+</body>
+</html>

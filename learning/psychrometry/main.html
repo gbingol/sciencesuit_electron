@@ -1,15 +1,17 @@
+<!DOCTYPE html>
 <html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Psychrometry</title>
+</head>
 
 <head>
     <style>
-        p
-        {
-            text-align: center;
-            
+        p{
+            text-align: center;   
         }
         
-        p.header
-        {
+        p.header {
             font-size: 2em;
         }
         
@@ -38,25 +40,25 @@
 <p>&nbsp;</p>
 <p>Copyright 2000</P>
 
-<P> Your tutorial will begin in:
-<P id="countdown">&nbsp;</P>
+<p> Your tutorial will begin in:</p>
+<p id="countdown">&nbsp;</p>
 
 
 
 
 <script>
-    var CountdownTimer=setInterval(function(){myTimer()},1000);
-    var timeleft=3;
-    function myTimer()
-    {
-            document.getElementById("countdown").innerHTML=timeleft;
-            timeleft--;
-            if(timeleft<0)
-            { 
-                    clearInterval(CountdownTimer);
-                    window.location.assign("enh001.html");
-            }
-    }
+	let CountdownTimer=setInterval(function(){myTimer()},1000);
+	let timeleft=3;
+	function myTimer()
+	{
+		document.getElementById("countdown").innerHTML=timeleft;
+		timeleft--;
+		if(timeleft<0)
+		{ 
+			clearInterval(CountdownTimer);
+			window.location.assign("enh001.html");
+		}
+	}
 </script>
 
 </body>
