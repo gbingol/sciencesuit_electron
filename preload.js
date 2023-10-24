@@ -3,9 +3,9 @@ const os = require('os');
 
 const { exec } = require('child_process');
 
-function RunPy(callback) 
+function RunPy(callback, cmd) 
 {
-	exec('python py/listmodules.py', (error, stdout, stderr) => {
+	exec('python ' + cmd, (error, stdout, stderr) => {
 	    if (error) {
 		  callback(error, null);
 	    } else {
@@ -16,6 +16,6 @@ function RunPy(callback)
 
 contextBridge.exposeInMainWorld('electron', {
 	homedir: () => { return os.homedir(); },
-	runpy: (callback) => { return RunPy(callback); },
+	runpy: (callback, cmd) => { return RunPy(callback, cmd); },
 });
     
