@@ -1,0 +1,8 @@
+emcc -l embind -o example.js example.cpp -s MODULARIZE=1 
+
+
+#No need to have an export name
+-s EXPORT_NAME="'MyModule'"
+
+
+emcc -l embind -o psychrometry.js psychrometry_bind.cpp -s MODULARIZE=1 -Isrc  psychrometry.cpp
