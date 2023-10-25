@@ -16,6 +16,8 @@
 
 
 <div id="modules"></div>
+<div id="pipoutput"></div>
+
 
 <script>
 	const btn = document.getElementById('btnInstalledModules');
@@ -37,6 +39,7 @@
 					s += "<tr> \n";
 					s += "<td>" + e.names + "</td>";
 					s += "<td>" + e.locs + "</td>";
+					s += "<td>" + "<button class='pipinfo'>Info</button>" + "</td>"
 					s += "</tr>";	
 				}
 
