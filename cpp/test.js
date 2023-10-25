@@ -13,7 +13,7 @@ Module().then(myModule => {
 	const v2 = new myModule.VectorString();
 	v2.push_back("p");
 	v2.push_back("tdb");
-	v2.push_back("twb");
+	v2.push_back("tb");
 	
 	console.log(myModule.to_str(v2, v1));
 });

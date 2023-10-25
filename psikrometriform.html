@@ -139,7 +139,7 @@
 </table>
 
 
-<div id="modules"></div>
+<div id="output"></div>
 
 <script>
 	const btn = document.getElementById('compute');
@@ -162,44 +162,50 @@
 	const txtV =  document.getElementById('txtV');
 
 	const elems = [
-		["P", chkP, txtP],
-		["Tdb", chkTdb, txtTdb], ["Twb", chkTwb, txtTwb], ["Tdp", chkTdp, txtTdp],
-		["W", chkW, txtW], ["RH", chkRH, txtRH],
-		["H", chkH, txtH],
-		["V", chkV, txtV]
+		["p", chkP, txtP],
+		["tdb", chkTdb, txtTdb], ["twb", chkTwb, txtTwb], ["tdp", chkTdp, txtTdp],
+		["w", chkW, txtW], ["rh", chkRH, txtRH],
+		["h", chkH, txtH],
+		["v", chkV, txtV]
 	]
+
+	
 
 	btn.addEventListener("click", (evt) => 
 	{
-		let s = "\"";
+		var Keys=[];
+		var Vals=[];
 		for(let i=0; i<elems.length; ++i)
 		{
 			let lbl = elems[i][0];
 			let chk = elems[i][1];
-			let txt = elems[i][2];
+			let val = parseFloat(elems[i][2]);
 			if(chk.checked) 
 			{
-				s += lbl +"|" + txt.value;
-				s += "|"
+				Keys.push(lbl);
+				if(lbl === "p")
+				{
+					val=1000*val;
+				}
+				Vals.push(val);
 			}
 		}
 
-		//remove last comma
-		s = s.slice(0, -1);
-
-		s += "\"";
-		
-		window.electron.runpy((error, output) => 
+		window.electron.Psychrometry().then(myModule => 
 		{
-			if (error) 
+			const v= new myModule.VectorDouble();
+			const k = new myModule.VectorString();
+			for(let i=0; i<Vals.length; ++i)
 			{
-				console.error('Error:', error);
-			} else 
-			{
-				let prg = document.getElementById("modules");
-				prg.innerHTML = output
+				v.push_back(Vals[i]);
+				k.push_back(Keys[i]);
 			}
-		}, "py/psychrometry.py " + s);
+			let prg = document.getElementById("output");
+			prg.innerHTML = myModule.to_str(v2, v1);
+		});
+
+		//remove last comma
+
 	});
 </script>
 </body>
