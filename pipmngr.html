@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width">
 	<title>Package Manager</title>
 	<style>
 		table, tr{
@@ -26,6 +27,10 @@
 		tr:nth-child(2n+1){
 			background-color: blanchedalmond;
 		}
+
+		#erroutput{
+			background-color: rgb(180, 76, 76);
+		}
 	</style>
 </head>
 
@@ -41,10 +46,11 @@
 
 <div id="modules"></div>
 <div id="pipoutput"></div>
+<div id="erroutput"></div>
 
 
 <script>
-	const btn = document.getElementById('btnInstalledModules');
+	const btn = document.querySelector('#btnInstalledModules');
 	btn.addEventListener("click", (evt) => 
 	{
 		window.electron.runpy((error, output) => 
@@ -63,7 +69,8 @@
 					s += "<tr> \n";
 					s += "<td>" + e.names + "</td>";
 					s += "<td>" + e.locs + "</td>";
-					s += "<td>" + "<button class='pipinfo'>Info</button>" + "</td>"
+					s += "<td>" + "<button id=" + e.names +" class='pipinfo'>Info</button>" + "</td>"
+
 					s += "</tr>";	
 				}
 
@@ -72,7 +79,41 @@
 				prg.innerHTML=s;
 			}
 		}, "py/listmodules.py");
+	}, false);
+
+	function ShowInfo(event)
+	{
+		if(event.target.className === "pipinfo")
+		{
+			window.electron.runpy((error, output) => 
+			{
+				let errout = document.getElementById("erroutput");
+				let prg = document.getElementById("pipoutput");
+				if (error) 
+				{
+					errout.scrollIntoView();
+					errout.innerText=error;
+					prg.innerText="";
+				} 
+				else 
+				{
+					prg.scrollIntoView();
+					errout.innerText = "";
+					prg.innerText=output;
+				}
+			}, "-m pip show " + event.target.id);
+		}
+	}
+
+
+	document.addEventListener("click", (event)=>
+	{
+		if(event.target === document.getElementsByTagName("button"));
+		{
+			ShowInfo(event);
+		}
 	});
+	
 </script>
 
 </body>
