@@ -25,10 +25,6 @@
 			font-weight: bold;
 		}
 
-		td:nth-child(2)
-		{
-			width: 90%;
-		}
 	</style>
 </head>
 
@@ -45,7 +41,11 @@
 		<label for="chkP">P: </label>
 	</td>
 	<td>
-		<input type="number" value="" id="txtP" name="txtP" placeholder="Pressure (kPa)" step="0.1" min="0.0">
+		<input type="text" 
+			value="" 
+			id="txtP" 
+			name="txtP" 
+			placeholder="Pressure (kPa)">
 	</td>
 </tr>
 <tr>
@@ -54,7 +54,11 @@
 		<label for="chkTdb">T<sub>db</sub>: </label>
 	</td>
 	<td>
-		<input type="number" value="" id="txtTdb" name="txtTdb" placeholder="Dry-bulb temperature (°C)" step="0.001">
+		<input type="text" 
+			value="" 
+			id="txtTdb" 
+			name="txtTdb" 
+			placeholder="Dry-bulb temperature (°C)">
 	</td>
 </tr>
 
@@ -64,7 +68,11 @@
 		<label for="chkTwb">T<sub>wb</sub>: </label>
 	</td>
 	<td>
-		<input type="number" value="" id="txtTwb" name="txtTwb" placeholder="Wet-bulb temperature(°C)" step="0.001">	
+		<input type="text" 
+			value="" 
+			id="txtTwb" 
+			name="txtTwb" 
+			placeholder="Wet-bulb temperature(°C)">	
 	</td>
 </tr>
 
@@ -74,7 +82,10 @@
 		<label for="chkTdp">T<sub>dp</sub>:</label>
 	</td>
 	<td>
-		<input type="number" id="txtTdp" name="txtTdp" placeholder="Dew-point temperature(°C)" step="0.001">	
+		<input type="text" 
+			id="txtTdp" 
+			name="txtTdp" 
+			placeholder="Dew-point temperature(°C)">	
 	</td>
 </tr>
 
@@ -84,10 +95,10 @@
 		<label for="chkW">W:</label>
 	</td>
 	<td>
-		<input type="number" 
-		id="txtW" name="txtW" 
-		placeholder="Absolute humidity (kg/kg da)" step="0.00001"
-		min="0.0" max="1.0">	
+		<input type="text" 
+		id="txtW" 
+		name="txtW" 
+		placeholder="Absolute humidity (kg/kg da)">	
 	</td>
 </tr>
 
@@ -98,10 +109,10 @@
 		<label for="chkRH">RH:</label>
 	</td>
 	<td>
-		<input type="number" 
-		id="txtRH" name="txtRH" 
-		placeholder="Relative humidity" step="0.01"
-		min="0.0" max="100.0">	
+		<input type="text" 
+		id="txtRH" 
+		name="txtRH" 
+		placeholder="Relative humidity">	
 	</td>
 </tr>
 
@@ -111,10 +122,9 @@
 		<label for="chkH">H:</label>
 	</td>
 	<td>
-		<input type="number" 
+		<input type="text" 
 		id="txtH" name="txtH" 
-		placeholder="Enthalpy (kJ / kg da)" step="0.01"
-		min="0.0">	
+		placeholder="Enthalpy (kJ / kg da)">	
 	</td>
 </tr>
 
@@ -124,10 +134,9 @@
 		<label for="chkV">V:</label>
 	</td>
 	<td>
-		<input type="number" 
+		<input type="text" 
 		id="txtV" name="txtV" 
-		placeholder="V (m3 / kg da)" step="0.00001"
-		min="0.0">	
+		placeholder="V (m3 / kg da)">	
 	</td>
 </tr>
 
@@ -181,6 +190,10 @@
 			let lbl = elems[i][0];
 			let chk = elems[i][1];
 			let val = parseFloat(elems[i][2]);
+			if(isNaN(val))
+			{
+				return false;
+			}
 			if(chk.checked) 
 			{
 				Keys.push(lbl);
