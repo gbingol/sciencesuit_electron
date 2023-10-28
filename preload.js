@@ -8,15 +8,14 @@ const Psychrometry = require('./cpp/psychrometry.js');
 function RunPy(callback, cmd) 
 {
 	exec('python ' + cmd, (error, stdout, stderr) => {
-	    if (error) {
-		  callback(error, null);
-	    } else {
-		  callback(null, stdout);
-	    }
+		if (error)
+			callback(error, null);
+		else 
+			callback(null, stdout);
 	});
   }
 
-contextBridge.exposeInMainWorld('electron', {
+contextBridge.exposeInMainWorld('myapi', {
 	homedir: () => { return os.homedir(); },
 	runpy: (callback, cmd) => { return RunPy(callback, cmd); },
 	psychrometry:Psychrometry,

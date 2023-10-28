@@ -204,7 +204,7 @@
 			}
 		}
 
-		window.electron.psychrometry().then(myModule => 
+		window.myapi.psychrometry().then(myModule => 
 		{
 			const v= new myModule.VectorDouble();
 			alert(v);
@@ -217,9 +217,6 @@
 			let prg = document.getElementById("output");
 			prg.innerHTML = myModule.to_str(k, v);
 		});
-
-		//remove last comma
-
 	});
 </script>
 </body>
