@@ -5,7 +5,6 @@
 const Module = require('./psychrometry.js'); // Replace with the correct path to the generated JavaScript file
 
 Module().then(myModule => {
-	console.log(myModule);
 	const v1 = new myModule.VectorDouble();
 	v1.push_back(101325);
 	v1.push_back(30);
