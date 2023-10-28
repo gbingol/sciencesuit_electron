@@ -191,31 +191,18 @@
 			let txt = elems[i][2];
 
 			let val = parseFloat(txt.value);
-			
-			
+				
 			if(chk.checked) 
 			{
 				Keys.push(lbl);
-				if(lbl === "p")
-				{
-					val=1000*val;
-				}
-				Vals.push(val);
+				Vals.push(lbl === "p" ? val*1000: val);
 			}
 		}
-
-		window.myapi.psychrometry().then(myModule => 
+		
+		let prg = document.getElementById("output");
+		window.myapi.psychrometry_tostr(Keys, Vals).then(result=>
 		{
-			const v= new myModule.VectorDouble();
-			alert(v);
-			const k = new myModule.VectorString();
-			for(let i=0; i<Vals.length; ++i)
-			{
-				v.push_back(Vals[i]);
-				k.push_back(Keys[i]);
-			}
-			let prg = document.getElementById("output");
-			prg.innerHTML = myModule.to_str(k, v);
+			prg.innerHTML = result;
 		});
 	});
 </script>
