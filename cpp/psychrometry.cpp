@@ -28,14 +28,13 @@ double linearinterp(
 }
 
 
-std::string Psychrometry::to_str(char sep)
+std::string Psychrometry::to_str()
 {
 	std::stringstream ss;
 
 	auto Print = [&](std::string property, double value, std::string unit)
 	{
-		char sep2 = sep == '\0' ? ' ' : sep;
-		ss << property << sep << value << sep2 << unit << "\n";
+		ss << property << value << unit << "\n";
 	};
 
 	Print("P=", m_P / 1000, "kPa");
@@ -59,6 +58,46 @@ std::string Psychrometry::to_str(char sep)
 	return ss.str();
 }
 
+
+std::string Psychrometry::to_json()
+{
+	std::stringstream ss;
+	ss << "{";
+
+	auto Print = [&](std::string property, double value)
+	{
+		ss <<"\""<< property << "\":"<< value;
+	};
+
+	Print("p", m_P / 1000);
+	ss << ",";
+	Print("tdb", m_Tdb);
+	ss << ",";
+	Print("twb", m_Twb);
+	ss << ",";
+	Print("tdp", m_Tdp);
+	ss << ",";
+	Print("h", m_H);
+	ss << ",";
+	Print("rh", m_RH);
+	ss << ",";
+	Print("w", m_W);
+	ss << ",";
+	Print("v", m_V);
+	ss << ",";
+	Print("pw", m_Pw / 1000);
+		
+	if (m_Pws < m_P)
+	{
+		ss << ",";
+		Print("pws", m_Pws / 1000);
+		ss << ",";	
+		Print("ws", varWs);
+	}
+	ss << "}";
+
+	return ss.str();
+}
 
 
 void Psychrometry::Compute(std::vector<std::string> keys, std::vector<double> values)

@@ -29,7 +29,8 @@ class Psychrometry
 public:
 	Psychrometry() = default;
 
-	std::string to_str(char sep='\0');
+	std::string to_str();
+	std::string to_json();
 
 	void Compute(
 		std::vector<std::string> keys, 

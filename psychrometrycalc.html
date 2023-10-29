@@ -6,7 +6,9 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Psychrometric Software</title>
 	<style>
-
+		table{
+			margin-left: 10px;
+		}
 		td{
 			padding-top: 6px;
 			padding-bottom: 6px;
@@ -25,6 +27,15 @@
 			font-weight: bold;
 		}
 
+		#output{
+			margin-top: 12px;
+			padding-top: 12px;
+			border-style: dashed;
+			border-color: red;
+			border-width: 1px;
+			font-size: large;
+		}
+
 	</style>
 </head>
 
@@ -32,6 +43,14 @@
 
 	
 <h1>Psychrometric Calculator</h1>
+<p>
+	Usage:</p>
+
+<ol>
+	<li>Make <b>exactly</b> 3 selections,</li>
+	<li>Click on compute,</li>
+	<li>Results will appear below.</li>
+</ol>
 
 
 <table>
@@ -202,7 +221,8 @@
 		let prg = document.getElementById("output");
 		window.myapi.psychrometry_tostr(Keys, Vals).then(result=>
 		{
-			prg.innerHTML = result;
+			prg.innerText = result;
+			prg.scrollIntoView();
 		});
 	});
 </script>

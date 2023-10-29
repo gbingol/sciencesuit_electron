@@ -5,23 +5,40 @@ const { exec } = require('child_process');
 
 const Psychrometry = require('./cpp/psychrometry.js');
 
-function ComputePsychrometricProps(k, v) {
-  return new Promise((resolve, reject) => {
-    Psychrometry().then(myModule => {
-      const v1 = new myModule.VectorDouble();
-      v1.push_back(101325);
-      v1.push_back(30);
-      v1.push_back(15);
+function psychrometry_tostr(k, v) {
+	return new Promise((resolve, reject) => {
+		Psychrometry().then(myModule =>
+		{
+			const vals = new myModule.VectorDouble();
+			const keys = new myModule.VectorString();
+			for (let i = 0; i < k.length; i++)
+			{
+				keys.push_back(k[i]);
+				vals.push_back(v[i]);
+			}
 
-      const v2 = new myModule.VectorString();
-      v2.push_back("p");
-      v2.push_back("tdb");
-      v2.push_back("twb");
+			const str = myModule.to_str(keys, vals);
+			resolve(str);
+    		}).catch(reject);
+	});
+}
 
-      const str = myModule.to_str(v2, v1);
-      resolve(str);
-    }).catch(reject);
-  });
+function psychrometry_tojson(k, v) {
+	return new Promise((resolve, reject) => {
+		Psychrometry().then(myModule =>
+		{
+			const vals = new myModule.VectorDouble();
+			const keys = new myModule.VectorString();
+			for (let i = 0; i < k.length; i++)
+			{
+				keys.push_back(k[i]);
+				vals.push_back(v[i]);
+			}
+
+			const str = myModule.to_json(keys, vals);
+			resolve(str);
+    		}).catch(reject);
+	});
 }
 
 
@@ -35,9 +52,11 @@ function RunPy(callback, cmd)
 	});
   }
 
-contextBridge.exposeInMainWorld('myapi', {
+contextBridge.exposeInMainWorld('myapi',
+{
 	homedir: () => { return os.homedir(); },
 	runpy: (callback, cmd) => { return RunPy(callback, cmd); },
-	psychrometry_tostr:(k, v)=> {return ComputePsychrometricProps(k, v);}
+	psychrometry_tostr: (k, v) => { return psychrometry_tostr(k, v); },
+	psychrometry_tojson:(k, v)=> {return psychrometry_tojson(k, v);}
 });
     
