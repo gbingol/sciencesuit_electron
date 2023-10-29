@@ -49,11 +49,11 @@
 <ol>
 	<li>Make <b>exactly</b> 3 selections,</li>
 	<li>Click on compute,</li>
-	<li>Results will appear below.</li>
+	<li>Results will appear at the bottom.</li>
 </ol>
 
 
-<table>
+<table id="inputtable">
 <tr>
 	<td>
 		<input type="checkbox" id="chkP" name="chkP">
@@ -198,9 +198,28 @@
 		["v", chkV, txtV]
 	]
 
+	let NChecked = 0;
+
+	let table = document.getElementById("inputtable");
+	table.addEventListener("click", (evt)=>
+	{
+		let elem = event.target;
+		if(elem.type === "checkbox")
+		{
+			if(elem.checked)
+				NChecked++;
+			else
+				NChecked--;
+		}
+	});
 
 	btn.addEventListener("click", (evt) => 
 	{
+		if(NChecked !== 3)
+		{
+			alert(`You made only ${NChecked} selections. \nExactly 3 selections must be made.`);
+			return;
+		}
 		var Keys=[];
 		var Vals=[];
 		for(let i=0; i<elems.length; ++i)
