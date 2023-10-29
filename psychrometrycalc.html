@@ -8,6 +8,7 @@
 	<style>
 		table{
 			margin-left: 10px;
+			float: left;
 		}
 		td{
 			padding-top: 6px;
@@ -28,12 +29,24 @@
 		}
 
 		#output{
+			clear: both;
 			margin-top: 12px;
 			padding-top: 12px;
 			border-style: dashed;
 			border-color: red;
 			border-width: 1px;
 			font-size: large;
+		}
+
+		#info{
+			float: left;
+			margin-left: 12px;
+			padding-top: 12px;
+			border-style: dashed;
+			border-color: green;
+			border-width: 1px;
+			font-size: medium;
+			display: none;
 		}
 
 	</style>
@@ -167,7 +180,7 @@
 	
 </table>
 
-
+<div id="info"></div>
 <div id="output"></div>
 
 <script>
@@ -206,20 +219,42 @@
 		let elem = event.target;
 		if(elem.type === "checkbox")
 		{
-			if(elem.checked)
-				NChecked++;
+			elem.checked ? NChecked++ : NChecked--;
+
+			let infoDiv = document.querySelector("#info");
+			infoDiv.style.display = "inline";
+
+			if(NChecked<3)
+				infoDiv.innerHTML = `<b>${3-NChecked}</b> selections must be made`;
 			else
-				NChecked--;
+				infoDiv.innerHTML = "Now click on <b>Compute</b> button";
+		}
+		
+	});
+
+	table.addEventListener("change", (evt)=>
+	{
+		let elem = event.target;
+		if(elem.type === "text")
+		{
+			let val = parseFloat(elem.value);
+			if(isNaN(val))
+			{
+				let infoDiv = document.querySelector("#info");
+				infoDiv.style.display = "inline";
+				infoDiv.innerHTML = `${elem.value} is not a number`;
+				elem.style.background = "red";
+			}
+			else
+			{
+				elem.style.background = "white";
+			}
 		}
 	});
 
+
 	btn.addEventListener("click", (evt) => 
 	{
-		if(NChecked !== 3)
-		{
-			alert(`You made only ${NChecked} selections. \nExactly 3 selections must be made.`);
-			return;
-		}
 		var Keys=[];
 		var Vals=[];
 		for(let i=0; i<elems.length; ++i)
