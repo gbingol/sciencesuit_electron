@@ -222,14 +222,12 @@
 			elem.checked ? NChecked++ : NChecked--;
 
 			let infoDiv = document.querySelector("#info");
-			infoDiv.style.display = "inline";
+			infoDiv.style.display = NChecked != 3 ? "inline" : "none";
+			infoDiv.innerHTML = `<b>${3-NChecked}</b> selections must be made`;
+			btn.disabled = (NChecked!=3)
 
-			if(NChecked<3)
-				infoDiv.innerHTML = `<b>${3-NChecked}</b> selections must be made`;
-			else
-				infoDiv.innerHTML = "Now click on <b>Compute</b> button";
-
-			btn.disabled = NChecked!=3
+			let txt = elems.find((entry) => entry[1] == elem)[2]
+			txt.required = elem.checked
 		}
 		
 	});
