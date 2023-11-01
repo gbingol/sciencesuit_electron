@@ -61,6 +61,7 @@
 
 <ol>
 	<li>Make <b>exactly</b> 3 selections,</li>
+	<li>Enter corresponding numeric values,</li>
 	<li>Click on compute,</li>
 	<li>Results will appear at the bottom.</li>
 </ol>
@@ -270,6 +271,19 @@
 
 		let outDiv = document.body.appendChild(document.createElement("div"));
 		outDiv.className = "output";
+		outDiv.style.position="relative";
+
+		let contentTxt = outDiv.appendChild(document.createElement("div"));
+		
+
+		let delBtn = outDiv.appendChild(document.createElement("button"));
+		delBtn.innerHTML="Delete";
+		delBtn.style.position="absolute";
+		delBtn.style.right=0;
+		delBtn.style.top="0px";
+
+		delBtn.onclick = (evt) => { document.body.removeChild(outDiv); }
+
 		window.myapi.psychrometry_tojson(Keys, Vals).then(result=>
 		{
 			let e = JSON.parse(result);
@@ -287,7 +301,7 @@
 			s += "<b>P<sub>w</sub>=</b>" + e.pw + " kPa <br>";
 			s += "<b>P<sub>ws</sub>=</b>" + e.pws + " kPa";
 			
-			outDiv.innerHTML = s;
+			contentTxt.innerHTML = s;
 			outDiv.scrollIntoView();
 		});
 	});
