@@ -174,7 +174,7 @@
 
 <tr>
 	<td colspan="2" style="text-align: center; padding-top: 12px;">
-		<button id="compute" type="button">Compute</button>
+		<button id="compute" type="button" disabled>Compute</button>
 	</td>
 </tr>
 	
@@ -228,6 +228,8 @@
 				infoDiv.innerHTML = `<b>${3-NChecked}</b> selections must be made`;
 			else
 				infoDiv.innerHTML = "Now click on <b>Compute</b> button";
+
+			btn.disabled = NChecked!=3
 		}
 		
 	});
