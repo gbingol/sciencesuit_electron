@@ -268,8 +268,8 @@
 			}
 		}
 
-		let prg = document.body.appendChild(document.createElement("div"));
-		prg.className = "output";
+		let outDiv = document.body.appendChild(document.createElement("div"));
+		outDiv.className = "output";
 		window.myapi.psychrometry_tojson(Keys, Vals).then(result=>
 		{
 			let e = JSON.parse(result);
@@ -287,8 +287,8 @@
 			s += "<b>P<sub>w</sub>=</b>" + e.pw + " kPa <br>";
 			s += "<b>P<sub>ws</sub>=</b>" + e.pws + " kPa";
 			
-			prg.innerHTML = s;
-			prg.scrollIntoView();
+			outDiv.innerHTML = s;
+			outDiv.scrollIntoView();
 		});
 	});
 </script>
