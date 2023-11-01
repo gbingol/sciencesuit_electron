@@ -228,28 +228,18 @@
 
 			let txt = elems.find((entry) => entry[1] == elem)[2]
 			txt.required = elem.checked
+
+			for(let i=0; i<elems.length; ++i)
+			{
+				let chk = elems[i][1];
+				let txt = elems[i][2];
+
+				let condition = (NChecked==3) && !chk.checked;
+				txt.disabled = condition;
+				chk.disabled = condition;
+			}
 		}
 		
-	});
-
-	table.addEventListener("change", (evt)=>
-	{
-		let elem = event.target;
-		if(elem.type === "text")
-		{
-			let val = parseFloat(elem.value);
-			if(isNaN(val))
-			{
-				let infoDiv = document.querySelector("#info");
-				infoDiv.style.display = "inline";
-				infoDiv.innerHTML = `${elem.value} is not a number`;
-				elem.style.background = "red";
-			}
-			else
-			{
-				elem.style.background = "white";
-			}
-		}
 	});
 
 
@@ -263,15 +253,22 @@
 			let chk = elems[i][1];
 			let txt = elems[i][2];
 
-			let val = parseFloat(txt.value);
+			if(txt.required && txt.value === "")
+			{
+				alert("A value must be entered for: " + lbl);
+				txt.focus();
+				return;
+			}
 				
 			if(chk.checked) 
 			{
+				let val = parseFloat(txt.value);
+
 				Keys.push(lbl);
 				Vals.push(lbl === "p" ? val*1000: val);
 			}
 		}
-		
+
 		let prg = document.getElementById("output");
 		window.myapi.psychrometry_tostr(Keys, Vals).then(result=>
 		{
