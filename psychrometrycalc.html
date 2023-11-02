@@ -70,103 +70,81 @@
 <table id="inputtable">
 <tr>
 	<td>
-		<input type="checkbox" id="chkP" name="chkP">
+		<input type="checkbox" id="chkP">
 		<label for="chkP">P: </label>
 	</td>
 	<td>
-		<input type="text" 
-			id="txtP" 
-			name="txtP" 
-			placeholder="Pressure (kPa)">
+		<input type="text" id="txtP" placeholder="Pressure (kPa)">
 	</td>
 </tr>
 <tr>
 	<td>
-		<input type="checkbox" id="chkTdb" name="chkTdb">
+		<input type="checkbox" id="chkTdb">
 		<label for="chkTdb">T<sub>db</sub>: </label>
 	</td>
 	<td>
-		<input type="text" 
-			id="txtTdb" 
-			name="txtTdb" 
-			placeholder="Dry-bulb temperature (°C)">
+		<input type="text" id="txtTdb" placeholder="Dry-bulb temperature (°C)">
 	</td>
 </tr>
 
 <tr>
 	<td>
-		<input type="checkbox" id="chkTwb" name="chkTwb">
+		<input type="checkbox" id="chkTwb">
 		<label for="chkTwb">T<sub>wb</sub>: </label>
 	</td>
 	<td>
-		<input type="text" 
-			id="txtTwb" 
-			name="txtTwb" 
-			placeholder="Wet-bulb temperature(°C)">	
+		<input type="text" id="txtTwb" placeholder="Wet-bulb temperature(°C)">	
 	</td>
 </tr>
 
 <tr>
 	<td>
-		<input type="checkbox" id="chkTdp" name="chkTdp">
+		<input type="checkbox" id="chkTdp">
 		<label for="chkTdp">T<sub>dp</sub>:</label>
 	</td>
 	<td>
-		<input type="text" 
-			id="txtTdp" 
-			name="txtTdp" 
-			placeholder="Dew-point temperature(°C)">	
+		<input type="text" id="txtTdp" placeholder="Dew-point temperature(°C)">	
 	</td>
 </tr>
 
 <tr>
 	<td>
-		<input type="checkbox" id="chkW" name="chkW">
+		<input type="checkbox" id="chkW">
 		<label for="chkW">W:</label>
 	</td>
 	<td>
-		<input type="text" 
-		id="txtW" 
-		name="txtW" 
-		placeholder="Absolute humidity (kg/kg da)">	
+		<input type="text" id="txtW" placeholder="Absolute humidity (kg/kg da)">	
 	</td>
 </tr>
 
 
 <tr>
 	<td>
-		<input type="checkbox" id="chkRH" name="chkRH">
+		<input type="checkbox" id="chkRH">
 		<label for="chkRH">RH:</label>
 	</td>
 	<td>
-		<input type="text" 
-		id="txtRH" 
-		name="txtRH" 
-		placeholder="Relative humidity">	
+		<input type="text" id="txtRH" placeholder="Relative humidity (%)">	
 	</td>
 </tr>
 
 <tr>
 	<td>
-		<input type="checkbox" id="chkH" name="chkH">
+		<input type="checkbox" id="chkH">
 		<label for="chkH">H:</label>
 	</td>
 	<td>
-		<input type="text" 
-		id="txtH" name="txtH" 
-		placeholder="Enthalpy (kJ / kg da)">	
+		<input type="text" id="txtH" placeholder="Enthalpy (kJ / kg da)">	
 	</td>
 </tr>
 
 <tr>
 	<td>
-		<input type="checkbox" id="chkV" name="chkV">
+		<input type="checkbox" id="chkV">
 		<label for="chkV">V:</label>
 	</td>
 	<td>
-		<input type="text" 
-		id="txtV" name="txtV" 
-		placeholder="V (m3 / kg da)">	
+		<input type="text" id="txtV" placeholder="V (m3 / kg da)">	
 	</td>
 </tr>
 
@@ -280,16 +258,16 @@
 		outDiv.style.position="relative";
 
 		let contentTxt = outDiv.appendChild(document.createElement("div"));
-		let btnContainer = outDiv.appendChild(document.createElement("div"));
-		btnContainer.style.position="absolute";
-		btnContainer.style.right=0;
-		btnContainer.style.top="0px";
+		let btnDiv = outDiv.appendChild(document.createElement("div"));
+		btnDiv.style.position="absolute";
+		btnDiv.style.right=0;
+		btnDiv.style.top="0px";
 
-		let delBtn = btnContainer.appendChild(document.createElement("button"));
+		let delBtn = btnDiv.appendChild(document.createElement("button"));
 		delBtn.innerHTML="Delete";
 		delBtn.style.float="right";
 
-		let copyBtn = btnContainer.appendChild(document.createElement("button"));
+		let copyBtn = btnDiv.appendChild(document.createElement("button"));
 		copyBtn.innerHTML="Copy";
 		copyBtn.style.float="right";
 
@@ -297,7 +275,7 @@
 		{
 			document.body.removeChild(outDiv); 
 			outDiv = null;
-			btnContainer = null;
+			btnDiv = null;
 			delBtn = null;
 			copyBtn = null;
 		}
