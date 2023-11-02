@@ -9,6 +9,7 @@
 		table{
 			margin-left: 10px;
 			float: left;
+			width: 50%;
 		}
 		td{
 			padding-top: 6px;
@@ -26,6 +27,11 @@
 		td:nth-child(1)
 		{
 			font-weight: bold;
+			max-width: 2em;
+		}
+
+		input[type=text]{
+			width: 90%;
 		}
 
 		.output{
@@ -49,6 +55,13 @@
 			display: none;
 		}
 
+		@media only screen and (max-width:600px)
+		{
+			table{
+				width: 80%;
+			}
+		}
+
 	</style>
 </head>
 
@@ -56,16 +69,19 @@
 
 	
 <h1>Psychrometric Calculator</h1>
-<p>
-	Usage:</p>
 
-<ol>
-	<li>Make <b>exactly</b> 3 selections,</li>
-	<li>Enter corresponding numeric values,</li>
-	<li>Click on compute,</li>
-	<li>Results will appear at the bottom.</li>
-</ol>
+<div style="border: 2px dotted green; background-color: floralwhite;">
+	<p>Usage:</p>
 
+	<ol>
+		<li>Make <b>exactly</b> 3 selections,</li>
+		<li>Enter corresponding numeric values,</li>
+		<li>Click on compute,</li>
+		<li>Results will appear at the bottom.</li>
+	</ol>
+</div>
+
+<p>&nbsp;</p>
 
 <table id="inputtable">
 <tr>
