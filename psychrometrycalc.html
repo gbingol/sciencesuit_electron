@@ -245,8 +245,7 @@
 
 	btn.addEventListener("click", (evt) => 
 	{
-		var Keys=[];
-		var Vals=[];
+		let Keys=[], Vals=[];
 		for(let i=0; i<elems.length; ++i)
 		{
 			let lbl = elems[i][0];
@@ -274,15 +273,32 @@
 		outDiv.style.position="relative";
 
 		let contentTxt = outDiv.appendChild(document.createElement("div"));
-		
+		let btnContainer = outDiv.appendChild(document.createElement("div"));
+		btnContainer.style.position="absolute";
+		btnContainer.style.right=0;
+		btnContainer.style.top="0px";
 
-		let delBtn = outDiv.appendChild(document.createElement("button"));
+		let delBtn = btnContainer.appendChild(document.createElement("button"));
 		delBtn.innerHTML="Delete";
-		delBtn.style.position="absolute";
-		delBtn.style.right=0;
-		delBtn.style.top="0px";
+		delBtn.style.float="right";
 
-		delBtn.onclick = (evt) => { document.body.removeChild(outDiv); }
+		let copyBtn = btnContainer.appendChild(document.createElement("button"));
+		copyBtn.innerHTML="Copy";
+		copyBtn.style.float="right";
+
+		delBtn.onclick = (evt) => 
+		{
+			document.body.removeChild(outDiv); 
+			outDiv = null;
+			btnContainer = null;
+			delBtn = null;
+			copyBtn = null;
+		}
+
+		copyBtn.onclick = (evt) => 
+		{
+			navigator.clipboard.writeText(contentTxt.innerText)
+		}
 
 		window.myapi.psychrometry_tojson(Keys, Vals).then(result=>
 		{
