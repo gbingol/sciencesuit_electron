@@ -75,7 +75,6 @@
 	</td>
 	<td>
 		<input type="text" 
-			value="101" 
 			id="txtP" 
 			name="txtP" 
 			placeholder="Pressure (kPa)">
@@ -88,7 +87,6 @@
 	</td>
 	<td>
 		<input type="text" 
-			value="30" 
 			id="txtTdb" 
 			name="txtTdb" 
 			placeholder="Dry-bulb temperature (°C)">
@@ -102,7 +100,6 @@
 	</td>
 	<td>
 		<input type="text" 
-			value="20" 
 			id="txtTwb" 
 			name="txtTwb" 
 			placeholder="Wet-bulb temperature(°C)">	
@@ -262,6 +259,13 @@
 			if(chk.checked) 
 			{
 				let val = parseFloat(txt.value);
+
+				if(isNaN(val))
+				{
+					alert(txt.value + " is not a number");
+					txt.value = "";
+					return;
+				}
 
 				Keys.push(lbl);
 				Vals.push(lbl === "p" ? val*1000: val);
