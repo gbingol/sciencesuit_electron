@@ -251,9 +251,8 @@
 
 			if(txt.required && txt.value === "")
 			{
-				alert("A value must be entered for: " + lbl);
-				txt.focus();
-				return;
+				console.log("A value must be entered for: " + lbl);
+				return true;
 			}
 				
 			if(chk.checked) 
@@ -262,9 +261,9 @@
 
 				if(isNaN(val))
 				{
-					alert(txt.value + " is not a number");
+					console.log(txt.value + " is not a number");
 					txt.value = "";
-					return;
+					return true;
 				}
 
 				Keys.push(lbl);
