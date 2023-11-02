@@ -242,6 +242,8 @@
 
 	btn.addEventListener("click", (evt) => 
 	{
+		let infoDiv = document.querySelector("#info");
+	
 		let Keys=[], Vals=[];
 		for(let i=0; i<elems.length; ++i)
 		{
@@ -251,7 +253,8 @@
 
 			if(txt.required && txt.value === "")
 			{
-				console.log("A value must be entered for: " + lbl);
+				infoDiv.style.display = "inline";
+				infoDiv.innerHTML = "Value for <span style=color:red;>" + lbl + "</span> is missing.";
 				return true;
 			}
 				
@@ -261,7 +264,8 @@
 
 				if(isNaN(val))
 				{
-					console.log(txt.value + " is not a number");
+					infoDiv.style.display = "inline";
+					infoDiv.innerHTML = "<b>" + txt.value + "</b> is not a number"
 					txt.value = "";
 					return true;
 				}
@@ -324,6 +328,8 @@
 			contentTxt.innerHTML = s;
 			outDiv.scrollIntoView();
 		});
+
+		infoDiv.style.display = "none";
 	});
 </script>
 </body>
