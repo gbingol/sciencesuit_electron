@@ -300,7 +300,7 @@
 		{
 			navigator.clipboard.writeText(contentTxt.innerText)
 		}
-
+		
 		window.myapi.psychrometry_tojson(Keys, Vals).then(result=>
 		{
 			let e = JSON.parse(result);
@@ -321,6 +321,10 @@
 			
 			contentTxt.innerHTML = s;
 			outDiv.scrollIntoView();
+		}).
+		catch(e =>{
+			infoDiv.style.display = "inline";
+			infoDiv.innerHTML = e;
 		});
 
 		infoDiv.style.display = "none";
