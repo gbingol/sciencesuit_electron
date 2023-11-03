@@ -325,6 +325,11 @@
 		catch(e =>{
 			infoDiv.style.display = "inline";
 			infoDiv.innerHTML = e;
+			document.body.removeChild(outDiv); 
+			outDiv = null;
+			btnDiv = null;
+			delBtn = null;
+			copyBtn = null;
 		});
 
 		infoDiv.style.display = "none";
