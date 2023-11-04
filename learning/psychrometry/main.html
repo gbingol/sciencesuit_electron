@@ -7,14 +7,27 @@
 
 <head>
     <style>
-        p{
-            text-align: center;   
-        }
-        
-        p.header {
-            font-size: 2em;
-        }
-        
+		h1{
+			text-align: center;
+		}
+		summary{
+			background-color: aliceblue;
+		}
+
+		p.authorinfo{
+			text-align: center;
+			font-size: large;
+		}
+
+		td{
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+
+		ol li{
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
     </style>
     
 <title>Psychrometry</title>
@@ -24,42 +37,64 @@
 
 <body>
 
-<p class="header">Psychrometry</p>
+<h1>Psychrometry</h1>
   
-<P>Y. Onur Devres</P>
-<P>Gokhan Bingol</p>
+<p class="authorinfo">Y. Onur Devres</p>
+<p class="authorinfo">Gokhan Bingol</p>
 
+<p>&nbsp;</p>
+
+<p class="authorinfo">Istanbul Technical University</p>
+<p class="authorinfo">Food Engineering Department</p>
 
 <p>&nbsp;</p>
 
-
-<P>Istanbul Technical University</p>
-<p>Food Engineering Department</p>
-
+<p class="authorinfo">&copy; 2000</P>
+<p class="authorinfo">&#9883; Revised 2023</P>
 
 <p>&nbsp;</p>
-<p>Copyright 2000</P>
 
-<p> Your tutorial will begin in:</p>
-<p id="countdown">&nbsp;</p>
+<table>
+	<tr>
+		<td><a href="enh001.html">What is Psychrometry</a></td>
+	</tr>
+	<tr>
+		<td><a href="enh002.html">Standard Atmosphere</a></td>
+	</tr>
+	<tr>
+		<td><a href="enh003.html">Thermodynamic Properties of Water</a></td>
+	</tr>
+	<tr>
+		<td><a href="enh004.html">Important Parameters</a></td>
+	</tr>
+	<tr>
+		<td><a href="enh010.html">Calculation Procedures</a></td>
+	</tr>
+	<tr>
+		<td><a href="psikrometriform.html">Psychrometric Software</a></td>
+	</tr>
+</table>
 
+<p>&nbsp;</p>
 
+<details>
+<summary>Simulations</summary>
+<ol>
+<li><a href="problems/Psik02.html">Heating with humidification (I)</a></li>
+<li><a href="problems/Psik12.html">Heating with humidification (II)</a></li>
+<li><a href="problems/Psik03.html">Cooling with dehumidification</a></li>
+<li><a href="problems/Psik04.html">Evaporative cooling</a></li>
+<li><a href="problems/Psik05.html">Adiabatic mixing of airstreams</a></li>
+<li><a href="problems/Psik06.html">Wet cooling towers</a></li>
+<li><a href="problems/Psik07.html">Mixture of airstreams</a></li>
+<li><a href="problems/Psik08.html">Cooling tower for a power plant</a></li>
+<li><a href="problems/Psik09.html">Air conditioning</a></li>
+<li><a href="problems/Psik10.html">Fan induced cooling tower</a></li>
+<li><a href="problems/Psik11.html">Adiabatic saturation process</a></li>
+</ol>
+</details>
 
-
-<script>
-	let CountdownTimer=setInterval(function(){myTimer()},1000);
-	let timeleft=3;
-	function myTimer()
-	{
-		document.getElementById("countdown").innerHTML=timeleft;
-		timeleft--;
-		if(timeleft<0)
-		{ 
-			clearInterval(CountdownTimer);
-			window.location.assign("enh001.html");
-		}
-	}
-</script>
+<p>&nbsp;</p>
 
 </body>
 </html>
