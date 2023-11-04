@@ -4,54 +4,154 @@
 
 <title>Psychrometry</title>
 
-<link href="../css/psychrometry.css" rel="stylesheet" type="text/css" />
+<style>
+	p{
+		font-size: 1.1em;
+	}
+	table tr:first-child
+    {
+
+        text-align: left;
+        background-color: green;
+        color: white;
+    }
+    
+    table td
+    {
+        text-align: center;
+    }
+    
+    .auto-style1 {
+            color: #000000;
+    }
+</style>
 
 </head>
 
 
 <body>
-    
 
-<span onclick="location.href='enh002.html'" class="rightarrow">&nbsp;&raquo;</span>
-   
-
-
-<p class="Title">INTRODUCTION</p>
+<h2>Introduction</h2>
     
  <p>
      Psychrometrics deals with
     thermodynamic properties of moist air and uses these properties to analyze conditions and
-    processes involving moist air.
- </p>
+    processes involving moist air.</p>
  
  <p>
     Atmospheric air contains gaseous
     components as well as water vapor and miscellaneous contaminants (e.g. smoke, pollen, and
-    gaseous pollutants not normally present in free air far from pollution sources).
-    
-</p>
+    gaseous pollutants not normally present in free air far from pollution sources).</p>
         
 <p>Dry air exists when all water vapor
     and contaminants have been removed from atmospheric air. The composition of dry air is
     relatively constant, but small variations in the amounts of individual components occur
-    with time, geographic location, and altitude. The approximate percentage of dry air by
-    volume can be listed as: nitrogen 78.084; oxygen, 20.9476; argon, 0.934; carbon dioxide,
-    0.0314; neon, 0.001818; helium, 0.000524; methane, 0.00015; sulfur dioxide, 0 to 0.0001;
-    hydrogen 0.00005; and minor components such as krypton, xenon, and ozone, 0.0002. The
-    relative molecular mass of all components, for <i>dry air</i> is 28.9645, based on the
-    carbon-12 scale (Harrison 1965). The gas constant for dry air, based on carbon-12 scale,
-    is: R<sub>a</sub>=287.055 J/(kg.K) (1).
-</p>
+    with time, geographic location, and altitude. 
+	The relative molecular mass of all components, for <i>dry air</i> is 28.9645, and 
+	the gas constant for dry air, is: R<sub>a</sub>=287.055 J/(kg.K) (1).</p>
     
 
-<p>Moist air is a binary (or two-component) mixture of dry air and water vapor. The amount of water vapor in moist air
+<p>Moist air is a binary (or two-component) mixture of dry air and water vapor. 
+	The amount of water vapor in moist air
     varies from zero (dry air) to a maximum that depends on temperature and pressure. The
     latter condition refers to saturation, a state of neutral equilibrium between moist air
     and the condensed water phase (liquid or solid). Unless otherwise stated, saturation
     refers to a flat intermolecular surface between the moist air and the condensed phase. The
     molecular weight of water is 18.01528 on the carbon-12 scale. The gas constant for water
-    vapor is: R<sub>a</sub>=461.520 J/(kg.K) (1).
-</p>
+    vapor is: R<sub>a</sub>=461.520 J/(kg.K) (1).</p>
+
+
+<p>
+	The temperature and barometric pressure of atmospheric air vary 
+	considerably with altitude as well as with
+    local geographic and weather conditions. The standard atmosphere gives a standard of
+    reference for estimating properties at various altitudes. At sea level, standard
+    temperature is 15&deg;C; standard barometric pressure is 101.325 kPa. The temperature is
+    assumed to decrease linearly with increasing altitude throughout the troposphere (lower
+    atmosphere), and to be constant in the lower reaches of the stratosphere. The lower
+    atmosphere is assumed to consist of dry air that behaves as a perfect gas. Gravity is also
+    assumed constant at the standard value, 9.80665 m/s<sup>2</sup>. Table 1 summarizes
+    property data for altitudes to 10 000 m (1).</p>
+
+
+<p>&nbsp;</p>
+
+<h2>Standart Atmosphere</h2>
+    
+<p class="TableCaption"><b>Table 1:</b> Standart Atmospheric Data for Altitudes to 10 000 m</p>
+
+<table class="bordered centered" style="background-color: lightgray;">
+    <tr>
+        <td>Altitude (m)</td>
+        <td>Temperature (&deg;C)</td>
+        <td>Pressure (Pa)</td>
+    </tr>
+    <tr>
+        <td>-500</td>
+        <td>18.2</td>
+        <td>107 478</td>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>15.0</td>
+        <td>101 325</td>
+    </tr>
+      <tr>
+        <td>500</td>
+        <td>11.8</td>
+        <td>95 461</td>
+      </tr>
+      <tr>
+        <td>1000</td>
+        <td>8.5</td>
+        <td>89 874</td>
+      </tr>
+      <tr>
+        <td>2000</td>
+        <td>2.0</td>
+        <td>79 495</td>
+      </tr>
+      <tr>
+        <td>3000</td>
+        <td>-4.5</td>
+        <td>70 108</td>
+      </tr>
+      <tr>
+        <td>4000</td>
+        <td>-11.0</td>
+        <td>61 640</td>
+      </tr>
+      <tr>
+        <td>5000</td>
+        <td>-17.5</td>
+        <td>54 020</td>
+      </tr>
+      <tr>
+        <td>6 000</td>
+        <td>-24.0</td>
+        <td>47 181</td>
+      </tr>
+      <tr>
+        <td>7 000</td>
+        <td>-30.5</td>
+        <td>41 061</td>
+      </tr>
+      <tr>
+        <td>8 000</td>
+        <td>-37.0</td>
+        <td>35 600</td>
+      </tr>
+      <tr>
+        <td>9 000</td>
+        <td>-43.5</td>
+        <td>30 742</td>
+      </tr>
+      <tr>
+        <td>10 000</td>
+        <td>-50.0</td>
+        <td>26 436</td>
+      </tr>
+    </table>
 
 </body>
 </html>
