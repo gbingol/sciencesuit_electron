@@ -7,10 +7,22 @@
 
 <title>Psychrometry</title>
 
+<link href="../../css/common.css" rel="stylesheet" type="text/css" />
+
 <style>
-	p{
-		font-size: 1.1em;
+
+table{
+		border: 1px solid red;
+		border-collapse: collapse;
 	}
+
+	table td
+        {
+		border: 1px solid;
+            text-align: center;
+		padding: 6px;
+        }
+
 	table tr:first-child
     {
 
@@ -34,7 +46,7 @@
 
 <body>
 
-<h2>Introduction</h2>
+<h2 class="head_l2">Introduction</h2>
     
  <p>
      Psychrometrics deals with
@@ -79,7 +91,7 @@
 
 <p>&nbsp;</p>
 
-<h2>Standart Atmosphere</h2>
+<h2 class="head_l2">Standart Atmosphere</h2>
     
 <p class="TableCaption"><b>Table 1:</b> Standart Atmospheric Data for Altitudes to 10 000 m</p>
 
@@ -158,9 +170,380 @@
 
 <p>&nbsp;</p>
 
-<div>
-	<a href="enh003.html">Thermodynamic Properties of Water</a>
-</div>
+
+<h2 class="head_l2">Thermodynamic Properties of Water at Saturation</h2>
+
+<P>For the determination of psychrometric
+    properties, knowledge of the water-vapour saturation-pressure is essential. The equations
+    for calculating saturation pressures for temperature ranges -100&deg;C to 200&deg;C are given
+    in Table 2. The solutions for the saturations vapour pressure as a function of
+    temperatures were found with REGAN, using polynomial REGression ANalysis on data obtained
+    from ASHRAE. In some cases however, the saturation pressure was known allowing temperature
+    to be calculated data. In such cases, temperature calculated using saturation pressures
+    where derived from regression analysis are shown in Table 3 (2-4).
+</p>
+
+
+<p>&nbsp;</p>
+
+
+<table class="bordered centered">
+	<caption>
+		<b>Table 2:</b> Calculation of water-vapour saturation pressure<br>
+    
+    		<span>&alpha;= A &middot;T<sup>2</sup> + B&middot; T + C + D &middot; T <sup>-1</sup>, T (K)</span>
+    
+   		 <br>
+    
+    		<span>p<sub>ws</sub> = 1000&middot; exp(&alpha;), p<sub>ws</sub> (Pa) </span>
+	</caption>
+    
+	<tr>
+      	<td>&nbsp;</td>
+      	<td colspan="5" style="text-align: center;">TEMPERATURE (K)</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>213.15 &le; T &lt; 273.15</td>
+		<td>273.15 &le; T &lt; 322.15</td>
+		<td>322.15 &le; T &lt; 373.15</td>
+		<td>373.15 &le; T &lt; 423.15</td>
+		<td>423.15 &le; T &lt; 473.15</td>
+    </tr>
+	<tr>
+		<td>A</td>
+		<td>- 0.729759370 &middot; 10<sup>-5</sup></td>
+		<td>+ 0.125500196 &middot; 10<sup>-4</sup></td>
+		<td>+ 0.124673215 &middot; 10<sup>-4</sup></td>
+		<td>+ 0.120450764 &middot; 10<sup>-4</sup></td>
+		<td>+ 0.106973018 &middot; 10<sup>-4</sup></td>
+	</tr>
+
+
+	<tr>
+		<td>B</td>
+		<td>+ 0.539742072&middot; 10<sup>-2</sup></td>
+		<td>- 0.192359528&middot; 10<sup>-1</sup></td>
+		<td>- 0.191546580&middot; 10<sup>-1</sup></td>
+		<td>- 0.186665055&middot; 10<sup>-1</sup></td>
+		<td>- 0.169896575&middot; 10<sup>-1</sup></td>
+	</tr>
+
+    <tr>
+      <td>C</td>
+      <td>+ 0.206988062&middot; 10<sup>+2</sup></td>
+      <td>+ 0.270510189&middot; 10<sup>+2</sup></td>
+      <td>+ 0.270238831&middot; 10<sup>+2</sup></td>
+      <td>+ 0.268362940&middot; 10<sup>+2</sup></td>
+      <td>+ 0.261407329&middot; 10<sup>+2</sup></td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>- 0.604227512&middot; 10<sup>+4</sup></td>
+      <td>- 0.634401157&middot; 10<sup>+4</sup></td>
+      <td>- 0.634094163&middot; 10<sup>+4</sup></td>
+      <td>- 0.631697206&middot; 10<sup>+4</sup></td>
+      <td>- 0.622078123&middot; 10<sup>+4</sup></td>
+    </tr>
+  </table>
+
+
+
+
+<p>&nbsp;</p>
+
+
+
+
+ <table class="bordered centered">
+	<caption>
+		<b>Table 2:</b> Calculation of temperature<br>
+    
+    		T = E &middot;b<sup>4</sup> + F&middot;b<sup>3</sup> + G&middot;b<sup>2</sup> + H&middot;b + K<br>
+    
+    		b = ln(p<sub>ws</sub>), p<sub>ws</sub> (Pa)
+	</caption>
+    <tr>
+      <td>&nbsp;</td>
+      <td COLSPAN="5" style="text-align: center;">P R E S S U R E (Pa)</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>1 &le; p &lt; 611</td>
+      <td>611  &le; p &lt; 12350</td>
+      <td>12350 &le; T &lt; 101420</td>
+      <td>101420 &le; T&lt; 476207</td>
+      <td>476207 &le; T&lt; 1555099</td>
+    </tr>
+    <tr>
+      <td>E</td>
+      <td>+ 0.100492653 &le; 10<sup>-2</sup></td>
+      <td>+ 0.503106250 &le; 10<sup>-2</sup></td>
+      <td>+ 0.120951251 &le; 10<sup>-4</sup></td>
+      <td>+ 0.246729101 &le; 10<sup>-1</sup></td>
+      <td>+ 0.274840248 &le; 10<sup>-4</sup></td>
+    </tr>
+    <tr>
+      <td>F</td>
+      <td>+ 0.139291763 &le; 10<sup>-2</sup></td>
+      <td>- 0.882677938 &le; 10<sup>-1</sup></td>
+      <td>- 0.354554210 &le; 10<sup>+0</sup></td>
+      <td>- 0.936711288 &le; 10<sup>+0</sup></td>
+      <td>- 0.106866130 &le; 10<sup>+1</sup></td>
+    </tr>
+    <tr>
+      <td>G</td>
+      <td>+ 0.281515157 &le; 10<sup>+0</sup></td>
+      <td>+ 0.124368844 &le; 10<sup>+1</sup></td>
+      <td>+ 0.502085847 &le; 10<sup>+1</sup></td>
+      <td>+ 0.151414233 &le; 10<sup>+2</sup></td>
+      <td>+ 0.174296496 &le; 10<sup>+2</sup></td>
+    </tr>
+    <tr>
+      <td>H</td>
+      <td>+ 0.731162111 &le; 10<sup>+1</sup></td>
+      <td>+ 0.338853429 &le; 10<sup>+1</sup></td>
+      <td>- 0.205030105 &le; 10<sup>+2</sup></td>
+      <td>- 0.988241750 &le; 10<sup>+2</sup></td>
+      <td>- 0.116120853 &le; 10<sup>+3</sup></td>
+    </tr>
+    <tr>
+      <td>K</td>
+      <td>+ 0.212589373 &le; 10<sup>+3</sup></td>
+      <td>+ 0.215007799 &le; 10<sup>+3</sup></td>
+      <td>+ 0.271858543 &le; 10<sup>+3</sup></td>
+      <td>+ 0.499509294 &le; 10<sup>+3</sup></td>
+      <td>+ 0.547261812 &le; 10<sup>+3</sup></td>
+    </tr>
+  </table>
+
+<p>&nbsp;</p>
+
+
+
+<h2 class="head_l2">Humidity Parameters Involving Saturation</h2>
+
+
+<p>
+    The following definitions of humidity parameters involve the concept of moist air saturation (1).</p>
+
+<p>
+    <span class="SubHeading">Humidity ratio(W) :</span> 
+    (Alternatively, the moisture content or mixing ratio), W of a given moist air sample
+    is defined as the ratio of the mass of water vapor to the mass of dry air contained in the
+    sample.
+</p>
+
+<img src="equations/Image103.gif" alt="">
+
+
+
+<p>
+    <span class="SubHeading">Mole fraction (x<sub>i</sub>) :</span> 
+    The ratio of the mole number (n<sub>i</sub>) of a component (i) to the mole number of the mixture (n) is
+    called the mole fraction (x<sub>i</sub>). Mole fraction of dry air, water vapour and water
+    vapour at saturation are defined as x<sub>a</sub>, x<sub>w</sub>, x<sub>ws</sub> respectively. For humid air therefore, 
+</p>
+
+
+<img src="equations/Image104.gif" alt=""/>
+
+
+
+<p>
+    The humidity ratio defined above W is also equal to the mole fraction ratio 
+    x<sub>w</sub>/x<sub>a</sub> multiplied by the ratio of molecular masses
+</p>
+
+<img src="equations/Image105.gif" alt="" />
+
+
+<p>
+	<span class="SubHeading">Specific humidity (q) : </span>
+	Ratio of mass of water vapor to the total mass of the moist air:
+  </p>
+  
+  <p>
+	In terms of humidity ratio:
+  </p>
+	
+  <img src="equations/Image107.gif" alt=""/>
+  
+  
+  <p>&nbsp;</p>
+  
+  
+  <p>
+	<span class="SubHeading">Absolute humidity (d<sub>v</sub>) : </span>
+	Ratio of mass of water vapor to the total mass of sample:
+  </p>
+	
+  
+  <img src="equations/Image108.gif" alt=""/>
+  
+  
+  
+  <p>&nbsp;</p>
+  
+  
+  <p>
+	<span class="SubHeading">Density (&rho;) :</span>
+	 Ratio of the total mass of mixture to its total volume:
+  </p>
+	
+  <img src="equations/Image109.gif" alt="" />
+
+
+
+<p>
+	The following definitions of humidity parameters involve the 
+	concept of moist air saturation (1):</p>
+
+<h3 class="head_l3">Saturation humidity ratio (W<sub>s</sub>)</h3>
+<p>
+	Humidity ratio of moist air saturated with
+	respect to water (or ice) at the same temperature (T) and pressure (P).</p>
+  
+  
+  <p>
+	<span class="SubHeading">Degree of saturation (m) : </span>
+	
+	<br>
+	
+	The ratio of the air humidity ratio W to the humidity ratio Ws 
+	of saturated air at the same temperature and pressure.
+  </p>
+  
+  <img src="equations/Image110.gif" alt="" />
+
+  <p>
+	<span class="SubHeading">Relative humidity (&Phi;) :</span> 
+	is the ratio of the mole fraction of
+	water vapor x<sub>w</sub> in a given moist air sample to the mole fraction x<sub>ws</sub>
+	in an air sample, saturated at the same temperature and pressure.
+  </p>
+  
+  <img src="equations/Image111.gif" alt="" />
+  
+  
+  <p>Combining the preceding equations,</p>
+  
+  <img src="equations/Image112.gif" alt="" />
+  
+  
+  <p>&nbsp;</p>
+  
+  
+  <p>
+	<span class="SubHeading">Dew-point temperature (T<sub>d</sub>) :</span>
+	is the temperature of moist air saturated at the same pressure p, with the same humidity ratio W as 
+	that of the given sample of moist air. It is defined as the solution 
+  </p>
+	
+  <img src="equations/Image113.gif" alt="" />
+  
+  
+  <p>&nbsp;</p>
+  
+  <p>
+	<span class="SubHeading">Wet-bulb temperature (T*) : </span>
+	is the temperature at which water (liquid or solid), by evaporating into moist air 
+	at a given dry-bulb temperature T and humidity ratio W, can bring air to 
+	saturation adiabatically at the same temperature T* while the pressure p is 
+	maintained constant. This parameter is considered separately in a later 
+	section.
+  </p>
+
+
+<p>&nbsp;</p>
+
+<h2 class="head_l2">Perfect Gas Relationships for Dry and Moist Air</h2>
+
+<p>
+	When moist air is considered a mixture of 
+	independent perfect gases, dry air, and water vapor, each is assumed to obey the perfect 
+	gas equation of state as follows: (1)</p>
+
+
+<img src="equations/Image114.gif" WIDTH="92" HEIGHT="30">
+	  
+	  
+<p >
+	where p<sub>a</sub> is partial pressure of dry air, p<sub>w</sub> is partial pressure of water vapour, 
+	V is total mixture volume, n<sub>a</sub> is number of moles of dry air, n<sub>w</sub> is number of 
+	moles of water vapour, R is universal gas constant (=8.31441 J/gmol K) and T is absolute temperature in K. 
+	The mixture also obeys the perfect gas equation :</p>
+	  
+<img src="equations/Image115.gif"  WIDTH="77" HEIGHT="14">
+	  
+	  
+<p>or</p>
+	  
+<img src="equations/Image116.gif" WIDTH="157" HEIGHT="20">
+	  
+	  
+<p>
+	where P = p<sub>a</sub> + p<sub>w</sub> is the total mixture pressure and 
+	n = n<sub>a</sub> + n<sub>w</sub> is the total number of moles in the mixture. 
+	The mole fractions of dry air and water vapour are, respectively :</p>
+	  
+<img src="equations/Image117.gif" WIDTH="101" HEIGHT="36">
+<img src="equations/Image118.gif" WIDTH="105" HEIGHT="36">
+	  
+	  
+	  
+	  <p >Using the equations given above, the
+	  humidity ratio W and the humidity ratio of saturated air at the same temperature and
+	  pressure W<sub>s</sub> are given by :</p>
+	  
+<img src="equations/Image119.gif" WIDTH="109" HEIGHT="40"><font FACE="Arial" SIZE="2">
+
+	<img src="equations/Image120.gif" WIDTH="118" HEIGHT="40">
+<p>
+	The term p<sub>ws</sub> represents the saturation pressure of
+	water vapour in the absence of air at the given temperature T. This pressure p<sub>ws</sub>
+	is a function only of temperature and differs slightly from the vapour pressure of water
+	in saturated moist air.</p>
+
+
+<p>Using relative humidity definitions,</p>
+<img src="equations/Image121.gif" WIDTH="236" HEIGHT="52">
+
+<p >
+	can be obtained. Both f and m are zero for dry
+	air and unity for saturated moist air. At intermediate states their values differ,
+	substantially so at higher temperatures.</p>
+
+<p>
+	Enthalpy (h) : The enthalpy of a mixture of perfect gases equals the sum of the individual partial
+	enthalpies of the components. Therefore, the enthalpy of moist air can be written :</p>
+<img src="equations/Image122.gif" WIDTH="77" HEIGHT="20">
+	  
+	  
+<p >
+	where h<sub>a</sub> is the specific enthalpy
+	for dry air and h<sub>g</sub> is the specific enthalpy for saturated water vapour at the
+	temperature of the mixture. Approximately :</p>
+
+<img src="equations/Image123.gif" WIDTH="161" HEIGHT="40">
+	  
+	  
+<p >
+	where T is the dry-bulb temperature in (&deg;C).
+	The moist air enthalpy then becomes :</p>
+
+<img src="equations/Image124.gif" WIDTH="217" HEIGHT="14">
+	  
+	  
+<p >
+	Enthalpy can be defined using wet-bulb temperature definition as :</p>
+<img src="equations/Image125.gif" WIDTH="121" HEIGHT="21"></p>
+	  
+	  
+<p >The enthalpy of water at thermodynamic wet-bulb temperature is :</p>
+	  <img src="equations/Image126.gif" WIDTH="140" HEIGHT="21">
+
+<p>&nbsp;</p>
 
 </body>
 </html>
