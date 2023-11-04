@@ -10,19 +10,27 @@
     <link href="../css/psychrometry.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
+	body{
+		font-size: 1.1em;
+	}
+	table{
+		border: 1px solid red;
+		border-collapse: collapse;
+	}
         
-        table tr:first-child
-        {
+	table tr:first-child
+	{
 
-            text-align: left;
-            background-color: green;
-            color: white;
-        }
+	text-align: left;
+	background-color: green;
+	color: white;
+	}
 
         table td
         {
+		border: 1px solid;
             text-align: center;
-          
+		padding: 6px;
         }
         
         td:first-child
@@ -40,13 +48,8 @@
 
 
 <body>
-    
-<span onclick="location.href='enh002.html'" class="leftarrow">&nbsp;&laquo;</span>
-<span onclick="location.href='enh004.html'" class="rightarrow">&nbsp;&raquo;</span>
 
-<p>&nbsp;</p>
-
-<P class="Title">THERMODYNAMIC PROPERTIES OF WATER AT SATURATION</p>
+<h2>Thermodynamic Properties of Water at Saturation</h2>
 
 <P>For the determination of psychrometric
     properties, knowledge of the water-vapour saturation-pressure is essential. The equations
@@ -59,53 +62,50 @@
 </p>
 
 
+<p>&nbsp;</p>
 
-
-<p class="TableCaption" style="text-align: center;">
-    TABLE 2. Calculation of water-vapour saturation pressure which is dependent on the temperature within various
-    temperature ranges
-    
-    <br>
-    
-    <span>&alpha;= A &middot;T<sup>2</sup> + B&middot; T + C + D &middot; T <sup>-1</sup>, T (K)</span>
-    
-    <br>
-    
-    <span>p<sub>ws</sub> = 1000&middot; exp(&alpha;), p<sub>ws</sub> (Pa) </span>
-    
-</p>
 
 <table class="bordered centered">
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="5" style="text-align: center;">TEMPERATURE (K)</td>
+	<caption>
+		<b>Table 2:</b> Calculation of water-vapour saturation pressure<br>
+    
+    		<span>&alpha;= A &middot;T<sup>2</sup> + B&middot; T + C + D &middot; T <sup>-1</sup>, T (K)</span>
+    
+   		 <br>
+    
+    		<span>p<sub>ws</sub> = 1000&middot; exp(&alpha;), p<sub>ws</sub> (Pa) </span>
+	</caption>
+    
+	<tr>
+      	<td>&nbsp;</td>
+      	<td colspan="5" style="text-align: center;">TEMPERATURE (K)</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>213.15 &le; T &lt; 273.15</td>
+		<td>273.15 &le; T &lt; 322.15</td>
+		<td>322.15 &le; T &lt; 373.15</td>
+		<td>373.15 &le; T &lt; 423.15</td>
+		<td>423.15 &le; T &lt; 473.15</td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>213.15 &le; T &lt; 273.15</td>
-      <td>273.15 &le; T &lt; 322.15</td>
-      <td>322.15 &le; T &lt; 373.15</td>
-      <td>373.15 &le; T &lt; 423.15</td>
-      <td>423.15 &le; T &lt; 473.15</td>
-    </tr>
-    <tr>
-      <td>A</td>
-      <td>- 0.729759370 &middot; 10<sup>-5</sup></td>
-      <td>+ 0.125500196 &middot; 10<sup>-4</sup></td>
-      <td>+ 0.124673215 &middot; 10<sup>-4</sup></td>
-      <td>+ 0.120450764 &middot; 10<sup>-4</sup></td>
-      <td>+ 0.106973018 &middot; 10<sup>-4</sup></td>
-    </tr>
+	<tr>
+		<td>A</td>
+		<td>- 0.729759370 &middot; 10<sup>-5</sup></td>
+		<td>+ 0.125500196 &middot; 10<sup>-4</sup></td>
+		<td>+ 0.124673215 &middot; 10<sup>-4</sup></td>
+		<td>+ 0.120450764 &middot; 10<sup>-4</sup></td>
+		<td>+ 0.106973018 &middot; 10<sup>-4</sup></td>
+	</tr>
 
 
-    <tr>
-      <td>B</td>
-      <td>+ 0.539742072&middot; 10<sup>-2</sup></td>
-      <td>- 0.192359528&middot; 10<sup>-1</sup></td>
-      <td>- 0.191546580&middot; 10<sup>-1</sup></td>
-      <td>- 0.186665055&middot; 10<sup>-1</sup></td>
-      <td>- 0.169896575&middot; 10<sup>-1</sup></td>
-    </tr>
+	<tr>
+		<td>B</td>
+		<td>+ 0.539742072&middot; 10<sup>-2</sup></td>
+		<td>- 0.192359528&middot; 10<sup>-1</sup></td>
+		<td>- 0.191546580&middot; 10<sup>-1</sup></td>
+		<td>- 0.186665055&middot; 10<sup>-1</sup></td>
+		<td>- 0.169896575&middot; 10<sup>-1</sup></td>
+	</tr>
 
     <tr>
       <td>C</td>
@@ -133,18 +133,14 @@
 
 
 
-
-<p style="text-align: center;">TABLE 3. Calculation of temperature which is dependent on water vapour saturation pressure within various
-    temperature ranges<br>
-    
-    T = E &middot;b<sup>4</sup> + F&middot;b<sup>3</sup> + G&middot;b<sup>2</sup> + H&middot;b + K, T (K)<br>
-    
-    b = ln(p<sub>ws</sub>), p<sub>ws</sub> (Pa)
-    
- </p>
-
- 
  <table class="bordered centered">
+	<caption>
+		<b>Table 2:</b> Calculation of temperature<br>
+    
+    		T = E &middot;b<sup>4</sup> + F&middot;b<sup>3</sup> + G&middot;b<sup>2</sup> + H&middot;b + K<br>
+    
+    		b = ln(p<sub>ws</sub>), p<sub>ws</sub> (Pa)
+	</caption>
     <tr>
       <td>&nbsp;</td>
       <td COLSPAN="5" style="text-align: center;">P R E S S U R E (Pa)</td>
