@@ -5,6 +5,9 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width">
 	<title>Psychrometric Software</title>
+
+	<script src="./js/jquery-3.7.1.min.js"></script>
+
 	<style>
 		table{
 			margin-left: 10px;
@@ -66,6 +69,67 @@
 </head>
 
 <body>
+
+<div id="header"></div>
+
+<script>
+	$("#header").load("./menu.html");
+	function GoHome() 
+	{
+		location.href="./index.html";
+	}
+</script>
+
+	
+<div id="desktopmenu" style="position: relative; z-index:100;">
+	
+	<ul class="desktopmenubar">
+
+		<li class="singlemenu">
+			<a class="active"  href="./index.html">Home</a>
+		</li>
+		
+		<li class="dropdownmenu"> 
+			<a class="dropbutton" href="#">Simulations</a>
+	
+			<div class="drop_menuitems">
+				<a href="learning/psychrometry/problems/Psik02.html">Heating with humidification (I)</a>
+				<a href="learning/psychrometry/problems/Psik12.html">Heating with humidification (II)</a>
+				<a href="learning/psychrometry/problems/Psik03.html">Cooling with dehumidification</a>
+				<a href="learning/psychrometry/problems/Psik04.html">Evaporative cooling</a>
+				<a href="learning/psychrometry/problems/Psik05.html">Adiabatic mixing of airstreams</a>
+				<a href="learning/psychrometry/problems/Psik06.html">Wet cooling towers</a>
+				<a href="learning/psychrometry/problems/Psik07.html">Mixture of airstreams</a>
+				<a href="learning/psychrometry/problems/Psik08.html">Cooling tower for a power plant</a>
+				<a href="learning/psychrometry/problems/Psik09.html">Air conditioning</a>
+				<a href="learning/psychrometry/problems/Psik10.html">Fan induced cooling tower</a>
+				<a href="learning/psychrometry/problems/Psik11.html">Adiabatic saturation process</a>
+			</div>
+		</li>
+	</ul>
+	
+</div>
+	
+		
+<div id="mobilemenu" class="mobileoverlay">
+
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+	<div class="overlay-content">
+		<a href="./index.html">Home</a>
+		<a href="learning/psychrometry/problems/Psik02.html">Heating with humidification (I)</a>
+		<a href="learning/psychrometry/problems/Psik12.html">Heating with humidification (II)</a>
+		<a href="learning/psychrometry/problems/Psik03.html">Cooling with dehumidification</a>
+		<a href="learning/psychrometry/problems/Psik04.html">Evaporative cooling</a>
+		<a href="learning/psychrometry/problems/Psik05.html">Adiabatic mixing of airstreams</a>
+		<a href="learning/psychrometry/problems/Psik06.html">Wet cooling towers</a>
+		<a href="learning/psychrometry/problems/Psik07.html">Mixture of airstreams</a>
+		<a href="learning/psychrometry/problems/Psik08.html">Cooling tower for a power plant</a>
+		<a href="learning/psychrometry/problems/Psik09.html">Air conditioning</a>
+		<a href="learning/psychrometry/problems/Psik10.html">Fan induced cooling tower</a>
+		<a href="learning/psychrometry/problems/Psik11.html">Adiabatic saturation process</a>
+	</div>
+</div>
 
 	
 <h1>Psychrometric Calculator</h1>
