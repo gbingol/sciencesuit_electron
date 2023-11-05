@@ -1,0 +1,213 @@
+<style>
+
+	.desktopmenubar 
+	{
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background-color: green;
+		width:100%;
+	}
+	
+	
+	li.singlemenu 
+	{ 
+		display: inline-block; 
+	}
+	
+	
+	li.singlemenu a, .dropbutton 
+	{
+		display: inline-block;
+		color: white;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+	}
+	
+	
+	li.singlemenu a:hover, .dropdownmenu:hover .dropbutton 
+	{
+		background-color: red;
+	}
+	
+	
+	li.dropdownmenu 
+	{ 
+		display: inline-block; 
+	}
+	
+	
+	.drop_menuitems {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	}
+	
+	
+	.drop_menuitems  a 
+	{
+		color: black;
+		padding: 12px 16px;
+		text-decoration: none;
+		display: block;
+		text-align: left;
+	}
+	
+	.drop_menuitems  a:hover 
+	{ 
+		background-color: #f1f1f1; 
+	}
+	
+	.dropdownmenu:hover .drop_menuitems 
+	{ 
+		display: block; 
+	}
+	
+	
+	#mobilemenu 
+	{ 
+		display: none; 
+	}
+	
+	.mobilemenubar 
+	{ 
+		display: none; 
+	}
+	
+	
+	div.mobilemenubar span.home
+	{
+		cursor:pointer; 
+		font-size:2.2em; 
+		float: left; 
+		margin-left: 5px;
+	}
+	
+	div.mobilemenubar span.navigator
+	{
+		cursor:pointer; 
+		float: right; 
+		margin-right: 5px;
+	}
+	
+	
+	@media only screen and (max-width:600px) 
+	{
+		#desktopmenu 
+		{ 
+			display:none; 
+		}
+	
+		#mobilemenu 
+		{ 
+			display: block; 
+		}
+	
+		.mobilemenubar 
+		{
+			display: block;
+			position: relative;
+			width: 100%;
+			height: 40px;
+			text-align: center;
+			background-color: green;
+		}
+	
+		.mobilemenubar span 
+		{
+			vertical-align: middle;
+			line-height: 40px;
+			font-size: 25px;
+			color: whitesmoke;
+		}
+	
+		.mobileoverlay 
+		{
+			width: 100%;
+			height: 0%;
+			position: fixed;
+			z-index: 10;
+			top: 0;
+			left: 0;
+			background-color: rgba(0,100,0, 0.9);
+			overflow-x: hidden;
+			transition: 0.5s;
+		}
+		
+		.overlay-content 
+		{
+			position: relative;   
+			top: 10%;
+			margin-top: 10%;
+			width: 100%;
+			text-align: center; 
+		}
+	
+		.mobileoverlay a 
+		{
+			padding: 8px;
+			text-decoration: none;
+			font-size: 20px;
+			color: white;
+			display: block;
+			transition: 0.3s;
+		}
+	
+		.mobileoverlay a:hover, .mobileoverlay a:focus 
+		{
+			color: #f1f1f1;
+		}
+	
+		.mobileoverlay .closebtn 
+		{
+			position: fixed;
+			font-size: 40px;
+			top: 15px;
+			right: 35px;
+			display: none;
+			z-index: 100;
+		}
+	}
+	
+	</style>
+	
+	<script>
+		function GoHome() 
+		{
+			location.href="/index.php";
+		}
+	
+		function StopScroll() 
+		{
+			window.scrollTo(0, 0);
+		}
+	
+	
+		function openNav() 
+		{
+			window.addEventListener('scroll', StopScroll);
+	
+			document.getElementsByClassName("mobileoverlay")[0].style.height = "100%";
+			document.getElementsByClassName("closebtn")[0].style.display = "block";
+		}
+	
+		function closeNav() 
+		{
+			window.removeEventListener('scroll', StopScroll);
+			
+			document.getElementById("mobilemenu").style.height = "0%";       
+			document.getElementsByClassName("closebtn")[0].style.display = "none";      
+		}
+	</script>
+	
+	
+	
+<div class="mobilemenubar">
+	<span class="home" onclick="GoHome()">&#8962;</span>
+	<span class="navigator" onclick="openNav()">&#9776;</span>
+</div>
+	

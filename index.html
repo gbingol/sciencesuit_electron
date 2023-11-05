@@ -1,18 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 	<meta charset="UTF-8" />
 	<title>ScienceSuit</title>
+	<script src="./js/jquery-3.7.1.min.js"></script>
+	<style>
+		p 
+		{
+			font-size:1.3em;
+			margin-left:10px;        
+		}
+		
+		p.FirstLetter:first-letter 
+		{
+			font-size: 1.5em;         
+			font-style: italic;     
+			font-weight: bold;
+		}
+	</style>
 </head>
 
 
 <body>
+
+<base href="./">
+
+<div id="header"></div>
+
+<script>
+	$("#header").load("./menu.html");
+</script>
+
+
+<div id="desktopmenu" style="position: relative; z-index:100;">
+	
+	<ul class="desktopmenubar">
+	
+		<li class="singlemenu">
+			<a class="active"  href="index.html">Home</a></li>
+	
+		
+		<li class="dropdownmenu"> 
+			<a class="dropbutton" href="#">Psychrometry</a>
+	
+			<div class="drop_menuitems">
+				<a href="psychrometrycalc.html">Compute</a>
+				<a href="learning/psychrometry/index.html">Learn</a>
+			</div>
+		</li>
+
+		<li class="singlemenu">
+			<a href="pipmngr.html">Python packages</a>
+		</li>
+	</ul>
+	
+</div>
+
+	
+<div id="mobilemenu" class="mobileoverlay">
+
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+	<div class="overlay-content">
+		<a href="psychrometrycalc.html">Psychrometry Calc</a>
+		<a href="pipmngr.html">Python packages</a>
+	</div>
+</div>
+
+
+
 <h1>Welcome to ScienceSuit</h1>
 
+<p class="FirstLetter">
+	A feature-rich, Python powered and extensible computing environment.
+</p>
 
 
-<a href="pipmngr.html">Python packages</a>
-<a href="psychrometrycalc.html">Psychrometry</a>
 
 </body>
 </html>
