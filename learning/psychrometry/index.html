@@ -3,9 +3,11 @@
 
 <head>
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width">
 	<title>Psychrometry</title>
 
 	<link href="../../css/common.css" rel="stylesheet" type="text/css" />
+	<script src="../../js/jquery-3.7.1.min.js"></script>
 
     <style>
 		p.info
@@ -14,14 +16,6 @@
 			line-height: 1.5em;
 		}
 
-		ul{
-			list-style-type: none;
-		}
-
-		ol li, ul li{
-			padding-top: 10px;
-			padding-bottom: 10px;
-		}
 
 		@media only screen and (max-width:900px)
 		{
@@ -36,7 +30,77 @@
 
 <body>
 
+
+<div id="header"></div>
+
+<script>
+	$("#header").load("../../menu.html");
+	function GoHome() 
+	{
+		location.href="../../index.html";
+	}
+</script>
+
+
+<div id="desktopmenu" style="position: relative; z-index:100;">
+	
+	<ul class="desktopmenubar">
+
+		<li class="singlemenu">
+			<a class="active"  href="../../index.html">Home</a>
+		</li>
+		
+		<li class="singlemenu">
+			<a href="../../psychrometrycalc.html">Compute</a>
+		</li>
+		
+		<li class="dropdownmenu"> 
+			<a class="dropbutton" href="#">Simulations</a>
+	
+			<div class="drop_menuitems">
+				<a href="problems/Psik02.html">Heating with humidification (I)</a>
+				<a href="problems/Psik12.html">Heating with humidification (II)</a>
+				<a href="problems/Psik03.html">Cooling with dehumidification</a>
+				<a href="problems/Psik04.html">Evaporative cooling</a>
+				<a href="problems/Psik05.html">Adiabatic mixing of airstreams</a>
+				<a href="problems/Psik06.html">Wet cooling towers</a>
+				<a href="problems/Psik07.html">Mixture of airstreams</a>
+				<a href="problems/Psik08.html">Cooling tower for a power plant</a>
+				<a href="problems/Psik09.html">Air conditioning</a>
+				<a href="problems/Psik10.html">Fan induced cooling tower</a>
+				<a href="problems/Psik11.html">Adiabatic saturation process</a>
+			</div>
+		</li>
+	</ul>
+	
+</div>
+
+	
+<div id="mobilemenu" class="mobileoverlay">
+
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+	<div class="overlay-content">
+		<a href="../../index.html">Home</a>
+		<a href="../../psychrometrycalc.html">Compute</a>
+		<a href="problems/Psik02.html">Heating with humidification (I)</a>
+		<a href="problems/Psik12.html">Heating with humidification (II)</a>
+		<a href="problems/Psik03.html">Cooling with dehumidification</a>
+		<a href="problems/Psik04.html">Evaporative cooling</a>
+		<a href="problems/Psik05.html">Adiabatic mixing of airstreams</a>
+		<a href="problems/Psik06.html">Wet cooling towers</a>
+		<a href="problems/Psik07.html">Mixture of airstreams</a>
+		<a href="problems/Psik08.html">Cooling tower for a power plant</a>
+		<a href="problems/Psik09.html">Air conditioning</a>
+		<a href="problems/Psik10.html">Fan induced cooling tower</a>
+		<a href="problems/Psik11.html">Adiabatic saturation process</a>
+	</div>
+</div>
+
+
+
 <h1>Psychrometry</h1>
+
 
 <h2 class="head_l2">Introduction</h2>
   
