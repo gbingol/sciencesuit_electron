@@ -300,29 +300,17 @@
 		{
 			navigator.clipboard.writeText(contentTxt.innerText)
 		}
-		
-		window.myapi.psychrometry_tojson(Keys, Vals).then(result=>
-		{
-			let e = JSON.parse(result);
-			let s = "";
-			
-			s += "<b>P=</b>" + e.p + " kPa <br>";
-			s += "<b>T<sub>db</sub>=</b>" + e.tdb + " &deg;C <br>";
-			s += "<b>T<sub>wb</sub>=</b>" + e.twb + " &deg;C <br>";
-			s += "<b>T<sub>dp</sub>=</b>" + e.tdp + " &deg;C <br>";
-			s += "<b>h=</b>" + e.h + " kJ/kg da<br>";
-			s += "<b>w=</b>" + e.w + " kg/kg da <br>";
-			s += "<b>RH=</b>" + e.rh + " % <br>";
-			s += "<b>V=</b>" + e.v + " m<sup>3</sup> / kg da <br><br>";
 
-			s += "<i>Other properties</i> <br>"
-			s += "<b>P<sub>w</sub>=</b>" + e.pw + " kPa <br>";
-			s += "<b>P<sub>ws</sub>=</b>" + e.pws + " kPa";
-			
-			contentTxt.innerHTML = s;
+		try
+		{
+			let p = window.myapi.psychrometry(Keys, Vals);
+			contentTxt.innerHTML = p.to_html();
 			outDiv.scrollIntoView();
-		}).
-		catch(e =>{
+
+			infoDiv.style.display = "none";
+		}
+		catch(e)
+		{
 			infoDiv.style.display = "inline";
 			infoDiv.innerHTML = e;
 			document.body.removeChild(outDiv); 
@@ -330,9 +318,7 @@
 			btnDiv = null;
 			delBtn = null;
 			copyBtn = null;
-		});
-
-		infoDiv.style.display = "none";
+		}
 	});
 </script>
 </body>
