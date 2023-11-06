@@ -1,0 +1,11 @@
+Run following commands from the main project folder: 
+
+1) npm install --save-dev @electron-forge/cli
+2) npx electron-forge import
+3) npm run make
+
+
+After the out directory is created:
+
+1) copy dll file where the .node file is
+2) copy python file under the same folder where .exe is 
