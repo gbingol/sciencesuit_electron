@@ -1,12 +1,12 @@
 {
-  "name": "electron-app",
+  "name": "sciencesuit",
   "version": "1.0.0",
-  "description": "A dummy package",
+  "description": "ScienceSuit App",
   "main": "./app/main.js",
   "scripts": {
     "start": "electron ."
   },
-  "author": "gokhan",
+  "author": "Gokhan Bingol",
   "license": "ISC",
   "devDependencies": {
     "electron": "^27.0.0"
