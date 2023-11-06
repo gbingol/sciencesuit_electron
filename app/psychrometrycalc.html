@@ -7,6 +7,7 @@
 	<title>Psychrometric Software</title>
 
 	<script src="./js/jquery-3.7.1.min.js"></script>
+	<script src="./js/outputdiv.js" defer></script>
 
 	<style>
 		table{
@@ -35,16 +36,6 @@
 
 		input[type=text]{
 			width: 90%;
-		}
-
-		.output{
-			clear: both;
-			margin-top: 12px;
-			padding-top: 12px;
-			border-style: dashed;
-			border-color: red;
-			border-width: 1px;
-			font-size: large;
 		}
 
 		#info{
@@ -309,42 +300,12 @@
 			}
 		}
 
-		let outDiv = document.body.appendChild(document.createElement("div"));
-		outDiv.className = "output";
-		outDiv.style.position="relative";
-
-		let contentTxt = outDiv.appendChild(document.createElement("div"));
-		let btnDiv = outDiv.appendChild(document.createElement("div"));
-		btnDiv.style.position="absolute";
-		btnDiv.style.right=0;
-		btnDiv.style.top="0px";
-
-		let delBtn = btnDiv.appendChild(document.createElement("button"));
-		delBtn.innerHTML="Delete";
-		delBtn.style.float="right";
-
-		let copyBtn = btnDiv.appendChild(document.createElement("button"));
-		copyBtn.innerHTML="Copy";
-		copyBtn.style.float="right";
-
-		delBtn.onclick = (evt) => 
-		{
-			document.body.removeChild(outDiv); 
-			outDiv = null;
-			btnDiv = null;
-			delBtn = null;
-			copyBtn = null;
-		}
-
-		copyBtn.onclick = (evt) => 
-		{
-			navigator.clipboard.writeText(contentTxt.innerText)
-		}
+		let outDiv = document.body.appendChild(document.createElement("output-div"));
 
 		try
 		{
 			let p = window.myapi.psychrometry(Keys, Vals);
-			contentTxt.innerHTML = p.to_html();
+			outDiv.setAttribute("data-text", p.to_html());
 			outDiv.scrollIntoView();
 
 			infoDiv.style.display = "none";

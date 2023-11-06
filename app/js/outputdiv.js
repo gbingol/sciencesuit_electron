@@ -1,9 +1,10 @@
 class DivOutput extends HTMLElement 
 {
-	constructor() {
-		// Always call super first in constructor
+	static observedAttributes = ["data-text"];
+	constructor() 
+	{
 		super();
-	  }
+	}
 	
 	connectedCallback() 
 	{
@@ -13,7 +14,8 @@ class DivOutput extends HTMLElement
 		outDiv.setAttribute("class", "output");
 		outDiv.style.position="relative";
 
-		let contentTxt = outDiv.appendChild(document.createElement("div"));
+		this.contentTxt = outDiv.appendChild(document.createElement("div"));
+
 		let btnDiv = outDiv.appendChild(document.createElement("div"));
 		btnDiv.style.position="absolute";
 		btnDiv.style.right=0;
@@ -29,7 +31,7 @@ class DivOutput extends HTMLElement
 
 		delBtn.onclick = (evt) => 
 		{
-			document.body.removeChild(outDiv); 
+			shadow.removeChild(outDiv); 
 			outDiv = null;
 			btnDiv = null;
 			delBtn = null;
@@ -38,7 +40,18 @@ class DivOutput extends HTMLElement
 
 		copyBtn.onclick = (evt) => 
 		{
-			navigator.clipboard.writeText(contentTxt.innerText)
+			let type = "text/html";
+			let text = this.contentTxt.innerHTML;
+			let blob = new Blob([text], { type });
+			let data = [new ClipboardItem({ [type]: blob })];
+			navigator.clipboard.write(data).then(
+				function () {
+				/* success */
+				},
+				function () {
+				/* failure */
+				}
+			);
 		}
 	
 		const style = document.createElement("style");
@@ -54,11 +67,16 @@ class DivOutput extends HTMLElement
 		}
 		`;
 	
-		// Attach the created elements to the shadow dom
 		shadow.appendChild(style);	
 		shadow.appendChild(outDiv);
-	  }
 	}
+
+	attributeChangedCallback(name, oldValue, newValue) 
+	{
+		this.contentTxt.innerHTML = newValue
+	}
+
+}
 	
 	// Define the new element
-customElements.define("output", DivOutput);
+customElements.define("output-div", DivOutput);
