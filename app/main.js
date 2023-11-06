@@ -13,8 +13,8 @@ const mainWindow = new BrowserWindow({
 		sandbox: false
 	}
 })
-  mainWindow.loadFile('index.html')
-  
+  mainWindow.loadFile('app/index.html')
+  console.log(__dirname)
 }
 
 

@@ -17,7 +17,7 @@ var fs = require('fs')
       , bindings: 'bindings.node'
       , try: [
           // node-waf and gyp_addon (a.k.a node-gyp)
-        	[ 'module_root', 'libscisuit', 'bindings' ]
+        	[ 'module_root','app', 'libscisuit', 'bindings' ]
 		// Release files, but manually compiled (legacy behavior, remove for node v0.9)
 		, [ 'module_root', 'out', 'bindings' ]
 		, [ 'module_root', 'bindings' ]

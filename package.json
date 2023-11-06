@@ -2,7 +2,7 @@
   "name": "electron-app",
   "version": "1.0.0",
   "description": "A dummy package",
-  "main": "main.js",
+  "main": "./app/main.js",
   "scripts": {
     "start": "electron ."
   },
