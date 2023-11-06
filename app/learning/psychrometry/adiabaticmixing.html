@@ -4,37 +4,137 @@
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Adiabatic Mixing</title>
+
+	<script src="../../js/jquery-3.7.1.min.js"></script>
+
+	<style>
+		p.info
+		{
+			margin-right: 4em;
+			font-size: large;
+		}
+
+		ol.question li{
+			font-size: large;
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		div.img
+		{
+			display: flex;
+			justify-content: center;
+		}
+
+		span.red{
+			color: red;
+		}
+
+		span.blue{
+			color:blue;
+		}
+
+		@media only screen and (max-width:900px)
+		{
+			p.info{
+				margin-right: auto;
+			}
+		}
+    </style>
 </head>
 
 
 <body>
-<p align="center"><img src="adiabaticmixing.png" alt=""></p>
 
-<p>
+<div id="header"></div>
+
+<script>
+	$("#header").load("../../menu.html");
+	function GoHome() 
+	{
+		location.href="../../index.html";
+	}
+</script>
+
+
+<div id="desktopmenu" style="position: relative; z-index:100;">
+	
+	<ul class="desktopmenubar">
+
+		<li class="singlemenu">
+			<a class="active"  href="../../index.html">Home</a>
+		</li>
+		
+		<li class="singlemenu">
+			<a href="../../psychrometrycalc.html">Compute</a>
+		</li>
+		
+		<li class="dropdownmenu"> 
+			<a class="dropbutton" href="#">Simulations</a>
+	
+			<div class="drop_menuitems">
+				<a href="adiabaticmixing.html">Adiabatic mixing</a>
+				<a href="coolingdehumid.html">Cooling with dehumidification</a>
+				<a href="evaporativecooling.html">Evaporative cooling</a>
+				<a href="heatingwithhumidification.html">Heating with humidification</a>
+			</div>
+		</li>
+	</ul>
+	
+</div>
+
+	
+<div id="mobilemenu" class="mobileoverlay">
+
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+	<div class="overlay-content">
+		<a href="../../index.html">Home</a>
+		<a href="../../psychrometrycalc.html">Compute</a>
+		<a href="adiabaticmixing.html">Adiabatic mixing</a>
+		<a href="coolingdehumid.html">Cooling with dehumidification</a>
+		<a href="evaporativecooling.html">Evaporative cooling</a>
+		<a href="heatingwithhumidification.html">Heating with humidification</a>
+	</div>
+</div>
+
+
+<h1>Adiabatic Mixing of Air Streams</h1>
+<div class="img">
+	<img src="adiabaticmixing.png" alt="">
+</div>
+
+
+<p class="info">
 	Humid air leaving an air conditioning system at 
-	<font color ="red">T<sub>1</sub>&deg;C and RH<sub>1</sub>%</font> 
+	<span class="red">T<sub>1</sub>&deg;C and RH<sub>1</sub>%</span> 
 	at a rate of 
-	<font color ="red">V<sub>1</sub> (m<sup>3</sup>/time)</font> 
+	<span class="red">V<sub>1</sub> (m<sup>3</sup>/time)</span> 
 	is mixed adiabatically with outside air at 
-	<font color ="blue">T<sub>2</sub>&deg;C and RH<sub>2</sub>%</font> 
+	<span class="blue">T<sub>2</sub>&deg;C and RH<sub>2</sub>%</span> 
 	at a rate of 
-	<font color ="blue">V<sub>2</sub> (m<sup>3</sup>/time)</font>.</p>
+	<span class="blue">V<sub>2</sub> (m<sup>3</sup>/time)</span>.</p>
 
-<p>
+
+<p class="info">
 	Assuming the whole process takes place at P(kPa), determine</p>
 
-<p><b>A)</b> Specific and relative humidities,</p>
-<p><b>B)</b> Dry-bulb temperature,</p>
-<p><b>C)</b> Flow rate (m<sup>3</sup>/time).</p>
+
+<ol class="question">
+	<li> Specific and relative humidities,</li>
+	<li> Dry-bulb temperature,</li>
+	<li> Flow rate (m<sup>3</sup>/time).</li>
+</ol>
+
 
 <p>&nbsp;</p>
 
-<p><b>Reference:</b>
-	<font size="small">
-		Cengel YA, Boles MA, Kanaoglu M (2019). 
-		Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.
-	</font>
-</p>
+
+
+<p style="font-size: small;"><b>Reference:</b>
+	Cengel YA, Boles MA, Kanaoglu M (2019). 
+	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
+
 
 </body>
 </html>
