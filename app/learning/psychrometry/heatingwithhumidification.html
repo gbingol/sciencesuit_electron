@@ -5,38 +5,97 @@
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Heating with Humidification</title>
+
+	
+	<style>
+		p.info
+		{
+			margin-right: 4em;
+			font-size: large;
+		}
+
+		ol.question li{
+			font-size: large;
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		div.img
+		{
+			display: flex;
+			justify-content: center;
+		}
+
+		span.red{
+			color: red;
+		}
+
+		span.blue{
+			color:blue;
+		}
+
+		@media only screen and (max-width:900px)
+		{
+			p.info{
+				margin-right: auto;
+			}
+		}
+    </style>
+
+	<script src="../../js/jquery-3.7.1.min.js"></script>
 </head>
 
 
 <body>
-<p><img src="heatingwithhumidification.png" alt=""></p>
 
-<p>
+<div id="header"></div>
+
+<script>
+	$("#header").load("../../mainmenu.html");
+
+	let content;
+	$.get("psy_menu.html", function(data)
+	{
+		content = data;
+		$("#header").append(content);
+	});
+	
+</script>
+
+
+<h1>Heating with Humidification</h1>
+
+<div class="img">
+	<img src="heatingwithhumidification.png" alt="">
+</div>
+
+<p class="info">
 	An air conditioning system takes in outdoor air at 
-	<font color ="blue">T<sub>1</sub>&deg;C</font> and 
-	<font color ="blue">%RH<sub>1</sub></font> relative humidity at a steady rate of 
-	<font color ="blue">V<sub>1</sub> (m<sup>3</sup>/time)</font> 
+	<span class ="blue">T<sub>1</sub>&deg;C</span> and 
+	<span class ="blue">%RH<sub>1</sub></span> relative humidity at a steady rate of 
+	<span class ="blue">V<sub>1</sub> (m<sup>3</sup>/time)</span> 
 	and conditions to 
-	<font color ="red">T<sub>3</sub>&deg;C, %RH<sub>3</sub></font> relative humidity.</p>
+	<span class ="red">T<sub>3</sub>&deg;C, %RH<sub>3</sub></span> relative humidity.</p>
 
 
 
-<p>
+<p class="info">
 	The outdoor air is first heated to T<sub>2</sub>&deg;C in the heating section 
 	and then humidified by the injection of hot steam in the humidifying section. 
 	Assume the whole process takes place at P(kPa).</p>
 
-<p><b>A)</b> Heat supply in the heating section (kJ/s)</p>
-<p><b>B)</b> Mass flow rate of the steam required in the humidifying section.</p>
+<ol class="question">
+	<li> Heat supply in the heating section (kJ/s)</li>
+	<li> Mass flow rate of the steam required in the humidifying section.</li>
+</ol>
 
 <p>&nbsp;</p>
 
-<p><b>Reference:</b>
-	<font size="small">
-		Cengel YA, Boles MA, Kanaoglu M (2019). 
-		Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.
-	</font>
-</p>
+
+<p style="font-size: small;"><b>Reference:</b>
+	Cengel YA, Boles MA, Kanaoglu M (2019). 
+	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
+
 
 </body>
 </html>

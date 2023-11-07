@@ -5,19 +5,80 @@
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Evaporative Cooling</title>
+
+	
+	<style>
+		p.info
+		{
+			margin-right: 4em;
+			font-size: large;
+		}
+
+		ol.question li{
+			font-size: large;
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		div.img
+		{
+			display: flex;
+			justify-content: center;
+		}
+
+		span.red{
+			color: red;
+		}
+
+		span.blue{
+			color:blue;
+		}
+
+		@media only screen and (max-width:900px)
+		{
+			p.info{
+				margin-right: auto;
+			}
+		}
+    </style>
+
+	<script src="../../js/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
-<p align="center"><img src="evaporativecooling.png" alt=""></p>
 
-<p>
+<div id="header"></div>
+
+<script>
+	$("#header").load("../../mainmenu.html");
+
+	let content;
+	$.get("psy_menu.html", function(data)
+	{
+		content = data;
+		$("#header").append(content);
+	});
+	
+</script>
+
+
+<h1>Evaporative Cooling</h1>
+
+<div class="img">
+	<img src="evaporativecooling.png" alt="">
+</div>
+
+<p class="info">
 	Air enters an evaporative cooler at P (kPa), 
-	<font color="red">T<sub>1</sub>&deg;C and %RH<sub>1</sub></font> relative humidity, 
+	<span class="red">T<sub>1</sub>&deg;C and %RH<sub>1</sub></span> relative humidity, 
 	and it exits at 
-	<font color="blue">%RH<sub>2</sub></font> relative humidity.  Determine</p>
+	<span class="blue">%RH<sub>2</sub></span> relative humidity. Determine</p>
 
-<p><b>A)</b> The exit temperature of the air,</p>
-<p><b>B)</b> The lowest temperature to which the air can be cooled by this evaporative cooler.</p>
+<ol class="question">
+	<li>The exit temperature of the air,</li>
+	<li> The lowest temperature to which the air can be cooled by this evaporative cooler.</li>
+</ol>
+
 
 <p>
 	<i>HINT: Assume that wet-bulb temperature and enthalpy are constant.</i>
@@ -25,12 +86,11 @@
 
 <p>&nbsp;</p>
 
-<p><b>Reference:</b>
-	<font size="small">
-		Cengel YA, Boles MA, Kanaoglu M (2019). 
-		Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.
-	</font>
-</p>
+
+<p style="font-size: small;"><b>Reference:</b>
+	Cengel YA, Boles MA, Kanaoglu M (2019). 
+	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
+
 
 </body>
 </html>
