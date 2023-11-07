@@ -8,6 +8,27 @@
 	<script src="../../js/jquery-3.7.1.min.js"></script>
 
 	<style>
+		table{
+			margin-left: 10px;
+			float: left;
+			width: 50%;
+			background-color: antiquewhite;
+		}
+		td{
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		td:nth-child(1)
+		{
+			font-weight: bold;
+			max-width: 2em;
+		}
+
+		input[type=text]{
+			width: 90%;
+		}
+
 		p.info
 		{
 			margin-right: 4em;
@@ -34,10 +55,14 @@
 			color:blue;
 		}
 
-		@media only screen and (max-width:900px)
+		@media only screen and (max-width:600px)
 		{
 			p.info{
 				margin-right: auto;
+			}
+
+			table{
+				width: 80%;
 			}
 		}
     </style>
@@ -88,13 +113,126 @@
 </ol>
 
 
-<p>&nbsp;</p>
-
-
-
 <p style="font-size: small;"><b>Reference:</b>
 	Cengel YA, Boles MA, Kanaoglu M (2019). 
 	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
+
+
+<p>&nbsp;</p>
+
+<table id="inputtable">
+	<tr>
+		<td>P:</td>
+		<td><input type="text" id="txtP" placeholder="Pressure (kPa)"></td>
+	</tr>
+	<tr>
+		<td>T<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtT1" placeholder="°C"></td>
+	</tr>
+	
+	<tr>
+		<td>RH<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtRH1" placeholder="%"></td>
+	</tr>
+
+	<tr>
+		<td>V<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtV1" placeholder="m3/time"></td>
+	</tr>
+	
+	<tr>
+		<td>T<sub>2</sub>: </label></td>
+		<td><input type="text" id="txtT2" placeholder="°C"></td>
+	</tr>
+	
+	<tr>
+		<td>RH<sub>2</sub>: </label></td>
+		<td><input type="text" id="txtRH2" placeholder="%"></td>
+	</tr>
+
+	<tr>
+		<td>V<sub>2</sub>: </label></td>
+		<td><input type="text" id="txtV2" placeholder="m3/time"></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" style="text-align: center; padding-top: 12px;">
+			<label style="float: left;" for="digits">Digits:</label>
+			<input style="width: 3em; float: left;" type="number" value="3" min="1" max="6" id="txtDigits">
+			
+			<button id="compute" type="button">Compute</button>
+		</td>
+	</tr>
+		
+</table>
+	
+<div id="info"></div>
+
+<script>
+	const btn = document.getElementById('compute');
+	const txtP =  document.getElementById('txtP');
+
+	const txtT1 =  document.getElementById('txtT1');
+	const txtRH1 =  document.getElementById('txtRH1');
+	const txtV1 =  document.getElementById('txtV1');
+
+	const txtT2 =  document.getElementById('txtT2');
+	const txtRH2 =  document.getElementById('txtRH2');
+	const txtV2 =  document.getElementById('txtV2');
+
+	const txtDigits =  document.getElementById('txtDigits');
+
+	function checkInputs()
+	{
+		let inputs = document.getElementsByClassName("input")
+		for(let i=0; i<inputs.length; ++i)
+		{
+			let elem = input[i];
+						
+			if(elem.type === "text" || elem.type === "number")
+			{
+				if(elem.value ==="" || isNaN(elem.value))
+				{
+					infoDiv.style.display = "inline";
+					infoDiv.innerHTML = "Value for <span style=color:red;>" + elem.id + "</span> is missing or not a number.";
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	function compute(P, T1, RH1, V1, T2, RH2, V2)
+	{
+		let p = window.myapi.psychrometry(Keys, Vals);
+		
+		st1 = psychrometry(Tdb=T1, RH=RH1, P=P)
+		v1 ,  h1, w1 = st1.V, st1.H, st1.W
+
+		st2 = psychrometry(Tdb=T2, RH=RH2, P=P)
+		v2 ,  h2, w2 = st2.V, st2.H, st2.W
+
+		ma1, ma2 = V1/v1, V2/v2   //(m3/time) / (m3/kg da) = kg da /time
+		ma3 = ma1 + ma2
+
+		w3 = (w2*ma2 + w1*ma1)/(ma1 + ma2)
+		h3 = (h2*ma2 + h1*ma1)/(ma1 + ma2)
+
+		st3 = psychrometry(w = w3, h = h3, P = P)
+		V3 = st3.V*ma3
+
+		return w3, h3, V3, st3
+	}
+
+	btn.addEventListener("click", (evt) => 
+	{
+		let infoDiv = document.querySelector("#info");
+		if(!checkInputs())
+			return true;
+	
+	});
+</script>
 
 
 </body>
