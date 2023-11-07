@@ -15,8 +15,7 @@ class Psychrometry
 		if (!Array.isArray(Values))
 			throw ("Second argument must be array");
 
-		let jsonstr = addon.psy(Keys, Values, "json");
-		let e = JSON.parse(jsonstr);
+		let e = addon.psy(Keys, Values);
 
 		this._P = e.p;
 		this._Tdb = e.tdb;
@@ -48,26 +47,34 @@ class Psychrometry
 
 	V = () => { return this._V; }
 
+	round(number, digits)
+	{
+		if (Number.isInteger(number))
+			return number;
+
+		return number.toFixed(digits)
+	}
 
 	/**
+	 * @param {Number} digits
 	 * @returns {string}
 	 */
-	to_html = () =>
+	to_html = (digits=3) =>
 	{
 		let s = "";
 			
-		s += "<b>P=</b>" + this.P() + " kPa <br>";
-		s += "<b>T<sub>db</sub>=</b>" + this.Tdb() + " &deg;C <br>";
-		s += "<b>T<sub>wb</sub>=</b>" + this.Twb() + " &deg;C <br>";
-		s += "<b>T<sub>dp</sub>=</b>" + this.Tdp() + " &deg;C <br>";
-		s += "<b>h=</b>" + this.H() + " kJ/kg da<br>";
-		s += "<b>w=</b>" + this.W() + " kg/kg da <br>";
-		s += "<b>RH=</b>" + this.RH() + " % <br>";
-		s += "<b>V=</b>" + this.W() + " m<sup>3</sup> / kg da <br><br>";
+		s += "<b>P=</b>" + this.round(this.P(), digits) + " kPa <br>";
+		s += "<b>T<sub>db</sub>=</b>" + this.round(this.Tdb(), digits) + " &deg;C <br>";
+		s += "<b>T<sub>wb</sub>=</b>" + this.round(this.Twb(),  digits) + " &deg;C <br>";
+		s += "<b>T<sub>dp</sub>=</b>" + this.round(this.Tdp(), digits) + " &deg;C <br>";
+		s += "<b>h=</b>" + this.round(this.H(), digits) + " kJ/kg da<br>";
+		s += "<b>w=</b>" + this.round(this.W(), digits) + " kg/kg da <br>";
+		s += "<b>RH=</b>" + this.round(this.RH(), digits) + " % <br>";
+		s += "<b>V=</b>" + this.round(this.W(), digits) + " m<sup>3</sup> / kg da <br><br>";
 
 		s += "<i>Other properties</i> <br>"
-		s += "<b>P<sub>w</sub>=</b>" + this.Pw() + " kPa <br>";
-		s += "<b>P<sub>ws</sub>=</b>" + this.Pws() + " kPa";
+		s += "<b>P<sub>w</sub>=</b>" + this.round(this.Pw(), digits) + " kPa <br>";
+		s += "<b>P<sub>ws</sub>=</b>" + this.round(this.Pws(), digits) + " kPa";
 
 		return s;
 	}
