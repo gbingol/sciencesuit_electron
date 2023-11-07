@@ -93,7 +93,7 @@
 
 <p class="info">
 	Humid air leaving an air conditioning system at 
-	
+
 	<span class="red">T<sub>1</sub>&deg;C, RH<sub>1</sub>%</span> 
 	at a rate of <span class="red">V<sub>1</sub> (m<sup>3</sup>/time)</span> 
 	is mixed adiabatically with outside air at 
@@ -205,24 +205,29 @@
 
 	function compute(P, T1, RH1, V1, T2, RH2, V2)
 	{
-		let p = window.myapi.psychrometry(Keys, Vals);
+		let st1 = window.myapi.psychrometry({"tdb":T1, "rh":RH1, "p":P});
 		
-		st1 = psychrometry(Tdb=T1, RH=RH1, P=P)
-		v1 ,  h1, w1 = st1.V, st1.H, st1.W
+		v1 = st1.V()
+		h1 = st1.H()
+		w1 = st1.W()
 
-		st2 = psychrometry(Tdb=T2, RH=RH2, P=P)
-		v2 ,  h2, w2 = st2.V, st2.H, st2.W
+		let st2 = window.myapi.psychrometry({"tdb":T2, "rh":RH2, "p":P});
+		v2 = st2.V()
+		h2 = st2.H()
+		w2 = st2.W()
 
-		ma1, ma2 = V1/v1, V2/v2   //(m3/time) / (m3/kg da) = kg da /time
+		//(m3/time) / (m3/kg da) = kg da /time
+		ma1 = V1/v1
+		ma2 = V2/v2
 		ma3 = ma1 + ma2
 
 		w3 = (w2*ma2 + w1*ma1)/(ma1 + ma2)
 		h3 = (h2*ma2 + h1*ma1)/(ma1 + ma2)
 
-		st3 = psychrometry(w = w3, h = h3, P = P)
-		V3 = st3.V*ma3
+		let st3 = psychrometry({"w":w3, "h": h3, "p": P});
+		V3 = st3.V()*ma3
 
-		return w3, h3, V3, st3
+		return {"w":w3, "h":h3, "v":V3, "st":st3}
 	}
 
 	btn.addEventListener("click", (evt) => 
