@@ -31,6 +31,11 @@ class Psychrometry
 		this._Ws = e.ws;
 	}
 
+	static Instance(obj)
+	{
+		return new Psychrometry(Object.keys(obj), Object.values(obj));
+	}
+
 	P = () => { return this._P; }
 	Pw = () => { return this._Pw; }
 	Pws = () => { return this._Pws; }

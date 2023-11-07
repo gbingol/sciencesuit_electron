@@ -12,9 +12,12 @@ const { Psychrometry } = require('../build/sci_core.js');
  * @param {Array} v 
  * @returns Psychrometry
 */
-function psychrometry(k, v)
+function psychrometry(k, v=null)
 {
-	return new Psychrometry(k, v);
+	if(v!=null)
+		return new Psychrometry(k, v);
+
+	return Psychrometry.Instance(k);
 }
 
 
