@@ -197,6 +197,9 @@
 
 <tr>
 	<td colspan="2" style="text-align: center; padding-top: 12px;">
+		<label style="float: left;" for="digits">Digits:</label>
+		<input style="width: 3em; float: left;" type="number" value="3" min="1" max="6" id="txtDigits">
+		
 		<button id="compute" type="button" disabled>Compute</button>
 	</td>
 </tr>
@@ -224,6 +227,8 @@
 	const txtRH =  document.getElementById('txtRH');
 	const txtH =  document.getElementById('txtH');
 	const txtV =  document.getElementById('txtV');
+
+	const txtDigits =  document.getElementById('txtDigits');
 
 	const elems = [
 		["p", chkP, txtP],
@@ -300,12 +305,20 @@
 			}
 		}
 
+		let digits = parseInt(txtDigits.value);
+		if(digits<1 || digits>6)
+		{
+			infoDiv.style.display = "inline";
+			infoDiv.innerHTML = "Digits must be in [1, 6]";
+			return true;
+		}
+
 		let outDiv = document.body.appendChild(document.createElement("output-div"));
 
 		try
 		{
 			let p = window.myapi.psychrometry(Keys, Vals);
-			outDiv.setAttribute("data-text", p.to_html());
+			outDiv.setAttribute("data-text", p.to_html(digits));
 			outDiv.scrollIntoView();
 
 			infoDiv.style.display = "none";
