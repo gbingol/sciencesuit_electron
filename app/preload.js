@@ -3,7 +3,7 @@ const os = require('os');
 
 const { exec } = require('child_process');
 
-const { Psychrometry } = require('../build/main.js');
+const { Psychrometry } = require('../build/sci_core.js');
 
 
 

@@ -1,5 +1,6 @@
 var addon = require('bindings')('nodebind');
 
+
 class Psychrometry
 {
 	/**
@@ -103,5 +104,7 @@ class Psychrometry
 	}
 
 }
+
+
 
 module.exports = { Psychrometry };
