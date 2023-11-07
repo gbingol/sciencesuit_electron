@@ -313,11 +313,12 @@
 			return true;
 		}
 
-		let outDiv = document.body.appendChild(document.createElement("output-div"));
-
+		
 		try
 		{
 			let p = window.myapi.psychrometry(Keys, Vals);
+
+			let outDiv = document.body.appendChild(document.createElement("output-div"));
 			outDiv.setAttribute("data-text", p.to_html(digits));
 			outDiv.scrollIntoView();
 
@@ -327,11 +328,6 @@
 		{
 			infoDiv.style.display = "inline";
 			infoDiv.innerHTML = e;
-			document.body.removeChild(outDiv); 
-			outDiv = null;
-			btnDiv = null;
-			delBtn = null;
-			copyBtn = null;
 		}
 	});
 </script>
