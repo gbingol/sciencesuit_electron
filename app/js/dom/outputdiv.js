@@ -45,8 +45,20 @@ class DivOutput extends HTMLElement
 			let blob = new Blob([text], { type });
 			let data = [new ClipboardItem({ [type]: blob })];
 			navigator.clipboard.write(data).then(
-				function () {
-				/* success */
+				function ()
+				{
+					let msgBox = document.createElement("div");
+					msgBox.style.position = "fixed";
+					msgBox.style.bottom = "0px";
+					msgBox.style.left = "50%";
+					msgBox.style.border = "3px solid goldenrod";
+					msgBox.style.backgroundColor = "azure"
+					msgBox.style.fontSize = "1.3em";
+					msgBox.innerHTML = "Copied to clipboard";
+					
+					document.body.appendChild(msgBox);
+
+					setTimeout(() => { document.body.removeChild(msgBox); }, 2500);
 				},
 				function () {
 				/* failure */
@@ -78,5 +90,4 @@ class DivOutput extends HTMLElement
 
 }
 	
-	// Define the new element
 customElements.define("output-div", DivOutput);
