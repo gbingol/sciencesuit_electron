@@ -6,6 +6,8 @@
 	<title>Adiabatic Mixing</title>
 
 	<script src="../../js/jquery-3.7.1.min.js"></script>
+	<script src="../../js/math.js"></script>
+	<script src="../../js/outputdiv.js" defer></script>
 
 	<style>
 		table{
@@ -168,7 +170,9 @@
 	
 <div id="info"></div>
 
-<script>
+<script type="module">
+	"use strict";
+
 	const btn = document.getElementById('compute');
 	const txtP =  document.getElementById('txtP');
 
@@ -203,39 +207,74 @@
 		return true;
 	}
 
+	
 	function compute(P, T1, RH1, V1, T2, RH2, V2)
 	{
 		let st1 = window.myapi.psychrometry({"tdb":T1, "rh":RH1, "p":P});
 		
-		v1 = st1.V()
-		h1 = st1.H()
-		w1 = st1.W()
+		let v1 = st1.V()
+		let h1 = st1.H()
+		let w1 = st1.W()
 
 		let st2 = window.myapi.psychrometry({"tdb":T2, "rh":RH2, "p":P});
-		v2 = st2.V()
-		h2 = st2.H()
-		w2 = st2.W()
+		let v2 = st2.V()
+		let h2 = st2.H()
+		let w2 = st2.W()
 
 		//(m3/time) / (m3/kg da) = kg da /time
-		ma1 = V1/v1
-		ma2 = V2/v2
-		ma3 = ma1 + ma2
+		let ma1 = V1/v1
+		let ma2 = V2/v2
+		let ma3 = ma1 + ma2
 
-		w3 = (w2*ma2 + w1*ma1)/(ma1 + ma2)
-		h3 = (h2*ma2 + h1*ma1)/(ma1 + ma2)
+		let w3 = (w2*ma2 + w1*ma1)/(ma1 + ma2)
+		let h3 = (h2*ma2 + h1*ma1)/(ma1 + ma2)
 
-		let st3 = psychrometry({"w":w3, "h": h3, "p": P});
-		V3 = st3.V()*ma3
+		let st3 = window.myapi.psychrometry({"w":w3, "h": h3, "p": P});
+		let V3 = st3.V()*ma3
 
 		return {"w":w3, "h":h3, "v":V3, "st":st3}
 	}
 
 	btn.addEventListener("click", (evt) => 
 	{
+		
+
 		let infoDiv = document.querySelector("#info");
 		if(!checkInputs())
 			return true;
-	
+
+		let P = parseFloat(txtP.value)*1000; //Pa
+		let T1 = parseFloat(txtT1.value);
+		let RH1 = parseFloat(txtRH1.value);
+		let V1 = parseFloat(txtV1.value);
+		let T2 = parseFloat(txtT2.value);
+		let RH2 = parseFloat(txtRH2.value);
+		let V2 = parseFloat(txtV2.value);
+
+		let digits = parseInt(txtDigits.value);
+
+		try
+		{
+			let obj = compute(P, T1, RH1, V1, T2, RH2, V2);
+			let w3 = obj.w, h3 = obj.h, V3=obj.v, st3=obj.st;
+
+			let s = "<b>w=</b>" + math.round(w3, digits) + "kg / kg da <br>";
+			s += "<b>RH=</b>" + math.round(st3.RH(), digits) + "% <br>";
+			s += "<b>T<sub>db</sub>=</b>" + math.round(st3.Tdb(), digits) + "&deg;C <br>";
+			s += "<b>h=</b>" + math.round(h3, digits) + "kJ / kg da <br>";
+			s += "<b>Flow Rate=</b>" + math.round(V3, digits) + "m<sup>3</sup> / time";
+
+			let outDiv = document.body.appendChild(document.createElement("output-div"));
+			outDiv.setAttribute("data-text", s);
+			outDiv.scrollIntoView();
+
+			infoDiv.style.display = "none";
+		}
+		catch(e)
+		{
+			infoDiv.style.display = "inline";
+			infoDiv.innerHTML = e;
+		}
 	});
 </script>
 
