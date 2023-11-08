@@ -6,8 +6,8 @@
 	<title>Adiabatic Mixing</title>
 
 	<script src="../../js/jquery-3.7.1.min.js"></script>
-	<script src="../../js/math.js"></script>
-	<script src="../../js/outputdiv.js" defer></script>
+	<script src="../../js/util.js"></script>
+	<script src="../../js/dom/outputdiv.js" defer></script>
 
 	<style>
 		table{
@@ -258,11 +258,11 @@
 			let obj = compute(P, T1, RH1, V1, T2, RH2, V2);
 			let w3 = obj.w, h3 = obj.h, V3=obj.v, st3=obj.st;
 
-			let s = "<b>w=</b>" + math.round(w3, digits) + "kg / kg da <br>";
-			s += "<b>RH=</b>" + math.round(st3.RH(), digits) + "% <br>";
-			s += "<b>T<sub>db</sub>=</b>" + math.round(st3.Tdb(), digits) + "&deg;C <br>";
-			s += "<b>h=</b>" + math.round(h3, digits) + "kJ / kg da <br>";
-			s += "<b>Flow Rate=</b>" + math.round(V3, digits) + "m<sup>3</sup> / time";
+			let s = "<b>w=</b>" + util.math.round(w3, digits) + "kg / kg da <br>";
+			s += "<b>RH=</b>" + util.math.round(st3.RH(), digits) + "% <br>";
+			s += "<b>T<sub>db</sub>=</b>" + util.math.round(st3.Tdb(), digits) + "&deg;C <br>";
+			s += "<b>h=</b>" + util.math.round(h3, digits) + "kJ / kg da <br>";
+			s += "<b>Flow Rate=</b>" + util.math.round(V3, digits) + "m<sup>3</sup> / time";
 
 			let outDiv = document.body.appendChild(document.createElement("output-div"));
 			outDiv.setAttribute("data-text", s);
