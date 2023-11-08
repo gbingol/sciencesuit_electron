@@ -31,6 +31,11 @@
 			width: 90%;
 		}
 
+		input[type=text]:focus {
+    outline: 3px solid #FFCC00;
+    box-shadow: 0 0 10px #FFCC00;
+  }
+
 		p.info
 		{
 			margin-right: 4em;
@@ -47,14 +52,6 @@
 		{
 			display: flex;
 			justify-content: center;
-		}
-
-		span.red{
-			color: red;
-		}
-
-		span.blue{
-			color:blue;
 		}
 
 		@media only screen and (max-width:600px)
@@ -96,16 +93,19 @@
 <p class="info">
 	Humid air leaving an air conditioning system at 
 
-	<span class="red">T<sub>1</sub>&deg;C, RH<sub>1</sub>%</span> 
-	at a rate of <span class="red">V<sub>1</sub> (m<sup>3</sup>/time)</span> 
+	<span id="T1">T<sub>1</sub></span>&deg;C, 
+	<span id="RH1">RH<sub>1</sub></span>% 
+	at a rate of <span id="V1">V<sub>1</sub></span> (m<sup>3</sup>/time) 
 	is mixed adiabatically with outside air at 
 
-	<span class="blue">T<sub>2</sub>&deg;C, RH<sub>2</sub>%</span> 
-	at a rate of <span class="blue">V<sub>2</sub> (m<sup>3</sup>/time)</span>.</p>
+	<span id="T2">T<sub>2</sub></span>&deg;C, 
+	<span id="RH2">RH<sub>2</sub></span>% 
+	at a rate of 
+	<span id="V2">V<sub>2</sub></span> (m<sup>3</sup>/time).</p>
 
 
 <p class="info">
-	Assuming the whole process takes place at P(kPa), determine</p>
+	Assuming the whole process takes place at <span id="P">P</span>(kPa), determine</p>
 
 
 <ol class="question">
@@ -180,25 +180,63 @@
 	const txtRH1 =  document.getElementById('txtRH1');
 	const txtV1 =  document.getElementById('txtV1');
 
+	txtP.addEventListener("input", (evt)=> {
+		let v = evt.target.value;
+		document.getElementById("P").innerHTML = v === ""? "P" : v; 
+	});
+	
+	txtT1.addEventListener("input", (evt)=> {
+		let v = evt.target.value;
+		document.getElementById("T1").innerHTML = v === ""? "T<sub>1</sub>" : v; 
+	});
+
+	txtRH1.addEventListener("input", (evt)=> {
+		let v = evt.target.value;
+		document.getElementById("RH1").innerHTML = v === ""? "RH<sub>1</sub>" : v; 
+	});
+
+	txtV1.addEventListener("input", (evt)=> {
+		let v = evt.target.value;
+		document.getElementById("V1").innerHTML = v === ""? "V<sub>1</sub>" : v; 
+	});
+
 	const txtT2 =  document.getElementById('txtT2');
 	const txtRH2 =  document.getElementById('txtRH2');
 	const txtV2 =  document.getElementById('txtV2');
 
+	txtT2.addEventListener("input", (evt)=> {
+		let v = evt.target.value;
+		document.getElementById("T2").innerHTML = v === ""? "T<sub>2</sub>" : v; 
+	});
+
+	txtRH2.addEventListener("input", (evt)=> {
+		let v = evt.target.value;
+		document.getElementById("RH2").innerHTML = v === ""? "RH<sub>2</sub>" : v; 
+	});
+
+	txtV2.addEventListener("input", (evt)=> {
+		let v = evt.target.value;
+		document.getElementById("V2").innerHTML = v === ""? "V<sub>1</sub>" : v; 
+	});
+
 	const txtDigits =  document.getElementById('txtDigits');
 
+	
 	function checkInputs()
 	{
-		let inputs = document.getElementsByClassName("input")
+		let inputs = document.getElementsByTagName("input")
 		for(let i=0; i<inputs.length; ++i)
 		{
-			let elem = input[i];
+			let elem = inputs[i];
 						
 			if(elem.type === "text" || elem.type === "number")
 			{
 				if(elem.value ==="" || isNaN(elem.value))
 				{
+					let infoDiv = document.querySelector("#info");
 					infoDiv.style.display = "inline";
-					infoDiv.innerHTML = "Value for <span style=color:red;>" + elem.id + "</span> is missing or not a number.";
+					infoDiv.innerHTML = "Value for is missing or not a number.";
+					elem.focus();
 					return false;
 				}
 			}
@@ -237,8 +275,6 @@
 
 	btn.addEventListener("click", (evt) => 
 	{
-		
-
 		let infoDiv = document.querySelector("#info");
 		if(!checkInputs())
 			return true;
