@@ -6,6 +6,27 @@
 	<title>Cooling with Dehumidification</title>
 
 	<style>
+		table{
+			margin-left: 10px;
+			float: left;
+			width: 50%;
+			background-color: antiquewhite;
+		}
+		td{
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		td:nth-child(1)
+		{
+			font-weight: bold;
+			max-width: 2em;
+		}
+
+		input[type=text]{
+			width: 90%;
+		}
+		
 		p.info
 		{
 			margin-right: 4em;
@@ -32,15 +53,21 @@
 			color:blue;
 		}
 
-		@media only screen and (max-width:900px)
+		@media only screen and (max-width:600px)
 		{
 			p.info{
 				margin-right: auto;
+			}
+
+			table{
+				width: 80%;
 			}
 		}
     </style>
 
 	<script src="../../js/jquery-3.7.1.min.js"></script>
+	<script src="../../js/util.js"></script>
+	<script src="../../js/dom/outputdiv.js" defer></script>
 </head>
 
 
@@ -89,6 +116,118 @@
 	Cengel YA, Boles MA, Kanaoglu M (2019). 
 	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
 
+
+<table id="inputtable">
+	<tr>
+		<td>P:</td>
+		<td><input type="text" id="txtP" placeholder="Pressure (kPa)"></td>
+	</tr>
+	<tr>
+		<td>T<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtT1" placeholder="°C"></td>
+	</tr>
+	
+	<tr>
+		<td>RH<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtRH1" placeholder="%"></td>
+	</tr>
+
+	<tr>
+		<td>V<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtV1" placeholder="m3/time"></td>
+	</tr>
+	
+	<tr>
+		<td>T<sub>3</sub>: </label></td>
+		<td><input type="text" id="txtT3" placeholder="°C"></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" style="text-align: center; padding-top: 12px;">
+			<label style="float: left;" for="digits">Digits:</label>
+			<input style="width: 3em; float: left;" type="number" value="3" min="1" max="6" id="txtDigits">
+			
+			<button id="compute" type="button">Compute</button>
+		</td>
+	</tr>
+		
+</table>
+	
+<div id="info"></div>
+
+<script type="module">
+	"use strict";
+
+	const btn = document.getElementById('compute');
+	const txtP =  document.getElementById('txtP');
+
+	const txtT1 =  document.getElementById('txtT1');
+	const txtRH1 =  document.getElementById('txtRH1');
+	const txtV1 =  document.getElementById('txtV1');
+
+	const txtT3 =  document.getElementById('txtT3');
+
+	const txtDigits =  document.getElementById('txtDigits');
+
+	function checkInputs()
+	{
+		let inputs = document.getElementsByClassName("input")
+		for(let i=0; i<inputs.length; ++i)
+		{
+			let elem = input[i];
+						
+			if(elem.type === "text" || elem.type === "number")
+			{
+				if(elem.value ==="" || isNaN(elem.value))
+				{
+					infoDiv.style.display = "inline";
+					infoDiv.innerHTML = "Value for <span style=color:red;>" + elem.id + "</span> is missing or not a number.";
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	btn.addEventListener("click", (evt) => 
+	{
+		let infoDiv = document.querySelector("#info");
+		if(!checkInputs())
+			return true;
+
+		let P = parseFloat(txtP.value)*1000; //Pa
+		let T1 = parseFloat(txtT1.value);
+		let RH1 = parseFloat(txtRH1.value);
+		let V1 = parseFloat(txtV1.value);
+		let T3 = parseFloat(txtT3.value);
+
+		let digits = parseInt(txtDigits.value);
+
+		try
+		{
+			let obj = compute(P, T1, RH1, V1, T2, RH2, V2);
+			let w3 = obj.w, h3 = obj.h, V3=obj.v, st3=obj.st;
+
+			let s = "<b>w=</b>" + util.math.round(w3, digits) + "kg / kg da <br>";
+			s += "<b>RH=</b>" + util.math.round(st3.RH(), digits) + "% <br>";
+			s += "<b>T<sub>db</sub>=</b>" + util.math.round(st3.Tdb(), digits) + "&deg;C <br>";
+			s += "<b>h=</b>" + util.math.round(h3, digits) + "kJ / kg da <br>";
+			s += "<b>Flow Rate=</b>" + util.math.round(V3, digits) + "m<sup>3</sup> / time";
+
+			let outDiv = document.body.appendChild(document.createElement("output-div"));
+			outDiv.setAttribute("data-text", s);
+			outDiv.scrollIntoView();
+
+			infoDiv.style.display = "none";
+		}
+		catch(e)
+		{
+			infoDiv.style.display = "inline";
+			infoDiv.innerHTML = e;
+		}
+	});
+</script>
 
 </body>
 </html>
