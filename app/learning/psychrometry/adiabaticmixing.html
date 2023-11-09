@@ -252,7 +252,7 @@
 			s += "<b>Flow Rate=</b>" + util.math.round(V3, digits) + "m<sup>3</sup> / time";
 
 			let outDiv = document.body.appendChild(document.createElement("output-div"));
-			outDiv.setAttribute("data-text", s);
+			outDiv.innerHTML = s;
 			outDiv.scrollIntoView();
 
 			infoDiv.style.display = "none";

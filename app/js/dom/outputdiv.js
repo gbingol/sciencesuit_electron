@@ -5,18 +5,24 @@ class DivOutput extends HTMLElement
 	{
 		super();
 	}
+
+	set innerHTML(val)
+	{
+		this.contentTxt.innerHTML = val;
+	}
 	
 	connectedCallback() 
 	{
 		const shadow = this.attachShadow({ mode: "open" });
 	
-		const outDiv = document.createElement("div");
-		outDiv.setAttribute("class", "output");
-		outDiv.style.position="relative";
+		this.outDiv = document.createElement("div");
+		this.outDiv.setAttribute("class", "output");
+		this.outDiv.style.position="relative";
 
-		this.contentTxt = outDiv.appendChild(document.createElement("div"));
+		this.contentTxt = this.outDiv.appendChild(document.createElement("div"));
+		
 
-		let btnDiv = outDiv.appendChild(document.createElement("div"));
+		let btnDiv = this.outDiv.appendChild(document.createElement("div"));
 		btnDiv.style.position="absolute";
 		btnDiv.style.right=0;
 		btnDiv.style.top="0px";
@@ -31,8 +37,8 @@ class DivOutput extends HTMLElement
 
 		delBtn.onclick = (evt) => 
 		{
-			shadow.removeChild(outDiv); 
-			outDiv = null;
+			shadow.removeChild(this.outDiv); 
+			this.outDiv = null;
 			btnDiv = null;
 			delBtn = null;
 			copyBtn = null;
@@ -80,7 +86,7 @@ class DivOutput extends HTMLElement
 		`;
 	
 		shadow.appendChild(style);	
-		shadow.appendChild(outDiv);
+		shadow.appendChild(this.outDiv);
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) 

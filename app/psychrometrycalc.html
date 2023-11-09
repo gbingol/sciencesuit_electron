@@ -342,7 +342,7 @@
 			let p = window.myapi.psychrometry(Keys, Vals);
 
 			let outDiv = document.body.appendChild(document.createElement("output-div"));
-			outDiv.setAttribute("data-text", p.to_html(digits));
+			outDiv.innerHTML = p.to_html(digits);
 			outDiv.scrollIntoView();
 
 			infoDiv.style.display = "none";

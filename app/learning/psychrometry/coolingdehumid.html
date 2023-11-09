@@ -254,7 +254,7 @@
 			s += "<b>Moisture Removal = </b>" + util.math.round(mw, digits) + " kg / time <br>";
 
 			let outDiv = document.body.appendChild(document.createElement("output-div"));
-			outDiv.setAttribute("data-text", s);
+			outDiv.innerHTML = s;
 			outDiv.scrollIntoView();
 
 			infoDiv.style.display = "none";
