@@ -50,7 +50,7 @@ class DivOutput extends HTMLElement
 					let msgBox = document.createElement("div");
 					msgBox.style.position = "fixed";
 					msgBox.style.bottom = "0px";
-					msgBox.style.left = "50%";
+					msgBox.style.left = "40%";
 					msgBox.style.border = "3px solid goldenrod";
 					msgBox.style.backgroundColor = "azure"
 					msgBox.style.fontSize = "1.3em";

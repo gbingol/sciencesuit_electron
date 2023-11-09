@@ -38,6 +38,11 @@
 			width: 90%;
 		}
 
+		input[type=text]:focus {
+			outline: 3px solid #FFCC00;
+			box-shadow: 0 0 10px #FFCC00;
+		}
+
 		#info{
 			float: left;
 			margin-left: 12px;
@@ -47,6 +52,22 @@
 			border-width: 1px;
 			font-size: medium;
 			display: none;
+		}
+
+		div.usage
+		{
+			border: 2px dotted green; 
+			background-color: floralwhite;
+			width: fit-content;
+		}
+
+		summary{
+			cursor: pointer;
+			width: fit-content;
+		}
+
+		summary:hover{
+			background-color: burlywood;
 		}
 
 		@media only screen and (max-width:600px)
@@ -101,18 +122,19 @@
 	
 <h1>Psychrometric Calculator</h1>
 
-<div style="border: 2px dotted green; background-color: floralwhite;">
-	<p>Usage:</p>
-
+<details>
+<summary>Usage</summary>
+<div class="usage">
 	<ol>
 		<li>Make <b>exactly</b> 3 selections,</li>
-		<li>Enter corresponding numeric values,</li>
+		<li>Enter the corresponding numeric values,</li>
 		<li>Click on compute,</li>
 		<li>Results will appear at the bottom.</li>
 	</ol>
 </div>
+</details>
 
-<p>&nbsp;</p>
+<br>
 
 <table id="inputtable">
 <tr>
@@ -284,7 +306,8 @@
 			if(txt.required && txt.value === "")
 			{
 				infoDiv.style.display = "inline";
-				infoDiv.innerHTML = "Value for <span style=color:red;>" + lbl + "</span> is missing.";
+				infoDiv.innerHTML = "Value is missing.";
+				txt.focus();
 				return true;
 			}
 				
@@ -296,7 +319,7 @@
 				{
 					infoDiv.style.display = "inline";
 					infoDiv.innerHTML = "<b>" + txt.value + "</b> is not a number"
-					txt.value = "";
+					txt.focus();
 					return true;
 				}
 
