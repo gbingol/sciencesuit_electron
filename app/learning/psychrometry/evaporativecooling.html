@@ -8,6 +8,32 @@
 
 	
 	<style>
+		table{
+			margin-left: 10px;
+			float: left;
+			width: 50%;
+			background-color: antiquewhite;
+		}
+		td{
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		td:nth-child(1)
+		{
+			font-weight: bold;
+			max-width: 2em;
+		}
+
+		input[type=text]{
+			width: 90%;
+		}
+
+		input[type=text]:focus {
+			outline: 3px solid #FFCC00;
+			box-shadow: 0 0 10px #FFCC00;
+		}
+
 		p.info
 		{
 			margin-right: 4em;
@@ -26,13 +52,7 @@
 			justify-content: center;
 		}
 
-		span.red{
-			color: red;
-		}
-
-		span.blue{
-			color:blue;
-		}
+		
 
 		@media only screen and (max-width:900px)
 		{
@@ -43,6 +63,8 @@
     </style>
 
 	<script src="../../js/jquery-3.7.1.min.js"></script>
+	<script src ="js/psyutil.js"></script>
+	<script src="../../js/dom/outputdiv.js" defer></script>
 </head>
 
 <body>
@@ -69,10 +91,12 @@
 </div>
 
 <p class="info">
-	Air enters an evaporative cooler at P (kPa), 
-	<span class="red">T<sub>1</sub>&deg;C and %RH<sub>1</sub></span> relative humidity, 
+	Air enters an evaporative cooler at 
+	<span id="P">101</span> (kPa), 
+	<span id="T1">T<sub>1</sub></span>&deg;C and 
+	<span id="RH1">RH<sub>1</sub></span>% relative humidity, 
 	and it exits at 
-	<span class="blue">%RH<sub>2</sub></span> relative humidity. Determine</p>
+	<span id="RH2">RH<sub>2</sub></span>% relative humidity. Determine</p>
 
 <ol class="question">
 	<li>The exit temperature of the air,</li>
@@ -81,8 +105,7 @@
 
 
 <p>
-	<i>HINT: Assume that wet-bulb temperature and enthalpy are constant.</i>
-</p>
+	<i>HINT: Assume that wet-bulb temperature and enthalpy are constant.</i></p>
 
 <p>&nbsp;</p>
 
@@ -91,6 +114,108 @@
 	Cengel YA, Boles MA, Kanaoglu M (2019). 
 	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
 
+<table id="inputtable">
+	<tr>
+		<td>P:</td>
+		<td><input type="text" id="txtP" placeholder="Pressure (kPa)" value="101"></td>
+	</tr>
+	<tr>
+		<td>T<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtT1" placeholder="°C"></td>
+	</tr>
+	
+	<tr>
+		<td>RH<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtRH1" placeholder="%"></td>
+	</tr>
+
+	<tr>
+		<td>RH<sub>2</sub>: </label></td>
+		<td><input type="text" id="txtRH2" placeholder="%"></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" style="text-align: center; padding-top: 12px;">
+			<label style="float: left;" for="digits">Digits:</label>
+			<input style="width: 3em; float: left;" type="number" value="3" min="1" max="6" id="txtDigits">
+			
+			<button id="compute" type="button">Compute</button>
+		</td>
+	</tr>
+		
+</table>
+	
+<div id="info"></div>
+
+<script type="module">
+	"use strict";
+
+	const btn = document.getElementById('compute');
+
+	const txtP =  document.getElementById('txtP');
+	const txtT1 =  document.getElementById('txtT1');
+	const txtRH1 =  document.getElementById('txtRH1');
+	const txtRH2 =  document.getElementById('txtRH2');
+
+	addInputListener(txtP, "P", "P");
+	addInputListener(txtT1, "T1", "T<sub>1</sub>");
+	addInputListener(txtRH1, "RH1", "RH<sub>1</sub>");
+	addInputListener(txtRH2, "RH2", "RH<sub>2</sub>");
+
+
+	const txtDigits =  document.getElementById('txtDigits');
+
+	
+	function compute(P, T1, RH1, V1, T3)
+	{
+		
+	}
+
+	btn.addEventListener("click", (evt) => 
+	{
+		let infoDiv = document.querySelector("#info");
+		if(!checkInputs())
+			return true;
+
+		let P = parseFloat(txtP.value)*1000; //Pa
+		let T1 = parseFloat(txtT1.value);
+		let RH1 = parseFloat(txtRH1.value);
+		let RH2 = parseFloat(txtRH2.value);
+
+		let digits = parseInt(txtDigits.value);
+
+		try
+		{
+			if (T3>=T1)
+				throw new Error("Outlet temperature must be smaller than inlet's.");
+			
+			const [Q, mw] = compute(P, T1, RH1, V1, T3)
+
+			let s = "<i>Input values</i> <br>";
+			s += "<b>Pressure</b> = " + txtP.value + " kPa <br>";
+			s += "<b>T<sub>1</sub></b> = " + txtT1.value + " &deg;C <br>";
+			s += "<b>RH<sub>1</sub></b> = " + txtRH1.value + " % <br>";
+			s += "<b>V<sub>1</sub></b> = " + txtV1.value + " m<sup>3</sup> / time <br>";
+			s += "<b>T<sub>3</sub></b> = " + txtT3.value + " &deg;C <br>";
+
+			s += "<br><i>Output values</i> <br>";
+
+			s += "<b>Heat Removal = </b>" + util.math.round(Q, digits) + " kJ / time <br>";
+			s += "<b>Moisture Removal = </b>" + util.math.round(mw, digits) + " kg / time <br>";
+
+			let outDiv = document.body.appendChild(document.createElement("output-div"));
+			outDiv.setAttribute("data-text", s);
+			outDiv.scrollIntoView();
+
+			infoDiv.style.display = "none";
+		}
+		catch(e)
+		{
+			infoDiv.style.display = "inline";
+			infoDiv.innerHTML = e;
+		}
+	});
+</script>
 
 </body>
 </html>
