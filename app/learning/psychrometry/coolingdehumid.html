@@ -26,6 +26,11 @@
 		input[type=text]{
 			width: 90%;
 		}
+
+		input[type=text]:focus {
+			outline: 3px solid #FFCC00;
+			box-shadow: 0 0 10px #FFCC00;
+		}
 		
 		p.info
 		{
@@ -45,13 +50,6 @@
 			justify-content: center;
 		}
 
-		span.red{
-			color: red;
-		}
-
-		span.blue{
-			color:blue;
-		}
 
 		@media only screen and (max-width:600px)
 		{
@@ -67,6 +65,7 @@
 
 	<script src="../../js/jquery-3.7.1.min.js"></script>
 	<script src="../../js/util.js"></script>
+	<script src ="js/psyutil.js"></script>
 	<script src="../../js/dom/outputdiv.js" defer></script>
 </head>
 
@@ -95,15 +94,18 @@
 
 <p class="info">
 	Air enters a window air conditioner at
-	<span class="red">T<sub>1</sub>&deg;C</span> and 
-	<span class="red">%RH<sub>1</sub></span> relative humidity at a steady rate of 
-	<span class="red">V<sub>1</sub> (m<sup>3</sup>/time)</span> 
-	and leaves at <span class="blue">T<sub>3</sub>&deg;C</span></p>
+	<span id="T1">T<sub>1</sub></span>&deg;C and 
+	<span id="RH1">RH<sub>1</sub></span>% 
+	relative humidity at a steady rate of 
+	<span id="V1">V<sub>1</sub></span> (m<sup>3</sup>/time) 
+
+	and leaves at <span class="T3">T<sub>3</sub></span>&deg;C
+</p>
 
 <p class="info">
 	Part of the moisture in the air which condenses during the process is removed
-	at <span class="blue">T<sub>3</sub>&deg;C</span>
-	Assume the whole process takes place at P(kPa).</p>
+	at <span class="T3">T<sub>3</sub></span>&deg;C
+	Assume the whole process takes place at <span id="P">101</span> (kPa).</p>
 
 <ol class="question">
 	<li> Heat removal rate (kJ/time)</li>
@@ -120,7 +122,7 @@
 <table id="inputtable">
 	<tr>
 		<td>P:</td>
-		<td><input type="text" id="txtP" placeholder="Pressure (kPa)"></td>
+		<td><input type="text" id="txtP" placeholder="Pressure (kPa)" value="101"></td>
 	</tr>
 	<tr>
 		<td>T<sub>1</sub>: </label></td>
@@ -167,28 +169,20 @@
 
 	const txtT3 =  document.getElementById('txtT3');
 
+	addInputListener(txtP, "P", "P");
+	addInputListener(txtT1, "T1", "T<sub>1</sub>");
+	addInputListener(txtRH1, "RH1", "RH<sub>1</sub>");
+	addInputListener(txtV1, "V1", "V<sub>1</sub>");
+
+	txtT3.addEventListener("input", (evt)=> {
+		let v = evt.target.value;
+		let elems = document.getElementsByClassName("T3");
+		for(let i=0; i<elems.length; ++i)
+		 	elems[i].innerHTML = v === ""? "T<sub>3</sub>" : v; 
+	});
+
 	const txtDigits =  document.getElementById('txtDigits');
 
-	function checkInputs()
-	{
-		let inputs = document.getElementsByClassName("input")
-		for(let i=0; i<inputs.length; ++i)
-		{
-			let elem = input[i];
-						
-			if(elem.type === "text" || elem.type === "number")
-			{
-				if(elem.value ==="" || isNaN(elem.value))
-				{
-					infoDiv.style.display = "inline";
-					infoDiv.innerHTML = "Value for <span style=color:red;>" + elem.id + "</span> is missing or not a number.";
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
 
 	btn.addEventListener("click", (evt) => 
 	{

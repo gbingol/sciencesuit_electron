@@ -7,6 +7,7 @@
 
 	<script src="../../js/jquery-3.7.1.min.js"></script>
 	<script src="../../js/util.js"></script>
+	<script src ="js/psyutil.js"></script>
 	<script src="../../js/dom/outputdiv.js" defer></script>
 
 	<style>
@@ -32,9 +33,9 @@
 		}
 
 		input[type=text]:focus {
-    outline: 3px solid #FFCC00;
-    box-shadow: 0 0 10px #FFCC00;
-  }
+			outline: 3px solid #FFCC00;
+			box-shadow: 0 0 10px #FFCC00;
+		}
 
 		p.info
 		{
@@ -105,7 +106,7 @@
 
 
 <p class="info">
-	Assuming the whole process takes place at <span id="P">P</span>(kPa), determine</p>
+	Assuming the whole process takes place at <span id="P">101</span>(kPa), determine</p>
 
 
 <ol class="question">
@@ -125,7 +126,7 @@
 <table id="inputtable">
 	<tr>
 		<td>P:</td>
-		<td><input type="text" id="txtP" placeholder="Pressure (kPa)"></td>
+		<td><input type="text" value="101" id="txtP" placeholder="Pressure (kPa)"></td>
 	</tr>
 	<tr>
 		<td>T<sub>1</sub>: </label></td>
@@ -180,70 +181,20 @@
 	const txtRH1 =  document.getElementById('txtRH1');
 	const txtV1 =  document.getElementById('txtV1');
 
-	txtP.addEventListener("input", (evt)=> {
-		let v = evt.target.value;
-		document.getElementById("P").innerHTML = v === ""? "P" : v; 
-	});
-	
-	txtT1.addEventListener("input", (evt)=> {
-		let v = evt.target.value;
-		document.getElementById("T1").innerHTML = v === ""? "T<sub>1</sub>" : v; 
-	});
-
-	txtRH1.addEventListener("input", (evt)=> {
-		let v = evt.target.value;
-		document.getElementById("RH1").innerHTML = v === ""? "RH<sub>1</sub>" : v; 
-	});
-
-	txtV1.addEventListener("input", (evt)=> {
-		let v = evt.target.value;
-		document.getElementById("V1").innerHTML = v === ""? "V<sub>1</sub>" : v; 
-	});
-
 	const txtT2 =  document.getElementById('txtT2');
 	const txtRH2 =  document.getElementById('txtRH2');
 	const txtV2 =  document.getElementById('txtV2');
 
-	txtT2.addEventListener("input", (evt)=> {
-		let v = evt.target.value;
-		document.getElementById("T2").innerHTML = v === ""? "T<sub>2</sub>" : v; 
-	});
-
-	txtRH2.addEventListener("input", (evt)=> {
-		let v = evt.target.value;
-		document.getElementById("RH2").innerHTML = v === ""? "RH<sub>2</sub>" : v; 
-	});
-
-	txtV2.addEventListener("input", (evt)=> {
-		let v = evt.target.value;
-		document.getElementById("V2").innerHTML = v === ""? "V<sub>1</sub>" : v; 
-	});
+	addInputListener(txtP, "P", "P");
+	addInputListener(txtT1, "T1", "T<sub>1</sub>");
+	addInputListener(txtRH1, "RH1", "RH<sub>1</sub>");
+	addInputListener(txtV1, "V1", "V<sub>1</sub>");
+	addInputListener(txtT2, "T2", "T<sub>2</sub>");
+	addInputListener(txtRH2, "RH2", "RH<sub>2</sub>");
+	addInputListener(txtV2, "V2", "V<sub>2</sub>");
 
 	const txtDigits =  document.getElementById('txtDigits');
 
-	
-	function checkInputs()
-	{
-		let inputs = document.getElementsByTagName("input")
-		for(let i=0; i<inputs.length; ++i)
-		{
-			let elem = inputs[i];
-						
-			if(elem.type === "text" || elem.type === "number")
-			{
-				if(elem.value ==="" || isNaN(elem.value))
-				{
-					let infoDiv = document.querySelector("#info");
-					infoDiv.style.display = "inline";
-					infoDiv.innerHTML = "Value for is missing or not a number.";
-					elem.focus();
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
 
 	
 	function compute(P, T1, RH1, V1, T2, RH2, V2)
