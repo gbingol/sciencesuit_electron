@@ -12,4 +12,4 @@ math.round = function round(number, digits)
 
 util.math = math;
 
-module.exports = { util };
+export default { util };
