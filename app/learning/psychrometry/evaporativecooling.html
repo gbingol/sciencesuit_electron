@@ -51,7 +51,21 @@
 			display: flex;
 			justify-content: center;
 		}
+		
+		summary{
+			cursor: pointer;
+			width: fit-content;
+		}
 
+		summary:hover{
+			background-color: burlywood;
+		}
+
+		div.hint
+		{
+			border: 2px dotted green; 
+			width: fit-content;
+		}
 		
 
 		@media only screen and (max-width:900px)
@@ -65,6 +79,7 @@
 	<script src="../../js/ext/jquery-3.7.1.min.js"></script>
 	<script src ="js/psyutil.js"></script>
 	<script src="../../js/dom/outputdiv.js" defer></script>
+	<script src="../../js/util.js"></script>
 </head>
 
 <body>
@@ -104,8 +119,13 @@
 </ol>
 
 
-<p>
-	<i>HINT: Assume that wet-bulb temperature and enthalpy are constant.</i></p>
+<details>
+<summary>Hint</summary>
+<div class="hint">
+	<p><i>Assume that during cooling wet-bulb temperature and enthalpy are constant.</i></p>
+	<img src="imgs/evapcooling_psychart.png">
+</div>
+</details>
 
 <p>&nbsp;</p>
 
@@ -166,9 +186,14 @@
 	const txtDigits =  document.getElementById('txtDigits');
 
 	
-	function compute(P, T1, RH1, V1, T3)
+	function compute(P, T1, RH1, RH2)
 	{
-		
+		let st1 = window.myapi.psychrometry({"tdb":T1, "rh":RH1, "p":P})
+		let h1 = st1.H()
+
+		let st2 = window.myapi.psychrometry({"h":h1, "rh":RH2, "p":P});
+
+		return [st2.Tdb(), st2.Twb()]
 	}
 
 	btn.addEventListener("click", (evt) => 
@@ -186,25 +211,28 @@
 
 		try
 		{
-			if (T3>=T1)
-				throw new Error("Outlet temperature must be smaller than inlet's.");
-			
-			const [Q, mw] = compute(P, T1, RH1, V1, T3)
+			if(RH1>=RH2)
+			{
+				let s = "Inlet's relative humidity must be smaller than outlet's <br>";
+				s += "Click on <b>hint</b> and check the presented figure.";
+				throw new Error(s);
+			}
+
+			const [Tdb, Twb] = compute(P, T1, RH1, RH2)
 
 			let s = "<i>Input values</i> <br>";
 			s += "<b>Pressure</b> = " + txtP.value + " kPa <br>";
 			s += "<b>T<sub>1</sub></b> = " + txtT1.value + " &deg;C <br>";
 			s += "<b>RH<sub>1</sub></b> = " + txtRH1.value + " % <br>";
-			s += "<b>V<sub>1</sub></b> = " + txtV1.value + " m<sup>3</sup> / time <br>";
-			s += "<b>T<sub>3</sub></b> = " + txtT3.value + " &deg;C <br>";
+			s += "<b>RH<sub>2</sub></b> = " + txtRH2.value + " % <br>";
 
 			s += "<br><i>Output values</i> <br>";
 
-			s += "<b>Heat Removal = </b>" + util.math.round(Q, digits) + " kJ / time <br>";
-			s += "<b>Moisture Removal = </b>" + util.math.round(mw, digits) + " kg / time <br>";
+			s += "<b>T = </b>" + util.math.round(Tdb, digits) + " &deg;C <br>";
+			s += "<b>T<sub>min</sub> = </b>" + util.math.round(Twb, digits) + " &deg;C";
 
 			let outDiv = document.body.appendChild(document.createElement("output-div"));
-			outDiv.setAttribute("data-text", s);
+			outDiv.innerHTML = s;
 			outDiv.scrollIntoView();
 
 			infoDiv.style.display = "none";
