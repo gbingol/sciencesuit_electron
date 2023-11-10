@@ -67,7 +67,6 @@
 	<script src="../../js/util.js"></script>
 	<script src ="js/psyutil.js"></script>
 	<script src ="../../../build/eng/water.js"></script>
-	<script src ="../../../build/sci_interp.js"></script>
 	<script src="../../js/dom/outputdiv.js" defer></script>
 </head>
 
@@ -213,7 +212,7 @@
 		let indexes = findIndexes(water.T(), T2+273.15);
 		let T = [water.T()[indexes[0]], water.T()[indexes[1]]];
 		let H = [water.hf()[indexes[0]], water.hf()[indexes[1]]];
-		let hwater = linearinterp(T[0], H[0], T[1], H[1], T2+273.15);
+		let hwater = util.math.linearinterp(T[0], H[0], T[1], H[1], T2+273.15);
 
 		let Q = ma*(h1-h3) - mw*hwater
 
