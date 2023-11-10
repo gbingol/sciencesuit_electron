@@ -39,9 +39,6 @@ class DivOutput extends HTMLElement
 		{
 			shadow.removeChild(this.outDiv); 
 			this.outDiv = null;
-			btnDiv = null;
-			delBtn = null;
-			copyBtn = null;
 		}
 
 		copyBtn.onclick = (evt) => 
