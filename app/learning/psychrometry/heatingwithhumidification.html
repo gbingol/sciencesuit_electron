@@ -52,12 +52,19 @@
 			justify-content: center;
 		}
 
-		span.red{
-			color: red;
+		summary{
+			cursor: pointer;
+			width: fit-content;
 		}
 
-		span.blue{
-			color:blue;
+		summary:hover{
+			background-color: burlywood;
+		}
+
+		div.hint
+		{
+			border: 2px dotted green; 
+			width: fit-content;
 		}
 
 		@media only screen and (max-width:900px)
@@ -119,14 +126,28 @@
 	<li> Mass flow rate of the steam required in the humidifying section.</li>
 </ol>
 
-<p>&nbsp;</p>
-
-
 <p style="font-size: small;"><b>Reference:</b>
 	Cengel YA, Boles MA, Kanaoglu M (2019). 
 	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
 
-	<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<details>
+	<summary>Hint</summary>
+	<div class="hint">
+		<img src="imgs/heatingwithhumid_psychart.png">
+		<p>Observe the following points:</p>
+		<ol>
+			<li>Absolute humidity at 1 is equal to 2.</li>
+			<li>T<sub>1</sub>&lt;T<sub>2</sub>&lt; T<sub>3</sub></li>
+			<li>RH<sub>1</sub>&lt; RH<sub>3</sub> &rarr; check actual psychrometric chart.</li>
+		</ol>
+		
+	</div>
+	</details>
+
+<br>
+
 
 <table id="inputtable">
 	<tr>
@@ -248,6 +269,12 @@
 
 		try
 		{
+			if(T1>=T2)
+				throw new Error("T<sub>1</sub> &lt; T<sub>2</sub> expected.");
+
+			if(RH1>=RH3)
+				throw new Error("RH<sub>1</sub> &lt; RH<sub>3</sub> expected.");
+
 			let obj = compute(P, T1, RH1, V1, T2, RH2, V2);
 			
 
