@@ -44,3 +44,12 @@ math.linearinterp = (x1, y1, x2, y2, xval) =>
 };
 
 util.math = math;
+
+util.fetchText = function(url)
+{
+	let content = fetch(url).
+	then( response=>response.text()).
+	then(text=> text);
+
+	return content;
+}
