@@ -5,7 +5,8 @@ const { exec } = require('child_process');
 
 const { Psychrometry } = require('../build/sci_core.js');
 
-
+const hljs = require('highlight.js/lib/core');
+hljs.registerLanguage('python', require('highlight.js/lib/languages/python'));
 
 /**
  * @param {Array} k
@@ -36,6 +37,7 @@ contextBridge.exposeInMainWorld('myapi',
 	dirname: () => { return __dirname; },
 	homedir: () => { return os.homedir(); },
 	runpy: (callback, cmd) => { return RunPy(callback, cmd); },
-	psychrometry:(k, v)=> {return psychrometry(k, v);}
+	psychrometry: (k, v) => { return psychrometry(k, v); },
+	hljs: hljs
 });
     

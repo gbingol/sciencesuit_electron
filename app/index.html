@@ -21,6 +21,8 @@
 			font-weight: bold;
 		}
 	</style>
+
+	<link rel="stylesheet" href="css/default.css">
 </head>
 
 
@@ -67,11 +69,15 @@
 <div id="inner"><span style="color: red;">hi there</span> whats ap</div>
 
 <script>
-	document.getElementById('inner').contentEditable=true;
-	document.getElementById('inner').focus();
+	const highlightedCode = window.myapi.hljs.highlight(
+  'import scisuit',
+  { language: 'python' }
+).value
+
+
+document.querySelector("#inner").innerHTML = highlightedCode
 </script>
 	
-
 
 
 </body>
