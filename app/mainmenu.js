@@ -1,6 +1,8 @@
-<style>
-
-	.desktopmenubar {
+function createCSS()
+{
+	let s = `
+	.desktopmenubar
+	{
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
@@ -59,12 +61,7 @@
 	.dropdownmenu:hover .drop_menuitems { 
 		display: block; 
 	}
-	
-	
-	#mobilemenu 
-	{ 
-		display: none; 
-	}
+		
 	
 	.mobilemenubar 
 	{ 
@@ -88,16 +85,11 @@
 	}
 	
 	
-	@media only screen and (max-width:600px) 
+	@media only screen and (max-width:400px) 
 	{
 		#desktopmenu 
 		{ 
 			display:none; 
-		}
-	
-		#mobilemenu 
-		{ 
-			display: block; 
 		}
 	
 		.mobilemenubar 
@@ -110,14 +102,7 @@
 			background-color: green;
 		}
 	
-		.mobilemenubar span 
-		{
-			vertical-align: middle;
-			line-height: 40px;
-			font-size: 25px;
-			color: whitesmoke;
-		}
-	
+		
 		.mobileoverlay 
 		{
 			width: 100%;
@@ -154,49 +139,59 @@
 		{
 			color: #f1f1f1;
 		}
+	}
+	`
+	let css = document.head.appendChild(document.createElement("style"));
+	css.innerHTML = s;
+}
+
+
+function createMobileMenuBar()
+{
+	let div = document.body.appendChild(document.createElement("div"));
+	div.className = "mobilemenubar";
+
+	let mobileMenu = document.querySelector("#mobilemenu");
+	mobileMenu.style.display = "none";
+
+	//home button on the left
+	let home = div.appendChild(document.createElement("span"));
+	home.className="home";
+	home.innerHTML = "&#8962;";
+	home.style.cssText = "vertical-align: middle; line-height: 40px; font-size: 25px; color: whitesmoke;";
+	home.onclick = function(evt)
+	{
+		location.href= window.myapi.dirname() + "/index.html";
+	}
+
+	//navigator button which when clicked shows the link
+	let navigator = div.appendChild(document.createElement("span"));
+	navigator.style.cssText = "vertical-align: middle; line-height: 40px; font-size: 25px; color: whitesmoke;";
+	navigator.className="navigator";
+	navigator.innerHTML = "&#9776;";
 	
-		.mobileoverlay .closebtn 
+	//as of this point it is the mobile-overlay
+	navigator.onclick = function(evt)
+	{
+		mobileMenu.style.display = "block";
+		mobileMenu.style.height = "100%";
+
+		let btn = mobileMenu.appendChild(document.createElement("a"));
+		btn.innerHTML = "&times;";
+		btn.href = "javascript:void(0)";
+		btn.style.cssText = "display: block; position:fixed; font-size:40px; top:15px; right:35px; z-index:100";
+		
+		btn.onclick = function (evt)
 		{
-			position: fixed;
-			font-size: 40px;
-			top: 15px;
-			right: 35px;
-			display: none;
-			z-index: 100;
+			document.querySelector("#mobilemenu").style.height = "0%";  
+			mobileMenu.removeChild(btn);
+			mobileMenu.style.display = "none";
 		}
 	}
-	
-</style>
-	
-<script>
-		
-	function StopScroll() 
-	{
-		window.scrollTo(0, 0);
-	}
+
+}
 
 
-	function openNav() 
-	{
-		window.addEventListener('scroll', StopScroll);
 
-		document.getElementsByClassName("mobileoverlay")[0].style.height = "100%";
-		document.getElementsByClassName("closebtn")[0].style.display = "block";
-	}
-
-	function closeNav() 
-	{
-		window.removeEventListener('scroll', StopScroll);
-		
-		document.getElementById("mobilemenu").style.height = "0%";       
-		document.getElementsByClassName("closebtn")[0].style.display = "none";      
-	}
-</script>
-	
-	
-	
-<div class="mobilemenubar">
-	<span class="home" onclick="GoHome()">&#8962;</span>
-	<span class="navigator" onclick="openNav()">&#9776;</span>
-</div>
-	
+createCSS();
+createMobileMenuBar();

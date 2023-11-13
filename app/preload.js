@@ -33,6 +33,7 @@ function RunPy(callback, cmd)
 
 contextBridge.exposeInMainWorld('myapi',
 {
+	dirname: () => { return __dirname; },
 	homedir: () => { return os.homedir(); },
 	runpy: (callback, cmd) => { return RunPy(callback, cmd); },
 	psychrometry:(k, v)=> {return psychrometry(k, v);}
