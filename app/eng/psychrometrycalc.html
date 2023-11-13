@@ -6,8 +6,7 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Psychrometric Software</title>
 
-	<script src="./js/ext/jquery-3.7.1.min.js"></script>
-	<script src="./js/dom/outputdiv.js" defer></script>
+	<script src="../js/dom/outputdiv.js" defer></script>
 
 	<style>
 		table{
@@ -82,16 +81,6 @@
 
 <body>
 
-<div id="header"></div>
-
-<script>
-	$("#header").load("./mainmenu.html");
-	function GoHome() 
-	{
-		location.href="./index.html";
-	}
-</script>
-
 	
 <div id="desktopmenu" style="position: relative; z-index:100;">
 	
@@ -102,7 +91,7 @@
 		</li>
 
 		<li class="singlemenu">
-			<a href="learning/psychrometry/index.html">Simulations</a>
+			<a href="../learning/psychrometry/index.html">Simulations</a>
 		</li>
 	</ul>
 	
@@ -114,10 +103,12 @@
 	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
 	<div class="overlay-content">
-		<a href="./index.html">Home</a>
-		<a href="learning/psychrometry/index.html">Simulations</a>
+		<a href="../index.html">Home</a>
+		<a href="../learning/psychrometry/index.html">Simulations</a>
 	</div>
 </div>
+
+<script src="../mainmenu.js"></script>
 
 	
 <h1>Psychrometric Calculator</h1>
