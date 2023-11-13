@@ -75,8 +75,7 @@
 		}
     </style>
 
-	<script src="../../js/ext/jquery-3.7.1.min.js"></script>
-	<script src ="js/psyutil.js"></script>
+	<script src ="psyutil.js"></script>
 	<script src="../../js/dom/outputdiv.js" defer></script>
 	<script src="../../js/util.js"></script>
 </head>
@@ -84,19 +83,11 @@
 
 <body>
 
-<div id="header"></div>
-
 <script>
-	$("#header").load("../../mainmenu.html");
-
-	let content;
-	$.get("psy_menu.html", function(data)
-	{
-		content = data;
-		$("#header").append(content);
-	});
-	
+	createMenu();
 </script>
+
+<script src="../../mainmenu.js"></script>
 
 
 <h1>Heating with Humidification</h1>

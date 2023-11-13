@@ -5,9 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Adiabatic Mixing</title>
 
-	<script src="../../js/ext/jquery-3.7.1.min.js"></script>
 	<script src="../../js/util.js"></script>
-	<script src ="js/psyutil.js"></script>
+	<script src ="psyutil.js"></script>
 	<script src="../../js/dom/outputdiv.js" defer></script>
 
 	<style>
@@ -71,19 +70,11 @@
 
 <body>
 
-<div id="header"></div>
-
 <script>
-	$("#header").load("../../mainmenu.html");
-
-	let content;
-	$.get("psy_menu.html", function(data)
-	{
-		content = data;
-		$("#header").append(content);
-	});
-	
+	createMenu();
 </script>
+
+<script src="../../mainmenu.js"></script>
 
 <h1>Adiabatic Mixing of Air Streams</h1>
 <div class="img">
