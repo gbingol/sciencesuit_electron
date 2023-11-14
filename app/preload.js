@@ -1,6 +1,5 @@
-const { contextBridge }  = require('electron')
+const { contextBridge } = require('electron')
 const os = require('os');
-
 const { exec } = require('child_process');
 
 const { Psychrometry } = require('../build/sci_core.js');
@@ -8,6 +7,7 @@ const { Psychrometry } = require('../build/sci_core.js');
 const hljs = require('highlight.js/lib/core');
 hljs.registerLanguage('python', require('highlight.js/lib/languages/python'));
 
+let {PythonShell} = require('python-shell')
 
 
 /**
@@ -17,29 +17,41 @@ hljs.registerLanguage('python', require('highlight.js/lib/languages/python'));
 */
 function psychrometry(k, v=null)
 {
-	if(v!=null)
+	if (v != null)
 		return new Psychrometry(k, v);
 
 	return Psychrometry.Instance(k);
 }
 
 
-function RunPy(callback, cmd) 
+//Run a termina command
+function RunCmd(callback, cmd) 
 {
-	exec('python ' + cmd, (error, stdout, stderr) => {
+	exec(cmd, (error, stdout, stderr) =>
+	{
 		if (error)
 			callback(error, null);
 		else 
 			callback(null, stdout);
 	});
-  }
+}
+
+  
+function RunPython(input, options, isstr = false)
+{
+	if (!isstr)
+		return PythonShell.run(input, options);
+
+	return PythonShell.runString(input, options);
+}
+
 
 contextBridge.exposeInMainWorld('myapi',
 {
 	dirname: () => { return __dirname; },
 	homedir: () => { return os.homedir(); },
-	runpy: (callback, cmd) => { return RunPy(callback, cmd); },
+	runcmd: (callback, cmd) => { return RunCmd(callback, cmd); },
+	runpython: (file, options) => { return RunPython(file, options); },
 	psychrometry: (k, v) => { return psychrometry(k, v); },
 	hljs: hljs
 });
-    

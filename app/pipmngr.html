@@ -53,39 +53,38 @@
 	const btn = document.querySelector('#btnInstalledModules');
 	btn.addEventListener("click", (evt) => 
 	{
-		window.myapi.runpy((error, output) => 
+		window.myapi.runpython("py/listmodules.py", null)
+		.then(output => 
 		{
 			let s ="<table><tr><td>Name</td><td colspan=2>Location</td></tr>"
-			if (error) 
+			
+			let jsonData = JSON.parse(output);
+
+			for (let i = 0; i <jsonData.length; i++) 
 			{
-				console.error('Error:', error);
-			} else 
-			{
-				let jsonData = JSON.parse(output);
+				let e = jsonData[i];
+				s += "<tr> \n";
+				s += "<td>" + e.names + "</td>";
+				s += "<td>" + e.locs + "</td>";
+				s += "<td>" + "<button id=" + e.names +" class='pipinfo'>Info</button>" + "</td>"
 
-				for (let i = 0; i <jsonData.length; i++) 
-				{
-					let e = jsonData[i];
-					s += "<tr> \n";
-					s += "<td>" + e.names + "</td>";
-					s += "<td>" + e.locs + "</td>";
-					s += "<td>" + "<button id=" + e.names +" class='pipinfo'>Info</button>" + "</td>"
-
-					s += "</tr>";	
-				}
-
-				s += "</table>";
-				let prg = document.getElementById("modules");
-				prg.innerHTML=s;
+				s += "</tr>";	
 			}
-		}, "py/listmodules.py");
-	}, false);
+
+			s += "</table>";
+			let prg = document.getElementById("modules");
+			prg.innerHTML=s;
+			
+		})
+		.catch(error=> console.log('Error:', error))
+	}, 
+	false);
 
 	function ShowInfo(event)
 	{
 		if(event.target.className === "pipinfo")
 		{
-			window.myapi.runpy((error, output) => 
+			window.myapi.runcmd((error, output) => 
 			{
 				let errout = document.getElementById("erroutput");
 				let prg = document.getElementById("pipoutput");
@@ -101,7 +100,7 @@
 					errout.innerText = "";
 					prg.innerText=output;
 				}
-			}, "-m pip show " + event.target.id);
+			}, "python -m pip show " + event.target.id);
 		}
 	}
 
