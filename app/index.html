@@ -5,7 +5,6 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width">
 	<title>ScienceSuit</title>
-	<script src="./js/ext/jquery-3.7.1.min.js"></script>
 
 	<style>
 		p.FirstLetter 
@@ -22,7 +21,7 @@
 		}
 	</style>
 
-	<link rel="stylesheet" href="css/default.css">
+	<link rel="stylesheet" href="css/common.css">
 </head>
 
 
@@ -58,39 +57,64 @@
 </div>
 
 <script src="mainmenu.js"></script>
-<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
-
-
-
 
 <h1>ScienceSuit</h1>
 
 <p class="FirstLetter">
 	A feature-rich computing environment for engineers.</p>
 
-<div id="inner"><span style="color: red;">hi there</span> whats ap</div>
-<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
-
 <script>
-	const highlightedCode = window.myapi.hljs.highlight(
-  'import scisuit',
-  { language: 'python' }
-).value
+	"use strict";
 
-</script>
+	let div = document.body.appendChild(document.createElement("div"));
+	div.style.cssText = "border: 1px dashed red; width: fit-content;";
+	let p = div.appendChild(document.createElement("p"));
 
-<script>
-	require.config({ paths: { vs: '../node_modules/monaco-editor/min/vs' } });
+	window.myapi.runcmd((error, output) => 
+	{
+		if (error) 
+			p.innerText=error;
+		else 
+		{
+			PythonFound = true;
 
-	require(['vs/editor/editor.main'], function () {
-		var editor = monaco.editor.create(document.getElementById('container'), {
-			theme: "vs-dark",
-			language: 'python'
-		});
-	});
-</script>
+			p.innerHTML = "<b>Python installations:</b>";
+			p.style.fontSize = "1.2em";
+
+			const arr = output.split("\n");
+
+			let ol = div.appendChild(document.createElement("ol"));
+			ol.className = "linespaced";
+			for(let path of arr)
+			{
+				if(path.length == 0) continue;
+				let li = ol.appendChild(document.createElement("li"));
+				li.innerHTML = path;
+
+				if(path.includes("*"))
+					li.style.color = "green";
+			}
+
+			let p_scisuit = div.appendChild(document.createElement("p"));
+
+			window.myapi.runcmd((error, output) => 
+			{
+				if (error)
+				{ 
+					p_scisuit.innerHTML = "<b>scisuit</b> package is not installed.";
+					p_scisuit.style.color = "red";
+				}
+				else 
+				{
+					p_scisuit.innerHTML = "<b>scisuit</b> &#x2713;";
+				}
+			}, "python -m pip show scisuit");
+	}
+	}, "py --list-paths");
+
 	
 
+</script>
 
 </body>
 </html>
