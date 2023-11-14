@@ -51,7 +51,7 @@ contextBridge.exposeInMainWorld('myapi',
 	dirname: () => { return __dirname; },
 	homedir: () => { return os.homedir(); },
 	runcmd: (callback, cmd) => { return RunCmd(callback, cmd); },
-	runpython: (file, options) => { return RunPython(file, options); },
+	runpython: (file, options, isstr=false) => { return RunPython(file, options, isstr); },
 	psychrometry: (k, v) => { return psychrometry(k, v); },
 	hljs: hljs
 });

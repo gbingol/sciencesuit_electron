@@ -53,7 +53,22 @@
 	const btn = document.querySelector('#btnInstalledModules');
 	btn.addEventListener("click", (evt) => 
 	{
-		window.myapi.runpython("py/listmodules.py", null)
+		let PyCmd = 
+`
+import json \n
+import pkgutil \n
+x = pkgutil.iter_modules() \n
+
+lst = [] \n
+for i in x: \n
+	if i.ispkg: \n
+		dct = {"names":i.name, "locs":str(i.module_finder)} \n
+		lst.append(dct) \n
+
+
+print(json.dumps(lst))
+`
+		window.myapi.runpython(PyCmd, null, true)
 		.then(output => 
 		{
 			let s ="<table><tr><td>Name</td><td colspan=2>Location</td></tr>"
