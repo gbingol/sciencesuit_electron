@@ -99,23 +99,22 @@ print(json.dumps(lst))
 	{
 		if(event.target.className === "pipinfo")
 		{
-			window.myapi.runcmd((error, output) => 
+			let errout = document.getElementById("erroutput");
+			let prg = document.getElementById("pipoutput");
+
+			window.myapi.runcmd("python -m pip show " + event.target.id).
+			then(output=>
+			{	
+				prg.scrollIntoView();
+				errout.innerText = "";
+				prg.innerText=output;
+			}).
+			catch(error=>
 			{
-				let errout = document.getElementById("erroutput");
-				let prg = document.getElementById("pipoutput");
-				if (error) 
-				{
-					errout.scrollIntoView();
-					errout.innerText=error;
-					prg.innerText="";
-				} 
-				else 
-				{
-					prg.scrollIntoView();
-					errout.innerText = "";
-					prg.innerText=output;
-				}
-			}, "python -m pip show " + event.target.id);
+				errout.scrollIntoView();
+				errout.innerText=error;
+				prg.innerText="";
+			});
 		}
 	}
 

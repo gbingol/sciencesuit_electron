@@ -7,7 +7,8 @@ const { Psychrometry } = require('../build/sci_core.js');
 const hljs = require('highlight.js/lib/core');
 hljs.registerLanguage('python', require('highlight.js/lib/languages/python'));
 
-let {PythonShell} = require('python-shell')
+let {PythonShell} = require('python-shell');
+const { rejects } = require('assert');
 
 
 /**
@@ -25,14 +26,17 @@ function psychrometry(k, v=null)
 
 
 //Run a termina command
-function RunCmd(callback, cmd) 
+function RunCmd(cmd) 
 {
-	exec(cmd, (error, stdout, stderr) =>
+	return new Promise((resolve, reject)=>
 	{
-		if (error)
-			callback(error, null);
-		else 
-			callback(null, stdout);
+		exec(cmd, (error, stdout, stderr) =>
+		{
+			if (error)
+				reject(error);
+			else 
+				resolve(stdout);
+		});
 	});
 }
 

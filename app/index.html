@@ -70,47 +70,70 @@
 	div.style.cssText = "border: 1px dashed red; width: fit-content;";
 	let p = div.appendChild(document.createElement("p"));
 
-	window.myapi.runcmd((error, output) => 
+	window.myapi.runcmd("py --list-paths").
+	then(output=> 
 	{
-		if (error) 
-			p.innerText=error;
-		else 
+		
+		p.innerHTML = "<b>Python installations:</b>";
+		p.style.fontSize = "1.2em";
+
+		const arr = output.split("\n");
+
+		let ol = div.appendChild(document.createElement("ol"));
+		ol.className = "linespaced";
+		for(let path of arr)
 		{
-			PythonFound = true;
+			if(path.length == 0) continue;
+			let li = ol.appendChild(document.createElement("li"));
+			li.innerHTML = path;
 
-			p.innerHTML = "<b>Python installations:</b>";
-			p.style.fontSize = "1.2em";
+			if(path.includes("*"))
+				li.style.color = "green";
+		}
 
-			const arr = output.split("\n");
+		let p_scisuit = div.appendChild(document.createElement("p"));
+		let span = p_scisuit.appendChild(document.createElement("span"));
 
-			let ol = div.appendChild(document.createElement("ol"));
-			ol.className = "linespaced";
-			for(let path of arr)
+		span.innerHTML = "Checking status of <b>scisuit</b> package...";
+
+		window.myapi.runcmd("python -m pip show scisuit").
+		then(ouput=> 
+		{
+			span.innerHTML = "<b>scisuit</b> package &#x2713;";
+			
+		}).
+		catch(error=>
+		{
+			span.innerHTML = "<b>scisuit</b> package is not installed: ";
+			span.style.color = "red";
+
+			let btn = p_scisuit.appendChild(document.createElement("button"));
+			btn.innerHTML = "Install <b>scisuit</b>";
+
+			btn.onclick = function(evt)
 			{
-				if(path.length == 0) continue;
-				let li = ol.appendChild(document.createElement("li"));
-				li.innerHTML = path;
+				span.innerHTML = "<b>scisuit</b> is being installed...";
+				btn.disabled = true;
 
-				if(path.includes("*"))
-					li.style.color = "green";
-			}
-
-			let p_scisuit = div.appendChild(document.createElement("p"));
-
-			window.myapi.runcmd((error, output) => 
-			{
-				if (error)
-				{ 
-					p_scisuit.innerHTML = "<b>scisuit</b> package is not installed.";
-					p_scisuit.style.color = "red";
-				}
-				else 
+				window.myapi.runcmd("python -m pip install scisuit").
+				then(ouput=> 
 				{
-					p_scisuit.innerHTML = "<b>scisuit</b> &#x2713;";
-				}
-			}, "python -m pip show scisuit");
-	}
-	}, "py --list-paths");
+					p_scisuit.innerHTML = "<b>scisuit</b> package &#x2713;";	
+				}).
+				catch(error=>
+				{
+					span.innerHTML = "<b>scisuit</b> package could not be installed: ";
+					span.style.color = "red";
+
+					btn.disabled = true;
+				});
+			}
+		});
+	}).
+	catch(error=>
+	{
+		p.innerText=error;
+	});
 
 	
 
