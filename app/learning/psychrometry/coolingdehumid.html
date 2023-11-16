@@ -177,12 +177,12 @@
 	
 	function compute(P, T1, RH1, V1, T3)
 	{
-		let st1 = window.myapi.psychrometry({"tdb":T1, "rh":RH1, "p":P});	
+		let st1 = window.api.psychrometry({"tdb":T1, "rh":RH1, "p":P});	
 		let v1 = st1.V() ,  h1 = st1.H(), w1 = st1.W();
 
 		let ma = V1/v1; // (m3/s) / (m3/kg da) = kg da /s
 
-		let st3 = window.myapi.psychrometry({"tdb":T3, "rh":100, "p":P});
+		let st3 = window.api.psychrometry({"tdb":T3, "rh":100, "p":P});
 		let h3 = st3.H(), w3 = st3.W();
 
 		if (w1<=w3)

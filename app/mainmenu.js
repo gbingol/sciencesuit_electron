@@ -161,7 +161,7 @@ function createMobileMenuBar()
 	home.style.cssText = "vertical-align: middle; line-height: 40px; font-size: 25px; color: whitesmoke;";
 	home.onclick = function(evt)
 	{
-		location.href= window.myapi.dirname() + "/index.html";
+		location.href= window.api.dirname() + "/index.html";
 	}
 
 	//navigator button which when clicked shows the link

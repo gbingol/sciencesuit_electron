@@ -100,7 +100,7 @@
 	let p_PyHomes = div.appendChild(document.createElement("p"));
 
 	
-	window.myapi.runcmd("py --list-paths").
+	window.api.runcmd("py --list-paths").
 	then(output=> 
 	{	
 		/**
@@ -164,7 +164,7 @@
 		let span = p_scisuit.appendChild(document.createElement("span"));
 		span.innerHTML = "Checking status of <b>scisuit</b> package...";
 
-		window.myapi.runcmd("py -m pip show scisuit").
+		window.api.runcmd("py -m pip show scisuit").
 		then(ouput=> 
 		{
 			span.innerHTML = "<b>scisuit</b> package &#x2713;";

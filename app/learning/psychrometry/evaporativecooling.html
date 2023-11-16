@@ -179,10 +179,10 @@
 	
 	function compute(P, T1, RH1, RH2)
 	{
-		let st1 = window.myapi.psychrometry({"tdb":T1, "rh":RH1, "p":P})
+		let st1 = window.api.psychrometry({"tdb":T1, "rh":RH1, "p":P})
 		let h1 = st1.H()
 
-		let st2 = window.myapi.psychrometry({"h":h1, "rh":RH2, "p":P});
+		let st2 = window.api.psychrometry({"h":h1, "rh":RH2, "p":P});
 
 		return [st2.Tdb(), st2.Twb()]
 	}

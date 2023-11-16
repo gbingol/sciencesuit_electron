@@ -233,7 +233,7 @@ import scisuit.plot as plt
 plt.psychrometry()
 plt.show(maximize=True)
 `	
-			window.myapi.runpython(cmd, null, true);
+			window.api.runpython(cmd, null, true);
 
 			return false;
 		}
@@ -350,7 +350,7 @@ plt.show(maximize=True)
 		
 		try
 		{
-			let p = window.myapi.psychrometry(Keys, Vals);
+			let p = window.api.psychrometry(Keys, Vals);
 
 			let outDiv = document.body.appendChild(document.createElement("output-div"));
 			outDiv.innerHTML = p.to_html(digits);

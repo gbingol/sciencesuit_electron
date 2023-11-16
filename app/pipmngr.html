@@ -68,7 +68,7 @@ for i in x: \n
 
 print(json.dumps(lst))
 `
-		window.myapi.runpython(PyCmd, null, true)
+		window.api.runpython(PyCmd, null, true)
 		.then(output => 
 		{
 			let s ="<table><tr><td>Name</td><td colspan=2>Location</td></tr>"
@@ -102,7 +102,7 @@ print(json.dumps(lst))
 			let errout = document.getElementById("erroutput");
 			let prg = document.getElementById("pipoutput");
 
-			window.myapi.runcmd("python -m pip show " + event.target.id).
+			window.api.runcmd("python -m pip show " + event.target.id).
 			then(output=>
 			{	
 				prg.scrollIntoView();

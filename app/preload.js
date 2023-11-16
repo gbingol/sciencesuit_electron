@@ -50,7 +50,7 @@ function RunPython(input, options, isstr = false)
 }
 
 
-contextBridge.exposeInMainWorld('myapi',
+contextBridge.exposeInMainWorld('api',
 {
 	dirname: () => { return __dirname; },
 	homedir: () => { return os.homedir(); },

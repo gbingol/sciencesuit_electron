@@ -217,7 +217,7 @@
 	
 	function compute(P, T1, RH1, V1, T2, T3, RH3)
 	{
-		let st1 = window.myapi.psychrometry({"tdb":T1, "rh":RH1, "p":P});
+		let st1 = window.api.psychrometry({"tdb":T1, "rh":RH1, "p":P});
 		
 		let v1 = st1.V()
 		let h1 = st1.H()
@@ -229,10 +229,10 @@
 		//simple heating
 		let w2 = w1;
 
-		let st2 = window.myapi.psychrometry({"tdb":T2, "w":w2, "p":P});
+		let st2 = window.api.psychrometry({"tdb":T2, "w":w2, "p":P});
 		let h2 = st2.H()
 
-		let st3 = window.myapi.psychrometry({"tdb":T3, "rh":RH3, "p":P});
+		let st3 = window.api.psychrometry({"tdb":T3, "rh":RH3, "p":P});
 		let w3 = st3.W()
 
 		let Q = ma*(h2-h1)
