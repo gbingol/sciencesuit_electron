@@ -107,15 +107,19 @@
 			let version = s.substring(start+1, end);
 
 			start = s.indexOf("*");
+			let IsGlobal=false;
 			if(start == -1)
 				start = end;
 			else
+			{
 				start += 1;
+				IsGlobal=true; //has *
+			}
 
 			let path = s.substring(start);
 			path = path.trim();
 
-			retObj.push({"version":version, "path":path});
+			retObj.push({"version":version, "path":path, "global":IsGlobal});
 		}
 
 		return retObj;
@@ -135,7 +139,7 @@
 		
 		for(let obj of Arr)
 		{
-			let version = obj.version, path = obj.path;
+			let version = obj.version, path = obj.path, IsGlobal=obj.global;
 
 			let li = ol.appendChild(document.createElement("li"));
 
@@ -149,7 +153,7 @@
 			label.htmlFor = input.id;
 			label.innerHTML=path
 
-			if(path.includes("*") && PyVersion==null)
+			if(IsGlobal && PyVersion===null)
 			{
 				localStorage.setItem("pyversion", input.id);
 				localStorage.setItem("pypath", input.value);
@@ -159,7 +163,7 @@
 				li.style.color = "green";
 			}
 
-			if(PyVersion != null)
+			if(PyVersion !== null)
 			{
 				input.checked = (PyVersion == input.id);
 				if(input.checked)  
