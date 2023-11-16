@@ -49,51 +49,47 @@
 <div id="erroutput"></div>
 
 
+
 <script>
-	const btn = document.querySelector('#btnInstalledModules');
-	btn.addEventListener("click", (evt) => 
+	const btnInstalled = document.querySelector('#btnInstalledModules');
+	btnInstalled.onclick = (evt) => 
 	{
-		let PyCmd = 
-`
-import json \n
-import pkgutil \n
-x = pkgutil.iter_modules() \n
+		let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip list --format=json "
 
-lst = [] \n
-for i in x: \n
-	if i.ispkg: \n
-		dct = {"names":i.name, "locs":str(i.module_finder)} \n
-		lst.append(dct) \n
-
-
-print(json.dumps(lst))
-`
-		window.api.runpython(PyCmd, {pythonPath: localStorage.getItem("pypath")}, true)
+		window.api.runcmd(cmd)
 		.then(output => 
 		{
-			let s ="<table><tr><td>Name</td><td colspan=2>Location</td></tr>"
+			let table = document.body.appendChild(document.createElement("table"));
+			let header = table.appendChild(document.createElement("thead"));
+			let row = header.appendChild(document.createElement("tr"));
+			let col1 = row.appendChild(document.createElement("td"));
+			col1.innerHTML="Name";
+			let col2 = row.appendChild(document.createElement("td"));
+			col2.innerHTML="Version";
+			let col3 = row.appendChild(document.createElement("td"));
 			
 			let jsonData = JSON.parse(output);
 
 			for (let i = 0; i <jsonData.length; i++) 
 			{
 				let e = jsonData[i];
-				s += "<tr> \n";
-				s += "<td>" + e.names + "</td>";
-				s += "<td>" + e.locs + "</td>";
-				s += "<td>" + "<button id=" + e.names +" class='pipinfo'>Info</button>" + "</td>"
 
-				s += "</tr>";	
+				row = header.appendChild(document.createElement("tr"));
+				col1 = row.appendChild(document.createElement("td"));
+				col1.innerHTML=e.name ;
+				col2 = row.appendChild(document.createElement("td"));
+				col2.innerHTML=e.version;
+				col3 = row.appendChild(document.createElement("td"));
+				let btn = col3.appendChild(document.createElement("button"));
+				btn.id = e.name;
+				btn.innerHTML="Show Info";
+				
+				table.appendChild(row);
 			}
-
-			s += "</table>";
-			let prg = document.getElementById("modules");
-			prg.innerHTML=s;
 			
 		})
 		.catch(error=> console.log('Error:', error))
-	}, 
-	false);
+	}
 
 	
 	function ShowInfo(event)
