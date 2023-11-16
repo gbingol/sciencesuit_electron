@@ -36,7 +36,17 @@
 
 
 <body>
+<script>
+window.onload = (evt)=>
+{
+	document.querySelector("#version").innerHTML = 
+		`Selected Python Version: <b>${localStorage.getItem("pyversion")}</b>`
+}
+</script>
+
+
 <h1>Python Package Manager</h1>
+<p id ="version"> </p>
 
 <p><a href="index.html">Main Screen</a></p>
 
@@ -96,49 +106,52 @@
 
 				let prg = document.querySelector("#pipoutput");
 
-				btnInfo.onclick = (evt)=>
+				btnInfo.onclick = async (evt)=>
 				{
-					const AllBtns = document.getElementsByTagName("button");
-					for(let b of AllBtns) b.disabled=true;
+					try
+					{
+						const AllBtns = document.getElementsByTagName("button");
+						for(let b of AllBtns) b.disabled=true;
 
-					let ShowCmd = "py -"+localStorage.getItem("pyversion") + " -m pip show " + e.name;
-					window.api.runcmd(ShowCmd).
-					then(output=>
-					{	
+						let ShowCmd = "py -"+localStorage.getItem("pyversion") + 
+							" -m pip show " + e.name;
+						let output = await window.api.runcmd(ShowCmd);
 						prg.scrollIntoView();
 						prg.innerText=output;
 
 						for(let b of AllBtns) b.disabled=false;
-					}).
-					catch(error=>
+					}
+					catch(error)
 					{
 						prg.scrollIntoView();
 						prg.innerText=error;
-					});
+					}
 				}
 
-				btnRemove.onclick = (evt)=>
+				btnRemove.onclick = async (evt)=>
 				{
 					const AllBtns = document.getElementsByTagName("button");
-					for(let b of AllBtns) b.disabled=true;
-
-					let remCmd = "py -"+localStorage.getItem("pyversion") + " -m pip uninstall -y " + e.name;
-
-					window.api.runcmd(remCmd).
-					then(output=>
+					try
 					{	
+						for(let b of AllBtns) b.disabled=true;
+
+						let remCmd = "py -"+ localStorage.getItem("pyversion") + 
+							" -m pip uninstall -y " + e.name;
+
+						let output = await window.api.runcmd(remCmd);
 						prg.scrollIntoView();
 						prg.innerText = output;
 
 						for(let b of AllBtns) b.disabled=false;
-					}).
-					catch(error=>
+					}
+					
+					catch(error)
 					{
 						prg.scrollIntoView();
 						prg.innerText=error;
 
 						for(let b of AllBtns) b.disabled=false;
-					});
+					}
 				}
 
 				btnInstalled.disabled = false;
@@ -148,7 +161,7 @@
 		.catch(error=> console.log('Error:', error))
 	}
 
-</script>
+</>
 
 </body>
 </html>
