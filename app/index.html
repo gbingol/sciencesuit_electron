@@ -19,6 +19,20 @@
 			font-style: italic;     
 			font-weight: bold;
 		}
+
+		div.PyHomes
+		{
+			border: 1px dashed red; 
+			width: 50%;
+		}
+
+		@media only screen and (max-width:600px) 
+		{
+			div.PyHomes
+			{
+				width: 80%;
+			}
+		}
 	</style>
 
 	<link rel="stylesheet" href="css/common.css">
@@ -67,56 +81,47 @@
 	"use strict";
 
 	let div = document.body.appendChild(document.createElement("div"));
-	div.style.cssText = "border: 1px dashed red; width: fit-content;";
+	div.className = "PyHomes";
 
 	let pHeader = div.appendChild(document.createElement("p"));
-	pHeader.innerHTML = "Python Info";
+	pHeader.innerHTML = "Python Management";
 	pHeader.style.cssText = "text-align: center; color: red; font-weight: bold;";
 
-	let p_PyHome = div.appendChild(document.createElement("p"));
+	let p_PyHomes = div.appendChild(document.createElement("p"));
 
-	window.myapi.runcmd("python -c \"import sys; print(sys.executable)\"").
+	window.myapi.runcmd("py -0").
 	then(output=> 
-	{		
-		p_PyHome.innerHTML = "<b>Current:</b> " + output;
+	{	
+		const arr = output.split("\n");
+		arr.pop(); //the last element is with empty string
+
+		let ol = div.appendChild(document.createElement("ol"));
+		ol.className = "linespaced";
+		for(let path of arr)
+		{
+			let li = ol.appendChild(document.createElement("li"));
+			li.innerHTML = path;
+
+			if(path.includes("*"))
+				li.style.color = "green";
+		}
 
 		let p_scisuit = div.appendChild(document.createElement("p"));
-		let span = p_scisuit.appendChild(document.createElement("span"));
+		p_scisuit.innerHTML = "Checking status of <b>scisuit</b> package...";
 
-		span.innerHTML = "Checking status of <b>scisuit</b> package...";
-
-		window.myapi.runcmd("python -m pip show scisuit").
+		window.myapi.runcmd("py -m pip show scisuit").
 		then(ouput=> 
 		{
-			span.innerHTML = "<b>scisuit</b> package &#x2713;";
+			p_scisuit.innerHTML = "<b>scisuit</b> package &#x2713;";
 			
 		}).
 		catch(error=>
 		{
-			span.innerHTML = "<b>scisuit</b> package is not installed: ";
-			span.style.color = "red";
-
-			let btn = p_scisuit.appendChild(document.createElement("button"));
-			btn.innerHTML = "Install <b>scisuit</b>";
-
-			btn.onclick = function(evt)
-			{
-				span.innerHTML = "<b>scisuit</b> is being installed...";
-				btn.disabled = true;
-
-				window.myapi.runcmd("python -m pip install scisuit").
-				then(ouput=> 
-				{
-					p_scisuit.innerHTML = "<b>scisuit</b> package &#x2713;";	
-				}).
-				catch(error=>
-				{
-					span.innerHTML = "<b>scisuit</b> package could not be installed: ";
-					span.style.color = "red";
-
-					btn.disabled = true;
-				});
-			}
+			p_scisuit.innerHTML = "<b>scisuit</b> package is not installed ";
+			
+			let anchor = div.appendChild(document.createElement("a"));
+			anchor.href="pipmngr.html";
+			anchor.innerHTML = "Py Package Manager"
 		});
 	}).
 	catch(error=>
