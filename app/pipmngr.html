@@ -41,25 +41,29 @@
 <p><a href="index.html">Main Screen</a></p>
 
 
-<button id="btnInstalledModules">Installed Modules</button>
+<button id="btnInstalled">Installed Modules</button>
 
 
 <div id="modules"></div>
 <div id="pipoutput"></div>
-<div id="erroutput"></div>
 
 
 
 <script>
-	const btnInstalled = document.querySelector('#btnInstalledModules');
+	"use strict"
+	const btnInstalled = document.querySelector('#btnInstalled');
 	btnInstalled.onclick = (evt) => 
 	{
+		btnInstalled.disabled = true;
+		const divModules = document.querySelector('#modules');
+		divModules.innerHTML="";
+
 		let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip list --format=json "
 
 		window.api.runcmd(cmd)
 		.then(output => 
 		{
-			let table = document.body.appendChild(document.createElement("table"));
+			let table = divModules.appendChild(document.createElement("table"));
 			let header = table.appendChild(document.createElement("thead"));
 			let row = header.appendChild(document.createElement("tr"));
 			let col1 = row.appendChild(document.createElement("td"));
@@ -80,50 +84,70 @@
 				col2 = row.appendChild(document.createElement("td"));
 				col2.innerHTML=e.version;
 				col3 = row.appendChild(document.createElement("td"));
-				let btn = col3.appendChild(document.createElement("button"));
-				btn.id = e.name;
-				btn.innerHTML="Show Info";
+				let btnInfo = col3.appendChild(document.createElement("button"));
+				btnInfo.id = "info_"+e.name;
+				btnInfo.innerHTML="Info";
+
+				let btnRemove = col3.appendChild(document.createElement("button"));
+				btnRemove.id = "remove_"+e.name;
+				btnRemove.innerHTML="Uninstall";
 				
 				table.appendChild(row);
+
+				let prg = document.querySelector("#pipoutput");
+
+				btnInfo.onclick = (evt)=>
+				{
+					const AllBtns = document.getElementsByTagName("button");
+					for(let b of AllBtns) b.disabled=true;
+
+					let ShowCmd = "py -"+localStorage.getItem("pyversion") + " -m pip show " + e.name;
+					window.api.runcmd(ShowCmd).
+					then(output=>
+					{	
+						prg.scrollIntoView();
+						prg.innerText=output;
+
+						for(let b of AllBtns) b.disabled=false;
+					}).
+					catch(error=>
+					{
+						prg.scrollIntoView();
+						prg.innerText=error;
+					});
+				}
+
+				btnRemove.onclick = (evt)=>
+				{
+					const AllBtns = document.getElementsByTagName("button");
+					for(let b of AllBtns) b.disabled=true;
+
+					let remCmd = "py -"+localStorage.getItem("pyversion") + " -m pip uninstall -y " + e.name;
+
+					window.api.runcmd(remCmd).
+					then(output=>
+					{	
+						prg.scrollIntoView();
+						prg.innerText = output;
+
+						for(let b of AllBtns) b.disabled=false;
+					}).
+					catch(error=>
+					{
+						prg.scrollIntoView();
+						prg.innerText=error;
+
+						for(let b of AllBtns) b.disabled=false;
+					});
+				}
+
+				btnInstalled.disabled = false;
 			}
 			
 		})
 		.catch(error=> console.log('Error:', error))
 	}
 
-	
-	function ShowInfo(event)
-	{
-		if(event.target.className === "pipinfo")
-		{
-			let errout = document.getElementById("erroutput");
-			let prg = document.getElementById("pipoutput");
-
-			let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip show " + event.target.id
-
-			window.api.runcmd(cmd).
-			then(output=>
-			{	
-				prg.scrollIntoView();
-				errout.innerText = "";
-				prg.innerText=output;
-			}).
-			catch(error=>
-			{
-				errout.scrollIntoView();
-				errout.innerText=error;
-				prg.innerText="";
-			});
-		}
-	}
-
-
-	document.addEventListener("click", (event)=>
-	{
-		if(event.target === document.getElementsByTagName("button"));
-			ShowInfo(event);
-	});
-	
 </script>
 
 </body>
