@@ -68,7 +68,7 @@ for i in x: \n
 
 print(json.dumps(lst))
 `
-		window.api.runpython(PyCmd, null, true)
+		window.api.runpython(PyCmd, {pythonPath: localStorage.getItem("pypath")}, true)
 		.then(output => 
 		{
 			let s ="<table><tr><td>Name</td><td colspan=2>Location</td></tr>"
@@ -95,6 +95,7 @@ print(json.dumps(lst))
 	}, 
 	false);
 
+	
 	function ShowInfo(event)
 	{
 		if(event.target.className === "pipinfo")
@@ -102,7 +103,9 @@ print(json.dumps(lst))
 			let errout = document.getElementById("erroutput");
 			let prg = document.getElementById("pipoutput");
 
-			window.api.runcmd("python -m pip show " + event.target.id).
+			let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip show " + event.target.id
+
+			window.api.runcmd(cmd).
 			then(output=>
 			{	
 				prg.scrollIntoView();
