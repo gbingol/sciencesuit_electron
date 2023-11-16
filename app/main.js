@@ -15,7 +15,7 @@ const createWindow = () =>
 		}
 	})
 	
-	mainWindow.loadFile('app/index.html')
+	mainWindow.loadFile('app/index.html');
 }
 
 

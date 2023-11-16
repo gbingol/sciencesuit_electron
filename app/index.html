@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width">
 	<title>ScienceSuit</title>
 
+	<link rel="stylesheet" href="css/common.css">
 	<style>
 		p.FirstLetter 
 		{
@@ -26,6 +27,17 @@
 			width: 50%;
 		}
 
+		ol.linespaced {
+		padding-left: 0;
+		}
+
+		ol.linespaced li 
+		{
+			padding-top: 6px;
+			padding-bottom: 6px;
+			list-style: none;
+		}
+
 		@media only screen and (max-width:600px) 
 		{
 			div.PyHomes
@@ -34,8 +46,6 @@
 			}
 		}
 	</style>
-
-	<link rel="stylesheet" href="css/common.css">
 </head>
 
 
@@ -89,37 +99,82 @@
 
 	let p_PyHomes = div.appendChild(document.createElement("p"));
 
-	window.myapi.runcmd("py -0").
+	
+	window.myapi.runcmd("py --list-paths").
 	then(output=> 
 	{	
+		/**
+		@type {string[]}
+		 */
 		const arr = output.split("\n");
 		arr.pop(); //the last element is with empty string
 
 		let ol = div.appendChild(document.createElement("ol"));
 		ol.className = "linespaced";
+
+		const storedPyVersion = localStorage.getItem("pyversion");
+		let prevInput = null;
+		
 		for(let path of arr)
 		{
-			let li = ol.appendChild(document.createElement("li"));
-			li.innerHTML = path;
+			path = path.trim();
+			let start = path.indexOf(":");
+			let end = path.indexOf(" ");
+			let version = path.substring(start+1, end);
 
-			if(path.includes("*"))
+			let li = ol.appendChild(document.createElement("li"));
+
+			let input = li.appendChild(document.createElement("input"));
+			input.type="radio";
+			input.name="pyhome";
+			input.id=version;
+
+			let label = li.appendChild(document.createElement("label"));
+			label.htmlFor = input.id;
+			label.innerHTML=path.substring(start+1);
+
+			if(path.includes("*") && storedPyVersion==null)
+			{
+				localStorage.setItem("pyversion", input.id);
+				input.checked=true;
+				prevInput=input;
 				li.style.color = "green";
+			}
+
+			if(storedPyVersion != null)
+			{
+				input.checked = (storedPyVersion == input.id);
+				if(input.checked)  
+					prevInput=input;
+				li.style.color = input.checked ? "green":"inherit";
+			}
+
+			input.onchange = function(evt)
+			{
+				prevInput.parentElement.style.color = "inherit";
+				evt.target.parentElement.style.color = "green";
+				localStorage.setItem("pyversion", evt.target.id);
+
+				if(input!=prevInput)
+					prevInput=input;
+			}
 		}
 
 		let p_scisuit = div.appendChild(document.createElement("p"));
-		p_scisuit.innerHTML = "Checking status of <b>scisuit</b> package...";
+		let span = p_scisuit.appendChild(document.createElement("span"));
+		span.innerHTML = "Checking status of <b>scisuit</b> package...";
 
 		window.myapi.runcmd("py -m pip show scisuit").
 		then(ouput=> 
 		{
-			p_scisuit.innerHTML = "<b>scisuit</b> package &#x2713;";
+			span.innerHTML = "<b>scisuit</b> package &#x2713;";
 			
 		}).
 		catch(error=>
 		{
-			p_scisuit.innerHTML = "<b>scisuit</b> package is not installed ";
+			span.innerHTML = "<b>scisuit</b> is not installed: ";
 			
-			let anchor = div.appendChild(document.createElement("a"));
+			let anchor = p_scisuit.appendChild(document.createElement("a"));
 			anchor.href="pipmngr.html";
 			anchor.innerHTML = "Py Package Manager"
 		});
