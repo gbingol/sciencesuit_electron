@@ -31,6 +31,19 @@
 		#erroutput{
 			background-color: rgb(180, 76, 76);
 		}
+
+		div.infopanel{
+			border: 1px dashed green;
+			width: 50%;
+		}
+
+		@media only screen and (max-width:600px) 
+		{
+			div.infopanel
+			{
+				width: 80%;
+			}
+		}
 	</style>
 
 	<script src="js/util.js"></script>
@@ -38,24 +51,34 @@
 
 
 <body>
-<script>
-window.onload = (evt)=>
-{
-	document.querySelector("#version").innerHTML = 
-		`Selected Python Version: <b>${localStorage.getItem("pyversion")}</b>`
-}
-</script>
+
+<div id="desktopmenu">	
+	<ul class="desktopmenubar">
+		<li class="singlemenu"><a class="active"  href="index.html">Home</a></li>
+	</ul>	
+</div>
+
+	
+<div id="mobilemenu" class="mobileoverlay">
+	<div class="overlay-content"></div>
+</div>
+
+<script src="mainmenu.js"></script>
 
 
-<h1>Python Package Manager</h1>
-<p id ="version"> </p>
+<h1>PIP Manager</h1>
 
-<p><a href="index.html">Main Screen</a></p>
+<div class="infopanel">
+<p><i>Selected Python version: </i><span id ="version"></span></p>
+<p><i>Internet status: </i><span id="connection"></span></p>
+</div>
 
+<br>
 
+<div class="infopanel" style="border: 1px dashed red;">
 <button id="btnInstalled">Installed</button>
 <button id="btnOutdated">Outdated</button>
-
+</div>
 
 <div id="modules"></div>
 <div id="pipoutput"></div>
@@ -64,15 +87,43 @@ window.onload = (evt)=>
 
 <script>
 	"use strict"
-	
+
 	function DisableButtons(disable=true)
 	{
-		const AllBtns = document.body.getElementsByTagName("button");
+		const AllBtns = document.body.getElementsByClassName("pip");
 		for(let b of AllBtns) 
 			b.disabled=disable;
 	}
 
+	function SetStatusText()
+	{
+		document.querySelector("#connection").innerHTML= 
+			window.navigator.onLine?"<b>online</b>":"<b>offline</b>";
+	}
+	
+	
+
+	window.onload = (evt)=>
+	{
+		SetStatusText();
+		document.querySelector("#version").innerHTML = `<b>${localStorage.getItem("pyversion")}</b>`
+	}
+
+	window.ononline = function(evt)
+	{
+		btnOutdated.disabled=!window.navigator.onLine;
+		SetStatusText();
+	}
+
+	window.onoffline = function(evt)
+	{
+		btnOutdated.disabled=!window.navigator.onLine;
+		SetStatusText();
+	}
+
 	const btnOutdated = document.querySelector('#btnOutdated');
+	btnOutdated.disabled = !window.navigator.onLine;
+
 	btnOutdated.onclick = async function(evt)
 	{
 		const divModules = document.querySelector('#modules');
@@ -114,6 +165,7 @@ window.onload = (evt)=>
 			let btnUpgrade = col4.appendChild(document.createElement("button"));
 			btnUpgrade.id = "upgrade_"+e.name;
 			btnUpgrade.innerHTML="Upgrade";
+			btnUpgrade.className = "pip"
 			
 			table.appendChild(row);
 
@@ -187,14 +239,16 @@ window.onload = (evt)=>
 			let btnInfo = col3.appendChild(document.createElement("button"));
 			btnInfo.id = "info_"+e.name;
 			btnInfo.innerHTML="Info";
+			btnInfo.className="pip";
 
 			let btnRemove = col3.appendChild(document.createElement("button"));
 			btnRemove.id = "remove_"+e.name;
 			btnRemove.innerHTML="Uninstall";
+			btnRemove.className="pip";
 			
 			table.appendChild(row);
 
-			
+			btnInfo.disabled = !window.navigator.onLine;
 			btnInfo.onclick = async (evt)=>
 			{
 				try {
