@@ -53,3 +53,24 @@ util.fetchText = function(url)
 
 	return content;
 }
+
+/**
+ * 
+ * @param {HTMLElement} owner 
+ * @param {string[]} headers 
+ * @returns {HTMLTableElement}
+ */
+util.InitTable = function (owner, headers)
+{
+	let table = owner.appendChild(document.createElement("table"));
+	let header = table.appendChild(document.createElement("thead"));
+	let row = header.appendChild(document.createElement("tr"));
+
+	for (let header of headers)
+	{
+		let col = row.appendChild(document.createElement("td"));
+		col.innerHTML=header;
+	}
+
+	return table;
+}

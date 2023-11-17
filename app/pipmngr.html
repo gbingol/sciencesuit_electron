@@ -32,6 +32,8 @@
 			background-color: rgb(180, 76, 76);
 		}
 	</style>
+
+	<script src="js/util.js"></script>
 </head>
 
 
@@ -61,39 +63,46 @@ window.onload = (evt)=>
 
 <script>
 	"use strict"
-	const btnInstalled = document.querySelector('#btnInstalled');
-	btnInstalled.onclick = (evt) => 
+	
+	function DisableButtons(disable=true)
 	{
-		btnInstalled.disabled = true;
+		const AllBtns = document.getElementsByTagName("button");
+		for(let b of AllBtns) 
+			b.disabled=disable;
+	}
+
+	const btnInstalled = document.querySelector('#btnInstalled');
+	btnInstalled.onclick = function(evt)
+	{
 		const divModules = document.querySelector('#modules');
 		divModules.innerHTML="";
+
+		let divPip = document.querySelector("#pipoutput");
+		divPip.innerText="";
+
+		this.disabled = true;
 
 		let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip list --format=json "
 
 		window.api.runcmd(cmd)
 		.then(output => 
 		{
-			let table = divModules.appendChild(document.createElement("table"));
-			let header = table.appendChild(document.createElement("thead"));
-			let row = header.appendChild(document.createElement("tr"));
-			let col1 = row.appendChild(document.createElement("td"));
-			col1.innerHTML="Name";
-			let col2 = row.appendChild(document.createElement("td"));
-			col2.innerHTML="Version";
-			let col3 = row.appendChild(document.createElement("td"));
+			let fragment = document.createDocumentFragment();
+
+			let table = util.InitTable(fragment, ["Name", "Version", ""]);
 			
-			let jsonData = JSON.parse(output);
+			let json = JSON.parse(output);
 
-			for (let i = 0; i <jsonData.length; i++) 
+			for (let i = 0; i <json.length; i++) 
 			{
-				let e = jsonData[i];
+				let e = json[i];
 
-				row = header.appendChild(document.createElement("tr"));
-				col1 = row.appendChild(document.createElement("td"));
+				let row = table.appendChild(document.createElement("tr"));
+				let col1 = row.appendChild(document.createElement("td"));
 				col1.innerHTML=e.name ;
-				col2 = row.appendChild(document.createElement("td"));
+				let col2 = row.appendChild(document.createElement("td"));
 				col2.innerHTML=e.version;
-				col3 = row.appendChild(document.createElement("td"));
+				let col3 = row.appendChild(document.createElement("td"));
 				let btnInfo = col3.appendChild(document.createElement("button"));
 				btnInfo.id = "info_"+e.name;
 				btnInfo.innerHTML="Info";
@@ -104,59 +113,53 @@ window.onload = (evt)=>
 				
 				table.appendChild(row);
 
-				let prg = document.querySelector("#pipoutput");
-
+				
 				btnInfo.onclick = async (evt)=>
 				{
-					try
-					{
-						const AllBtns = document.getElementsByTagName("button");
-						for(let b of AllBtns) b.disabled=true;
+					try {
+						DisableButtons();
+						divPip.innerText="";
 
 						let ShowCmd = "py -"+localStorage.getItem("pyversion") + 
 							" -m pip show " + e.name;
 						let output = await window.api.runcmd(ShowCmd);
-						prg.scrollIntoView();
-						prg.innerText=output;
+						divPip.scrollIntoView();
+						divPip.innerText=output;
 
-						for(let b of AllBtns) b.disabled=false;
+						DisableButtons(false);
 					}
-					catch(error)
-					{
-						prg.scrollIntoView();
-						prg.innerText=error;
+					catch(error) {
+						divPip.scrollIntoView();
+						divPip.innerText=error;
 					}
 				}
 
 				btnRemove.onclick = async (evt)=>
 				{
-					const AllBtns = document.getElementsByTagName("button");
-					try
-					{	
-						for(let b of AllBtns) b.disabled=true;
+					try {	
+						DisableButtons();
 
 						let remCmd = "py -"+ localStorage.getItem("pyversion") + 
 							" -m pip uninstall -y " + e.name;
 
 						let output = await window.api.runcmd(remCmd);
-						prg.scrollIntoView();
-						prg.innerText = output;
+						divPip.scrollIntoView();
+						divPip.innerText = output;
 
-						for(let b of AllBtns) b.disabled=false;
-					}
-					
-					catch(error)
-					{
-						prg.scrollIntoView();
-						prg.innerText=error;
+						DisableButtons(false);
+					}		
+					catch(error) {
+						divPip.scrollIntoView();
+						divPip.innerText=error;
 
-						for(let b of AllBtns) b.disabled=false;
+						DisableButtons(false);
 					}
 				}
 
-				btnInstalled.disabled = false;
+				this.disabled = false;
 			}
-			
+
+			divModules.appendChild(fragment)	
 		})
 		.catch(error=> console.log('Error:', error))
 	}
