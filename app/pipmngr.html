@@ -72,96 +72,101 @@ window.onload = (evt)=>
 	}
 
 	const btnInstalled = document.querySelector('#btnInstalled');
-	btnInstalled.onclick = function(evt)
+	btnInstalled.onclick = async function(evt)
 	{
 		const divModules = document.querySelector('#modules');
-		divModules.innerHTML="";
+		divModules.innerHTML="Working on it...";
 
 		let divPip = document.querySelector("#pipoutput");
 		divPip.innerText="";
 
-		this.disabled = true;
+		let json="";
+		try {
+			this.disabled = true;
 
-		let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip list --format=json "
+			let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip list --format=json "
+			let output = await window.api.runcmd(cmd);
+			json = JSON.parse(output);
+		}
+		catch(e) {
+			divModules.innerText = e;
+			return false;
+		}
+		
+		let fragment = document.createDocumentFragment();
 
-		window.api.runcmd(cmd)
-		.then(output => 
+		let table = util.InitTable(fragment, ["Name", "Version", ""]);
+
+		for (let i = 0; i <json.length; i++) 
 		{
-			let fragment = document.createDocumentFragment();
+			let e = json[i];
 
-			let table = util.InitTable(fragment, ["Name", "Version", ""]);
+			let row = table.appendChild(document.createElement("tr"));
+			let col1 = row.appendChild(document.createElement("td"));
+			col1.innerHTML=e.name ;
+			let col2 = row.appendChild(document.createElement("td"));
+			col2.innerHTML=e.version;
+			let col3 = row.appendChild(document.createElement("td"));
+			let btnInfo = col3.appendChild(document.createElement("button"));
+			btnInfo.id = "info_"+e.name;
+			btnInfo.innerHTML="Info";
+
+			let btnRemove = col3.appendChild(document.createElement("button"));
+			btnRemove.id = "remove_"+e.name;
+			btnRemove.innerHTML="Uninstall";
 			
-			let json = JSON.parse(output);
+			table.appendChild(row);
 
-			for (let i = 0; i <json.length; i++) 
+			
+			btnInfo.onclick = async (evt)=>
 			{
-				let e = json[i];
+				try {
+					DisableButtons();
+					divPip.innerText="";
 
-				let row = table.appendChild(document.createElement("tr"));
-				let col1 = row.appendChild(document.createElement("td"));
-				col1.innerHTML=e.name ;
-				let col2 = row.appendChild(document.createElement("td"));
-				col2.innerHTML=e.version;
-				let col3 = row.appendChild(document.createElement("td"));
-				let btnInfo = col3.appendChild(document.createElement("button"));
-				btnInfo.id = "info_"+e.name;
-				btnInfo.innerHTML="Info";
+					let ShowCmd = "py -"+localStorage.getItem("pyversion") + 
+						" -m pip show " + e.name;
+					let output = await window.api.runcmd(ShowCmd);
+					divPip.scrollIntoView();
+					divPip.innerText=output;
 
-				let btnRemove = col3.appendChild(document.createElement("button"));
-				btnRemove.id = "remove_"+e.name;
-				btnRemove.innerHTML="Uninstall";
-				
-				table.appendChild(row);
-
-				
-				btnInfo.onclick = async (evt)=>
-				{
-					try {
-						DisableButtons();
-						divPip.innerText="";
-
-						let ShowCmd = "py -"+localStorage.getItem("pyversion") + 
-							" -m pip show " + e.name;
-						let output = await window.api.runcmd(ShowCmd);
-						divPip.scrollIntoView();
-						divPip.innerText=output;
-
-						DisableButtons(false);
-					}
-					catch(error) {
-						divPip.scrollIntoView();
-						divPip.innerText=error;
-					}
+					DisableButtons(false);
 				}
-
-				btnRemove.onclick = async (evt)=>
-				{
-					try {	
-						DisableButtons();
-
-						let remCmd = "py -"+ localStorage.getItem("pyversion") + 
-							" -m pip uninstall -y " + e.name;
-
-						let output = await window.api.runcmd(remCmd);
-						divPip.scrollIntoView();
-						divPip.innerText = output;
-
-						DisableButtons(false);
-					}		
-					catch(error) {
-						divPip.scrollIntoView();
-						divPip.innerText=error;
-
-						DisableButtons(false);
-					}
+				catch(error) {
+					divPip.scrollIntoView();
+					divPip.innerText=error;
 				}
-
-				this.disabled = false;
 			}
 
-			divModules.appendChild(fragment)	
-		})
-		.catch(error=> console.log('Error:', error))
+			btnRemove.onclick = async (evt)=>
+			{
+				try {
+					divPip.innerText = "";
+						
+					DisableButtons();
+
+					let remCmd = "py -"+ localStorage.getItem("pyversion") + 
+						" -m pip uninstall -y " + e.name;
+
+					let output = await window.api.runcmd(remCmd);
+					divPip.scrollIntoView();
+					divPip.innerText = output;
+
+					DisableButtons(false);
+				}		
+				catch(error) {
+					divPip.scrollIntoView();
+					divPip.innerText=error;
+
+					DisableButtons(false);
+				}
+			}
+
+			this.disabled = false;
+		}
+
+		divModules.innerHTML="";
+		divModules.appendChild(fragment)
 	}
 
 </script>
