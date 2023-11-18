@@ -3,10 +3,17 @@ const path = require('node:path')
 
 
 const createWindow = () =>
-{
+{ 
 	const mainWindow = new BrowserWindow({
 		width: 800,
 		height: 600,
+		titleBarStyle: 'hidden',
+		titleBarOverlay:
+		{
+			color: 'black',
+			symbolColor: 'white',
+			
+		},
 		webPreferences:
 		{
 			nodeIntegration: true,

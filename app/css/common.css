@@ -1,4 +1,7 @@
-
+body
+{
+	margin: 0px;
+}
 
 h2 { color: red; }
 h3 { color: maroon; }
