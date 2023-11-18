@@ -7,7 +7,7 @@ function createCSS()
 		margin: 0;
 		padding: 0;
 		overflow: hidden;
-		background-color: green;
+		background-color: black;
 		width:100%;
 	}
 	
@@ -28,7 +28,7 @@ function createCSS()
 	
 	
 	li.singlemenu a:hover, .dropdownmenu:hover .dropbutton {
-		background-color: red;
+		background-color: gray;
 	}
 	
 	
@@ -48,7 +48,7 @@ function createCSS()
 	
 	.drop_menuitems  a {
 		color: black;
-		padding: 12px 16px;
+		
 		text-decoration: none;
 		display: block;
 		text-align: left;
@@ -211,9 +211,9 @@ function createDesktopMenu()
 	desktopMenuBar.className = "desktopmenubar";
 	
 	let links = [
-		{ "cls": "active", "href":"index.html", "lbl": "Home" },
+		{"href":"index.html", "lbl": "Home" },
 		{ "href": "eng/psychrometry/index.html", "lbl": "Psychrometry" },
-		{ "href": "pipmngr.html", "lbl": "PIP Manager" },
+		{ "href": "pipmngr.html", "lbl": "PIP" },
 	];
 
 	for (let lnk of links)
@@ -224,11 +224,6 @@ function createDesktopMenu()
 		let a = lstItem.appendChild(document.createElement("a"));
 		a.innerHTML = lnk.lbl;
 		a.href = window.api.dirname() +"/" + lnk.href;
-
-		if (lnk.hasOwnProperty("cls"))
-		{	
-			a.className = "active";
-		}
 	}
 }
 
