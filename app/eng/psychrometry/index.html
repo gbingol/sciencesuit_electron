@@ -7,6 +7,7 @@
 	<title>Psychrometry</title>
 
 	<script src ="psyutil.js"></script>
+	<link href="../../css/common.css" rel="stylesheet">
     <style>
 		p.info
 		{
@@ -14,11 +15,25 @@
 			font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		}
 
+		div.links
+		{
+			display: flex;
+			flex-direction: row;
+			gap: 12px;
+			overflow: visible;
+		}
 
-		@media only screen and (max-width:900px)
+
+		@media only screen and (max-width:800px)
 		{
 			p.info{
 				margin-right: auto;
+			}
+
+			div.links
+			{
+				flex-direction: column;
+				gap: 12px;
 			}
 		}
     </style>
@@ -39,6 +54,24 @@
 
 
 <h1>Psychrometry</h1>
+
+<h2>Utilities</h2>
+
+<div class="links">
+	<a href="calculator.html">Calculator</a>
+	<a href="adiabaticmixing.html">Adiabatic mixing</a>
+	<a href="coolingdehumid.html">Cooling with dehumidification</a>
+	<a href="evaporativecooling.html">Evaporative cooling</a>
+	<a href="heating_humidif.html">Heating with humidification</a>
+</div>
+
+
+
+<p>&nbsp;</p>
+
+
+
+<h2 class="heading2">Background</h2>
 
 <p class="info">
 	Psychrometrics deals with <i>thermodynamic properties of moist air</i>

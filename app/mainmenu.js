@@ -148,11 +148,17 @@ function createCSS()
 
 function createMobileMenuBar()
 {
+	let mobileDiv = document.body.appendChild(document.createElement("div"));
+	mobileDiv.id = "mobilemenu";
+	mobileDiv.className = "mobileoverlay";
+	mobileDiv.style.display = "none";
+
+	let divOverlayContent = mobileDiv.appendChild(document.createElement("div"));
+	divOverlayContent.className = "overlay-content";
+
+		
 	let div = document.body.appendChild(document.createElement("div"));
 	div.className = "mobilemenubar";
-
-	let mobileMenu = document.querySelector("#mobilemenu");
-	mobileMenu.style.display = "none";
 
 	//home button on the left
 	let home = div.appendChild(document.createElement("span"));
@@ -173,25 +179,59 @@ function createMobileMenuBar()
 	//as of this point it is the mobile-overlay
 	navigator.onclick = function(evt)
 	{
-		mobileMenu.style.display = "block";
-		mobileMenu.style.height = "100%";
+		mobileDiv.style.display = "block";
+		mobileDiv.style.height = "100%";
 
-		let btn = mobileMenu.appendChild(document.createElement("a"));
+		let btn = mobileDiv.appendChild(document.createElement("a"));
 		btn.innerHTML = "&times;";
 		btn.href = "javascript:void(0)";
 		btn.style.cssText = "display: block; position:fixed; font-size:40px; top:15px; right:35px; z-index:100";
 		
 		btn.onclick = function (evt)
 		{
-			document.querySelector("#mobilemenu").style.height = "0%";  
-			mobileMenu.removeChild(btn);
-			mobileMenu.style.display = "none";
+			mobileDiv.style.height = "0%";  
+			mobileDiv.removeChild(btn);
+			mobileDiv.style.display = "none";
 		}
 	}
 
 }
 
 
+function createDesktopMenu()
+{	
+	let desktopDiv = document.body.appendChild(document.createElement("div"));
+	desktopDiv.id = "desktopmenu";
+
+	let mobileDiv = document.body.appendChild(document.createElement("div"));
+	mobileDiv.id = "mobilemenu";
+	mobileDiv.className = "mobileoverlay";
+
+	let desktopMenuBar = desktopDiv.appendChild(document.createElement("ul"));
+	desktopMenuBar.className = "desktopmenubar";
+	
+	let links = [
+		{ "cls": "active", "href":"index.html", "lbl": "Home" },
+		{ "href": "eng/psychrometry/index.html", "lbl": "Psychrometry" },
+		{ "href": "pipmngr.html", "lbl": "PIP Manager" },
+	];
+
+	for (let lnk of links)
+	{
+		let lstItem = desktopMenuBar.appendChild(document.createElement("li"));
+		lstItem.className = "singlemenu";
+
+		let a = lstItem.appendChild(document.createElement("a"));
+		a.innerHTML = lnk.lbl;
+		a.href = window.api.dirname() +"/" + lnk.href;
+
+		if (lnk.hasOwnProperty("cls"))
+		{	
+			a.className = "active";
+		}
+	}
+}
 
 createCSS();
 createMobileMenuBar();
+createDesktopMenu();
