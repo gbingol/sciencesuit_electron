@@ -49,7 +49,7 @@ function createMenu()
 			</li>
 			
 			<li class="singlemenu">
-				<a href="../../eng/psychrometrycalc.html">Calculator</a>
+				<a href="calculator.html">Calculator</a>
 			</li>
 			
 			<li class="dropdownmenu"> 
@@ -68,7 +68,7 @@ function createMenu()
 	<div id="mobilemenu" class="mobileoverlay">
 
 		<div class="overlay-content">
-			<a href="../../eng/psychrometrycalc.html">Compute</a>
+			<a href="calculator.html">Calculator</a>
 			<a href="adiabaticmixing.html">Adiabatic mixing</a>
 			<a href="coolingdehumid.html">Cooling with dehumidification</a>
 			<a href="evaporativecooling.html">Evaporative cooling</a>
