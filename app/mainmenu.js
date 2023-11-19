@@ -58,8 +58,12 @@ function createCSS()
 
 
 function createDesktopMenu()
-{	
+{
 	let titleBar = document.body.appendChild(document.createElement("div"));
+	titleBar.style.position="sticky";
+	titleBar.style.top="0px";
+	titleBar.style.width="100%";
+	titleBar.style.zIndex=1;
 
 	let MenuBar = titleBar.appendChild(document.createElement("ul"));
 	MenuBar.style.cssText = "list-style-type: none; margin: 0; padding: 0; overflow: hidden; background-color: black; width:100%;"

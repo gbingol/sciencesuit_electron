@@ -10,7 +10,6 @@ const createWindow = () =>
 		{
 			color: 'black',
 			symbolColor: 'white',
-			
 		},
 		webPreferences:
 		{
