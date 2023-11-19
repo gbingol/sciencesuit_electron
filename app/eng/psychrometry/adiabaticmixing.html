@@ -9,7 +9,7 @@
 
 	<script src="../../js/util.js"></script>
 	<script src ="psyutil.js"></script>
-	<script src="../../js/dom/outputdiv.js" defer></script>
+	<script src="../../js/dom/div_copydel.js" defer></script>
 
 	<style>
 		table{
@@ -241,7 +241,7 @@
 			s += "<b>h=</b>" + util.math.round(h3, digits) + "kJ / kg da <br>";
 			s += "<b>Flow Rate=</b>" + util.math.round(V3, digits) + "m<sup>3</sup> / time";
 
-			let outDiv = document.body.appendChild(document.createElement("output-div"));
+			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
 			outDiv.innerHTML = s;
 			outDiv.scrollIntoView();
 

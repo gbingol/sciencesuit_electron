@@ -66,7 +66,7 @@
 	<script src="../../js/util.js"></script>
 	<script src ="psyutil.js"></script>
 	<script src ="../../../build/eng/water.js"></script>
-	<script src="../../js/dom/outputdiv.js" defer></script>
+	<script src="../../js/dom/div_copydel.js" defer></script>
 </head>
 
 
@@ -239,7 +239,7 @@
 			s += "<b>Heat Removal = </b>" + util.math.round(Q, digits) + " kJ / time <br>";
 			s += "<b>Moisture Removal = </b>" + util.math.round(mw, digits) + " kg / time <br>";
 
-			let outDiv = document.body.appendChild(document.createElement("output-div"));
+			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
 			outDiv.innerHTML = s;
 			outDiv.scrollIntoView();
 

@@ -78,7 +78,7 @@
     </style>
 
 	<script src ="psyutil.js"></script>
-	<script src="../../js/dom/outputdiv.js" defer></script>
+	<script src="../../js/dom/div_copydel.js" defer></script>
 	<script src="../../js/util.js"></script>
 </head>
 
@@ -220,7 +220,7 @@
 			s += "<b>T = </b>" + util.math.round(Tdb, digits) + " &deg;C <br>";
 			s += "<b>T<sub>min</sub> = </b>" + util.math.round(Twb, digits) + " &deg;C";
 
-			let outDiv = document.body.appendChild(document.createElement("output-div"));
+			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
 			outDiv.innerHTML = s;
 			outDiv.scrollIntoView();
 

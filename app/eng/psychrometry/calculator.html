@@ -8,7 +8,7 @@
 
 	<link href="../../css/common.css" rel="stylesheet">
 	
-	<script src="../../js/dom/outputdiv.js" defer></script>
+	<script src="../../js/dom/div_copydel.js" defer></script>
 
 	<style>
 		table{
@@ -334,7 +334,7 @@ plt.show(maximize=True)
 		{
 			let p = window.api.psychrometry(Keys, Vals);
 
-			let outDiv = document.body.appendChild(document.createElement("output-div"));
+			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
 			outDiv.innerHTML = p.to_html(digits);
 			outDiv.scrollIntoView();
 

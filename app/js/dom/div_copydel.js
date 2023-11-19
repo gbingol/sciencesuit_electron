@@ -1,4 +1,9 @@
-class DivOutput extends HTMLElement 
+/*
+	A copyable and deleteable div element
+	When copy clicked, it also shows a transient popup window
+*/
+
+class DivCopyDel extends HTMLElement 
 {
 	static observedAttributes = ["data-text"];
 	constructor() 
@@ -93,4 +98,4 @@ class DivOutput extends HTMLElement
 
 }
 	
-customElements.define("output-div", DivOutput);
+customElements.define("div-copydel", DivCopyDel);
