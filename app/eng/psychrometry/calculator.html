@@ -9,7 +9,7 @@
 	<link href="../../css/common.css" rel="stylesheet">
 	
 	<script type="module" src="../../js/dom/div_copydel.js" defer></script>
-
+	<script src="../../js/dom/div_transientpopwnd.js" defer></script>
 	<style>
 		table{
 			margin-left: 10px;
@@ -215,7 +215,10 @@ plt.show(maximize=True)
 			}
 			catch(e)
 			{
-				console.log(e);
+				let msgBox = document.createElement("div-transientpopwnd");
+				msgBox.timeout = 3500;
+				msgBox.innerHTML = e;
+				document.body.appendChild(msgBox);
 			}
 			
 		}
