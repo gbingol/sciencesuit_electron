@@ -58,7 +58,7 @@ class DivCopyDel extends HTMLElement
 				function ()
 				{
 					let msgBox = document.createElement("div-transientpopwnd");
-					//msgBox.innerHTML = "Copied to clipboard";
+					msgBox.innerHTML = "Copied to clipboard";
 					
 					document.body.appendChild(msgBox);
 				},

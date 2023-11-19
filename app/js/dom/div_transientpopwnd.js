@@ -8,13 +8,8 @@ class DivTransientPopupWindow extends HTMLElement
 	constructor() 
 	{
 		super();
-	}
 
-	
-	
-	connectedCallback() 
-	{
-		const shadow = this.attachShadow({ mode: "open" });
+		this.shadow = this.attachShadow({ mode: "open" });
 	
 		this.msgBox = document.createElement("div");
 		this.msgBox.style.position = "fixed";
@@ -23,16 +18,20 @@ class DivTransientPopupWindow extends HTMLElement
 		this.msgBox.style.border = "3px solid goldenrod";
 		this.msgBox.style.backgroundColor = "azure"
 		this.msgBox.style.fontSize = "1.3em";
-		this.msgBox.innerHTML = "Copied to clipboard";
-	
-		shadow.appendChild(this.msgBox);
 
-		setTimeout(() => { shadow.removeChild(this.msgBox); }, 2500);
+		this.contentTxt = this.msgBox.appendChild(document.createElement("div"));
+		
+		this.shadow.appendChild(this.msgBox);
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) 
+	connectedCallback()
 	{
-		this.msgBox.innerHTML = newValue
+		setTimeout(() => { this.shadow.removeChild(this.msgBox); }, 2500);
+	}
+
+	set innerHTML(val)
+	{
+		this.contentTxt.innerHTML = val;
 	}
 
 }
