@@ -3,6 +3,8 @@
 	When copy clicked, it also shows a transient popup window
 */
 
+import { DivTransientPopupWindow } from "./div_transientpopwnd.js";
+
 class DivCopyDel extends HTMLElement 
 {
 	static observedAttributes = ["data-text"];
@@ -55,18 +57,10 @@ class DivCopyDel extends HTMLElement
 			navigator.clipboard.write(data).then(
 				function ()
 				{
-					let msgBox = document.createElement("div");
-					msgBox.style.position = "fixed";
-					msgBox.style.bottom = "0px";
-					msgBox.style.left = "40%";
-					msgBox.style.border = "3px solid goldenrod";
-					msgBox.style.backgroundColor = "azure"
-					msgBox.style.fontSize = "1.3em";
-					msgBox.innerHTML = "Copied to clipboard";
+					let msgBox = document.createElement("div-transientpopwnd");
+					//msgBox.innerHTML = "Copied to clipboard";
 					
 					document.body.appendChild(msgBox);
-
-					setTimeout(() => { document.body.removeChild(msgBox); }, 2500);
 				},
 				function () {
 				/* failure */
