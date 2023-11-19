@@ -200,17 +200,24 @@
 	<a href="#" id="chartbtn">Show me psychrometric chart</a>
 	<script>
 		const chartBtn = document.getElementById('chartbtn');
-		chartBtn.onclick = function(evt)
+		let options = {pythonPath: localStorage.getItem("pypath")};
+		chartBtn.onclick = async function(evt)
 		{
 			let cmd = 
 `
 import scisuit.plot as plt
 plt.psychrometry()
 plt.show(maximize=True)
-`	
-			window.api.runpython(cmd, null, true);
-
-			return false;
+`			
+			try{
+				let output = await window.api.runpython(cmd, options, true);
+				return false;
+			}
+			catch(e)
+			{
+				console.log(e);
+			}
+			
 		}
 	</script>
 </div>

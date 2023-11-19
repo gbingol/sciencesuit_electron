@@ -173,25 +173,6 @@
 	then(output=> 
 	{	
 		GenerateHTMLPythonList(output, div);
-
-		let p_scisuit = div.appendChild(document.createElement("p"));
-		let span = p_scisuit.appendChild(document.createElement("span"));
-		span.innerHTML = "Checking status of <b>scisuit</b> package...";
-
-		window.api.runcmd("py -m pip show scisuit").
-		then(ouput=> 
-		{
-			span.innerHTML = "<b>scisuit</b> package &#x2713;";
-			
-		}).
-		catch(error=>
-		{
-			span.innerHTML = "<b>scisuit</b> is not installed: ";
-			
-			let anchor = p_scisuit.appendChild(document.createElement("a"));
-			anchor.href="pipmngr.html";
-			anchor.innerHTML = "Py Package Manager"
-		});
 	}).
 	catch(error=>
 	{

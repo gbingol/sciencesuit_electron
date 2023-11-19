@@ -4,9 +4,7 @@ const path = require('node:path')
 
 const createWindow = () =>
 { 
-	const mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
+	const mainWnd = new BrowserWindow({
 		titleBarStyle: 'hidden',
 		titleBarOverlay:
 		{
@@ -22,7 +20,8 @@ const createWindow = () =>
 		}
 	})
 	
-	mainWindow.loadFile('app/index.html');
+	mainWnd.maximize();
+	mainWnd.loadFile('app/index.html');
 }
 
 
