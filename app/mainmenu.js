@@ -7,17 +7,18 @@ function createCSS()
 	}
 	
 	
-	li.singlemenu a, .dropbutton 
+	li.singlemenu a 
 	{
 		display: inline-block;
 		color: white;
 		text-align: center;
-		padding: 0.5em 0.5em;
+		padding-right: 0.5em;
+		padding-left: 0.5em;
 		text-decoration: none;
 	}
 	
 	
-	li.singlemenu a:hover, .dropdownmenu:hover .dropbutton {
+	li.singlemenu a:hover {
 		background-color: gray;
 	}
 	
@@ -36,7 +37,8 @@ function createCSS()
 	}
 	
 	
-	.drop_menuitems  a {
+	.drop_menuitems  a
+	{
 		color: black;	
 		text-decoration: none;
 		display: block;
@@ -50,6 +52,17 @@ function createCSS()
 	.dropdownmenu:hover .drop_menuitems { 
 		display: block; 
 	}
+
+	span.historynavigate
+	{
+		color: white;
+	}
+
+	span.historynavigate:hover
+	{
+		cursor: pointer;
+		background-color: gray;
+	}
 		
 	`
 	let css = document.head.appendChild(document.createElement("style"));
@@ -57,18 +70,63 @@ function createCSS()
 }
 
 
-function createDesktopMenu()
+function createMenuBar()
 {
-	let titleBar = document.body.appendChild(document.createElement("div"));
-	titleBar.style.position = "sticky";
-	titleBar.style.backgroundColor = "black";
-	titleBar.style.top = "0px";
-	titleBar.style.marginLeft = "0px";
-	titleBar.style.width="100%";
-	titleBar.style.zIndex=1;
+	let mBar = document.body.appendChild(document.createElement("div"));
+	mBar.style.position = "sticky";
+	mBar.style.display = "flex";
+	mBar.style.flexDirection = "row";
+	mBar.style.gap = "3em";
+	mBar.style.alignItems = "center";
+	mBar.style.backgroundColor = "black";
+	mBar.style.top = "0px";
+	mBar.style.width = "100%";
+	mBar.style.height = "1.5em";
 
-	let MenuBar = titleBar.appendChild(document.createElement("ul"));
-	MenuBar.style.cssText = "list-style-type: none; margin-top: 0; padding: 0; overflow: hidden;"
+	return mBar;
+}
+
+
+/**
+ * 
+ * @param {HTMLElement} mBar 
+ */
+function createNavigation(mBar)
+{
+	let div = mBar.appendChild(document.createElement("div"));
+	div.style.display = "flex";
+	div.style.flexDirection = "row";
+	div.style.gap = "0.8em";
+
+	let back = div.appendChild(document.createElement("span"));
+	back.className = "historynavigate";
+	back.innerHTML = "&larr;"
+	back.style.color = history.length > 1 ? "white" : "gray";
+	back.onclick = function (evt)
+	{
+		if (history.length > 0)
+			history.back();	
+	}
+
+	let forward = div.appendChild(document.createElement("span"));
+	forward.className = "historynavigate";
+	forward.innerHTML = "&rarr;"
+	forward.style.color = "white";
+	forward.onclick = function (evt)
+	{
+		history.forward();	
+	}
+}
+
+
+/**
+ * 
+ * @param {HTMLElement} mBar 
+ */
+function createDesktopMenu(mBar)
+{
+	let Menu = mBar.appendChild(document.createElement("ul"));
+	Menu.style.cssText = "list-style-type: none; padding: 0; overflow: hidden;"
 	
 	let links = [
 		{"href":"index.html", "lbl": "Home" },
@@ -78,7 +136,7 @@ function createDesktopMenu()
 
 	for (let lnk of links)
 	{
-		let lstItem = MenuBar.appendChild(document.createElement("li"));
+		let lstItem = Menu.appendChild(document.createElement("li"));
 		lstItem.className = "singlemenu";
 
 		let a = lstItem.appendChild(document.createElement("a"));
@@ -87,5 +145,8 @@ function createDesktopMenu()
 	}
 }
 
+let mBar = createMenuBar();
 createCSS();
-createDesktopMenu();
+
+createDesktopMenu(mBar);
+createNavigation(mBar);
