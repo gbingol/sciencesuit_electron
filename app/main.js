@@ -5,7 +5,7 @@ const path = require('node:path')
 const createWindow = () =>
 { 
 	const mainWnd = new BrowserWindow({
-		titleBarStyle: 'hidden',
+		//titleBarStyle: 'hidden',
 		titleBarOverlay:
 		{
 			color: 'black',
@@ -16,7 +16,9 @@ const createWindow = () =>
 			nodeIntegration: true,
 			preload: path.join(__dirname, 'preload.js'),
 			sandbox: false
-		}
+		},
+
+		autoHideMenuBar: true
 	})
 	
 	mainWnd.maximize();
