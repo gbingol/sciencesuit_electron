@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Adiabatic Mixing</title>
+
+	<link href="../../css/common.css" rel="stylesheet">
+
+	<script src="../../js/util.js"></script>
+	<script type="module" src="../../js/dom/div_copydel.js" defer></script>
+
+	<style>
+		table{
+			margin-left: 10px;
+			float: left;
+			width: 50%;
+			background-color: antiquewhite;
+		}
+		td{
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		td:nth-child(1)
+		{
+			font-weight: bold;
+			max-width: 2em;
+		}
+
+		input[type=text]{
+			width: 90%;
+		}
+
+		input[type=text]:focus {
+			outline: 3px solid #FFCC00;
+			box-shadow: 0 0 10px #FFCC00;
+		}
+
+		p.info
+		{
+			margin-right: 4em;
+			font-size: large;
+		}
+
+		ol.question li{
+			font-size: large;
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		div.img
+		{
+			display: flex;
+			justify-content: center;
+		}
+
+		@media only screen and (max-width:600px)
+		{
+			p.info{
+				margin-right: auto;
+			}
+
+			table{
+				width: 80%;
+			}
+		}
+    </style>
+</head>
+
+
+<body>
+
+
+<script src="../../mainmenu.js"></script>
+
+<h1>Adiabatic Mixing of Air Streams</h1>
+<div class="img">
+	<img src="imgs/adiabaticmixing.png" alt="">
+</div>
+
+
+<p class="info">
+	Humid air leaving an air conditioning system at 
+
+	<span id="T1">T<sub>1</sub></span>&deg;C, 
+	<span id="RH1">RH<sub>1</sub></span>% 
+	at a rate of <span id="V1">V<sub>1</sub></span> (m<sup>3</sup>/time) 
+	is mixed adiabatically with outside air at 
+
+	<span id="T2">T<sub>2</sub></span>&deg;C, 
+	<span id="RH2">RH<sub>2</sub></span>% 
+	at a rate of 
+	<span id="V2">V<sub>2</sub></span> (m<sup>3</sup>/time).</p>
+
+
+<p class="info">
+	Assuming the whole process takes place at <span id="P">101</span>(kPa), determine</p>
+
+
+<ol class="question">
+	<li> Specific and relative humidities,</li>
+	<li> Dry-bulb temperature,</li>
+	<li> Flow rate (m<sup>3</sup>/time).</li>
+</ol>
+
+
+<p style="font-size: small;"><b>Reference:</b>
+	Cengel YA, Boles MA, Kanaoglu M (2019). 
+	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
+
+
+<p>&nbsp;</p>
+
+<table id="inputtable">
+	<tr>
+		<td>P:</td>
+		<td><input type="text" value="101" id="txtP" placeholder="Pressure (kPa)"></td>
+	</tr>
+	<tr>
+		<td>T<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtT1" placeholder="°C"></td>
+	</tr>
+	
+	<tr>
+		<td>RH<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtRH1" placeholder="%"></td>
+	</tr>
+
+	<tr>
+		<td>V<sub>1</sub>: </label></td>
+		<td><input type="text" id="txtV1" placeholder="m3/time"></td>
+	</tr>
+	
+	<tr>
+		<td>T<sub>2</sub>: </label></td>
+		<td><input type="text" id="txtT2" placeholder="°C"></td>
+	</tr>
+	
+	<tr>
+		<td>RH<sub>2</sub>: </label></td>
+		<td><input type="text" id="txtRH2" placeholder="%"></td>
+	</tr>
+
+	<tr>
+		<td>V<sub>2</sub>: </label></td>
+		<td><input type="text" id="txtV2" placeholder="m3/time"></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" style="text-align: center; padding-top: 12px;">
+			<label style="float: left;" for="digits">Digits:</label>
+			<input style="width: 3em; float: left;" type="number" value="3" min="1" max="6" id="txtDigits">
+			
+			<button id="compute" type="button">Compute</button>
+		</td>
+	</tr>
+		
+</table>
+	
+<div id="info"></div>
+
+<script>
+	"use strict";
+
+	const btn = document.getElementById('compute');
+	const txtP =  document.getElementById('txtP');
+
+	const txtT1 =  document.getElementById('txtT1');
+	const txtRH1 =  document.getElementById('txtRH1');
+	const txtV1 =  document.getElementById('txtV1');
+
+	const txtT2 =  document.getElementById('txtT2');
+	const txtRH2 =  document.getElementById('txtRH2');
+	const txtV2 =  document.getElementById('txtV2');
+
+	addInputListener(txtP, "P", "P");
+	addInputListener(txtT1, "T1", "T<sub>1</sub>");
+	addInputListener(txtRH1, "RH1", "RH<sub>1</sub>");
+	addInputListener(txtV1, "V1", "V<sub>1</sub>");
+	addInputListener(txtT2, "T2", "T<sub>2</sub>");
+	addInputListener(txtRH2, "RH2", "RH<sub>2</sub>");
+	addInputListener(txtV2, "V2", "V<sub>2</sub>");
+
+	const txtDigits =  document.getElementById('txtDigits');
+
+
+	
+	function compute(P, T1, RH1, V1, T2, RH2, V2)
+	{
+		let st1 = window.api.psychrometry({"tdb":T1, "rh":RH1, "p":P});
+		
+		let v1 = st1.V()
+		let h1 = st1.H()
+		let w1 = st1.W()
+
+		let st2 = window.api.psychrometry({"tdb":T2, "rh":RH2, "p":P});
+		let v2 = st2.V()
+		let h2 = st2.H()
+		let w2 = st2.W()
+
+		//(m3/time) / (m3/kg da) = kg da /time
+		let ma1 = V1/v1
+		let ma2 = V2/v2
+		let ma3 = ma1 + ma2
+
+		let w3 = (w2*ma2 + w1*ma1)/(ma1 + ma2)
+		let h3 = (h2*ma2 + h1*ma1)/(ma1 + ma2)
+
+		let st3 = window.api.psychrometry({"w":w3, "h": h3, "p": P});
+		let V3 = st3.V()*ma3
+
+		return {"w":w3, "h":h3, "v":V3, "st":st3}
+	}
+
+	btn.addEventListener("click", (evt) => 
+	{
+		let infoDiv = document.querySelector("#info");
+		if(!checkInputs())
+			return true;
+
+		let P = parseFloat(txtP.value)*1000; //Pa
+		let T1 = parseFloat(txtT1.value);
+		let RH1 = parseFloat(txtRH1.value);
+		let V1 = parseFloat(txtV1.value);
+		let T2 = parseFloat(txtT2.value);
+		let RH2 = parseFloat(txtRH2.value);
+		let V2 = parseFloat(txtV2.value);
+
+		let digits = parseInt(txtDigits.value);
+
+		try
+		{
+			let obj = compute(P, T1, RH1, V1, T2, RH2, V2);
+			let w3 = obj.w, h3 = obj.h, V3=obj.v, st3=obj.st;
+
+			let s = "<b>w=</b>" + util.math.round(w3, digits) + "kg / kg da <br>";
+			s += "<b>RH=</b>" + util.math.round(st3.RH(), digits) + "% <br>";
+			s += "<b>T<sub>db</sub>=</b>" + util.math.round(st3.Tdb(), digits) + "&deg;C <br>";
+			s += "<b>h=</b>" + util.math.round(h3, digits) + "kJ / kg da <br>";
+			s += "<b>Flow Rate=</b>" + util.math.round(V3, digits) + "m<sup>3</sup> / time";
+
+			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
+			outDiv.innerHTML = s;
+			outDiv.scrollIntoView();
+
+			infoDiv.style.display = "none";
+		}
+		catch(e)
+		{
+			infoDiv.style.display = "inline";
+			infoDiv.innerHTML = e;
+		}
+	});
+</script>
+
+
+</body>
+</html>
