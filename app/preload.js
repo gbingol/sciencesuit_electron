@@ -3,12 +3,9 @@ const os = require('os');
 const { exec } = require('child_process');
 
 const { Psychrometry } = require('../build/sci_core.js');
-
-const hljs = require('highlight.js/lib/core');
-hljs.registerLanguage('python', require('highlight.js/lib/languages/python'));
-
 let {PythonShell} = require('python-shell');
-const { rejects } = require('assert');
+
+const { Grid } =require('ag-grid-community');
 
 
 /**
@@ -22,6 +19,12 @@ function psychrometry(k, v=null)
 		return new Psychrometry(k, v);
 
 	return Psychrometry.Instance(k);
+}
+
+
+function createGrid(div, options)
+{
+	return new Grid(div, options);
 }
 
 
@@ -57,7 +60,7 @@ let funcs =
 	runcmd: (callback, cmd) => { return RunCmd(callback, cmd); },
 	runpython: (file, options, isstr=false) => { return RunPython(file, options, isstr); },
 	psychrometry: (k, v) => { return psychrometry(k, v); },
-	hljs: hljs	
+	creategrid:(div, options)=>{return createGrid(div, options);}
 }
 
 
