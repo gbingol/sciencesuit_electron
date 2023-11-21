@@ -131,6 +131,7 @@ function createDesktopMenu(mBar)
 	let links = [
 		{"href":"index.html", "lbl": "Home" },
 		{ "href": "eng/psychrometry/index.html", "lbl": "Psychrometry" },
+		{ "href": "eng/fpe/index.html", "lbl": "FPE" },
 		{ "href": "pipmngr.html", "lbl": "PIP" },
 	];
 
