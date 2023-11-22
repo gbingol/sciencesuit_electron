@@ -1,87 +1,15 @@
 function createCSS()
 {
-	let s = `
-	
-	li.singlemenu { 
-		display: inline-block; 
-	}
-	
-	
-	li.singlemenu a 
-	{
-		display: inline-block;
-		color: white;
-		text-align: center;
-		padding-right: 0.5em;
-		padding-left: 0.5em;
-		text-decoration: none;
-	}
-	
-	
-	li.singlemenu a:hover {
-		background-color: gray;
-	}
-	
-	
-	li.dropdownmenu { 
-		display: inline-block; 
-	}
-	
-	
-	.drop_menuitems {
-		display: none;
-		position: absolute;
-		background-color: #f9f9f9;
-		min-width: 160px;
-		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	}
-	
-	
-	.drop_menuitems  a
-	{
-		color: black;	
-		text-decoration: none;
-		display: block;
-		text-align: left;
-	}
-	
-	.drop_menuitems  a:hover { 
-		background-color: #f1f1f1; 
-	}
-	
-	.dropdownmenu:hover .drop_menuitems { 
-		display: block; 
-	}
-
-	span.historynavigate
-	{
-		color: white;
-	}
-
-	span.historynavigate:hover
-	{
-		cursor: pointer;
-		background-color: gray;
-	}
-		
-	`
-	let css = document.head.appendChild(document.createElement("style"));
-	css.innerHTML = s;
+	let link = document.head.appendChild(document.createElement("link"));
+	link.href = window.api.dirname() + "/" + "mainmenu.css";
+	link.rel = "stylesheet";
 }
 
 
-function createMenuBar()
+function createTopBar()
 {
 	let mBar = document.body.appendChild(document.createElement("div"));
-	mBar.style.position = "sticky";
-	mBar.style.display = "flex";
-	mBar.style.flexDirection = "row";
-	mBar.style.gap = "3em";
-	mBar.style.alignItems = "center";
-	mBar.style.backgroundColor = "black";
-	mBar.style.top = "0px";
-	mBar.style.width = "100%";
-	mBar.style.height = "1.5em";
+	mBar.className = "__topbar";
 
 	return mBar;
 }
@@ -146,8 +74,8 @@ function createDesktopMenu(mBar)
 	}
 }
 
-let mBar = createMenuBar();
+let topBar = createTopBar();
 createCSS();
 
-createDesktopMenu(mBar);
-createNavigation(mBar);
+createDesktopMenu(topBar);
+createNavigation(topBar);
