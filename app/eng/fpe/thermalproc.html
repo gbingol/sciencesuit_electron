@@ -160,7 +160,10 @@
 	[
 		{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable:true, editable: false, width: 60}
 	];
-	for(let i=65; i<90; ++i)
+
+	const NROWS=200, NCOLS=15;
+	
+	for(let i=65; i<=(65+NCOLS); ++i)
 	{
 		let obj = {};
 		obj.headerName = String.fromCharCode(i);
@@ -170,7 +173,7 @@
 	}
 
 	let RowData = [];
-	for(let i=0; i<250; i++)
+	for(let i=0; i<=NROWS; i++)
 		RowData.push({});
 	
 	let gridOptions = 
