@@ -22,12 +22,6 @@ function psychrometry(k, v=null)
 }
 
 
-function createGrid(div, options)
-{
-	return new Grid(div, options);
-}
-
-
 //Run a termina command
 function RunCmd(cmd) 
 {
