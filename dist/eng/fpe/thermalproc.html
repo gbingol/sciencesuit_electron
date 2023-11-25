@@ -6,8 +6,6 @@
 	<title>Adiabatic Mixing</title>
 
 	<link href="../../css/common.css" rel="stylesheet">
-	<link href="../../../node_modules/ag-grid-community/styles/ag-theme-alpine.css" rel="stylesheet">
-	<link href="../../../node_modules/ag-grid-community/styles/ag-grid.css" rel="stylesheet">
 
 	<style>
 		table{
@@ -138,11 +136,14 @@
 <div id="info"></div>
 
 
-<script src="../../../node_modules/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
-<script>
+
+<script type="module">
 	"use strict";
 
+	import {createCSS, addScript} from '../../../renderer/dom/ag_grid.js';
+	createCSS();
+	addScript();
 
 	let CellClicked = function(evt)
 	{

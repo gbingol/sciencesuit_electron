@@ -1,4 +1,5 @@
 const { contextBridge } = require('electron')
+const path = require('node:path')
 const os = require('os');
 const { exec } = require('child_process');
 
@@ -51,6 +52,7 @@ let funcs =
 {
 	dirname: () => { return __dirname; },
 	homedir: () => { return os.homedir(); },
+	projdir: () => { return path.dirname(__dirname); },
 	runcmd: (callback, cmd) => { return RunCmd(callback, cmd); },
 	runpython: (file, options, isstr=false) => { return RunPython(file, options, isstr); },
 	psychrometry: (k, v) => { return psychrometry(k, v); },
