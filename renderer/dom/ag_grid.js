@@ -1,18 +1,24 @@
 function createCSS()
 {
 	let alpine = document.head.appendChild(document.createElement("link"));
-	alpine.href = "../../node_modules/ag-grid-community/styles/ag-theme-alpine.css";
+	alpine.href = window.api.projdir() + "/" + "node_modules/ag-grid-community/styles/ag-theme-alpine.css";
 	alpine.rel = "stylesheet";
 
 	let aggrid = document.head.appendChild(document.createElement("link"));
-	aggrid.href = "../../node_modules/ag-grid-community/styles/ag-grid.css";
+	aggrid.href = window.api.projdir() + "/" + "node_modules/ag-grid-community/styles/ag-grid.css";
 	aggrid.rel = "stylesheet";
 }
 
 function addScript()
 {
+	return new Promise((resolve, reject)=>
+	{
+	let address = window.api.projdir() + "/" + "node_modules/ag-grid-community/dist/ag-grid-community.min.js";
 	let script = document.body.appendChild(document.createElement("script"));
-	script.src = "../../node_modules/ag-grid-community/dist/ag-grid-community.min.js";
+	script.setAttribute("src", address);
+	script.addEventListener("load",resolve);
+	script.addEventListener("error", reject);
+	});
 }
 
-export {createCSS, addScript}
+createCSS();

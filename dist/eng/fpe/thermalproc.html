@@ -136,69 +136,69 @@
 <div id="info"></div>
 
 
+<script src="../../../renderer/dom/ag_grid.js"></script>
 
-
-<script type="module">
+<script defer>
 	"use strict";
 
-	import {createCSS, addScript} from '../../../renderer/dom/ag_grid.js';
-	createCSS();
-	addScript();
-
-	let CellClicked = function(evt)
+	addScript().then(e=>
 	{
-		const field = evt.colDef.field;
-		const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
-		console.log(evt.rowIndex, "  ", colindex);
-	}
-
-	
-	let ColumnDefs = 
-	[
-		{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable:true, editable: false, width: 60}
-	];
-
-	const NROWS=200, NCOLS=15;
-	
-	for(let i=65; i<=(65+NCOLS); ++i)
-	{
-		let obj = {};
-		obj.headerName = String.fromCharCode(i);
-		obj.field =  String.fromCharCode(i);
-		obj.width = 100;
-		ColumnDefs.push(obj);
-	}
-
-	let RowData = [];
-	for(let i=0; i<=NROWS; i++)
-		RowData.push({});
-	
-	let gridOptions = 
-	{
-		rowHeight: 25,
-		onCellClicked: CellClicked,
-		columnDefs: ColumnDefs,
-		rowData: RowData,
-		animateRows: true,
-		defaultColDef: 
+		let CellClicked = function(evt)
 		{
-			editable: true,
-			resizable: true,
+			const field = evt.colDef.field;
+			const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
+			console.log(evt.rowIndex, "  ", colindex);
 		}
-	};
 
-	var eGridDiv = document.querySelector('#myGrid');
-	let grid = new agGrid.Grid(eGridDiv, gridOptions);
+		
+		let ColumnDefs = 
+		[
+			{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable:true, editable: false, width: 60}
+		];
 
-	let rowData = [];
-  	gridOptions.api.forEachNode(node => rowData.push(node.data));
-	const pricesArray = rowData.map(row => row['price']);
+		const NROWS=200, NCOLS=15;
+		
+		for(let i=65; i<=(65+NCOLS); ++i)
+		{
+			let obj = {};
+			obj.headerName = String.fromCharCode(i);
+			obj.field =  String.fromCharCode(i);
+			obj.width = 100;
+			ColumnDefs.push(obj);
+		}
 
-	const pasteBtn = document.querySelector("#pastebtn");
-	pasteBtn.addEventListener("click",(evt)=>
-	{
-		const rowNode = gridOptions.api.getRowNode('1');
-		rowNode.setDataValue("B", "ABC");
+		let RowData = [];
+		for(let i=0; i<=NROWS; i++)
+			RowData.push({});
+		
+		let gridOptions = 
+		{
+			rowHeight: 25,
+			onCellClicked: CellClicked,
+			columnDefs: ColumnDefs,
+			rowData: RowData,
+			animateRows: true,
+			defaultColDef: 
+			{
+				editable: true,
+				resizable: true,
+			}
+		};
+
+		var eGridDiv = document.querySelector('#myGrid');
+		let grid = new agGrid.Grid(eGridDiv, gridOptions);
+
+		let rowData = [];
+		gridOptions.api.forEachNode(node => rowData.push(node.data));
+		const pricesArray = rowData.map(row => row['price']);
+
+		const pasteBtn = document.querySelector("#pastebtn");
+		pasteBtn.addEventListener("click",(evt)=>
+		{
+			const rowNode = gridOptions.api.getRowNode('1');
+			rowNode.setDataValue("B", "ABC");
+		});
+
 	});
 	
 	
