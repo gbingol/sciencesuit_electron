@@ -59,10 +59,10 @@
 			justify-content: center;
 		}
 
-.ag-header-cell-label .ag-header-cell-text {
-    text-align: center;
-    color: red;
-}
+		.ag-header-cell-label .ag-header-cell-text 
+		{
+			color: red;
+		}
 		
 
 		@media only screen and (max-width:600px)
@@ -140,7 +140,7 @@
 	<button id="pastebtn">Paste</button>
 </div>
 
-<div id="myGrid" style="height:20em; width:70%; clear: both; resize: both; overflow: auto;" class="ag-theme-alpine"></div>
+<div id="myGrid" style="height:30em; width:70%; clear: both; resize: both; overflow: auto;" class="ag-theme-alpine"></div>
 
 <script src="../../../node_modules/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
@@ -153,25 +153,28 @@
 		const field = evt.colDef.field;
 		const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
 		console.log(evt.rowIndex, "  ", colindex);
-		console.log(evt);
 	}
 
 	
-	let ColumnDefs = [{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable:true, editable: false, width: 60}];
-	for(let i=65; i<90; ++i)
+	let ColumnDefs = 
+	[
+		{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable:true, editable: false, width: 60}
+	];
+
+	const NROWS=200, NCOLS=15;
+	
+	for(let i=65; i<=(65+NCOLS); ++i)
 	{
 		let obj = {};
 		obj.headerName = String.fromCharCode(i);
 		obj.field =  String.fromCharCode(i);
+		obj.width = 100;
 		ColumnDefs.push(obj);
 	}
 
 	let RowData = [];
-	for(let i=0; i<250; i++)
-	{
-		let obj={};
-		RowData.push(obj);
-	}
+	for(let i=0; i<=NROWS; i++)
+		RowData.push({});
 	
 	let gridOptions = 
 	{
