@@ -1,3 +1,22 @@
+/**
+ * 
+ * @param {string} str 
+ * @returns {string[]}
+ */
+function parse(str)
+{
+	//comes in format of A15, B20
+	//returns A and 15 or B and 20
+	s="";
+
+	let i=0;
+	while(isNaN(str[i]))
+		s += str[i++];
+
+	return [s, str.substring(i)];
+}
+
+
 function createCSS()
 {
 	let alpine = document.head.appendChild(document.createElement("link"));
@@ -7,6 +26,28 @@ function createCSS()
 	let aggrid = document.head.appendChild(document.createElement("link"));
 	aggrid.href = window.api.projdir() + "/" + "node_modules/ag-grid-community/styles/ag-grid.css";
 	aggrid.rel = "stylesheet";
+
+	let extraStyle = 
+	`
+		.ag-header-cell-label
+		{
+			justify-content: center;
+		}
+
+		.ag-header-cell-label .ag-header-cell-text 
+		{
+			color: red;
+		}
+
+		.ag-cell{
+
+			--ag-cell-horizontal-border: solid rgba(128, 128, 128, 0.24);
+		   
+		}
+	`
+	let css = document.head.appendChild(document.createElement("style"));
+	css.innerHTML = extraStyle;
+	document.head.appendChild(css);
 }
 
 
@@ -61,7 +102,7 @@ async function CreateGrid(div, nrows, ncols)
 	};
 
 	
-	let grid = new agGrid.Grid(div, gridOptions);
+	new agGrid.Grid(div, gridOptions);
 	return gridOptions;	
 }
 
