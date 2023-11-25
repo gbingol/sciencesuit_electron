@@ -86,41 +86,42 @@
 
 <h1>Thermal Processing</h1>
 
+<div style="clear: both;">
+	<button id="pastebtn">Paste</button>
+</div>
 
+<div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;" class="ag-theme-alpine"></div>
+
+<p>&nbsp;</p>
 
 <table id="inputtable">
 	<tr>
-		<td>P:</td>
-		<td><input type="text" value="101" id="txtP" placeholder="Pressure (kPa)"></td>
+		<td>D<sub>t</sub>:</td>
+		<td><input type="text" value="" id="d_time" placeholder="D-value (time)"></td>
 	</tr>
 	<tr>
-		<td>T<sub>1</sub>: </label></td>
-		<td><input type="text" id="txtT1" placeholder="°C"></td>
+		<td>D<sub>T</sub>: </label></td>
+		<td><input type="text" id="d_temp" placeholder="D-value (temperature)"></td>
 	</tr>
 	
 	<tr>
-		<td>RH<sub>1</sub>: </label></td>
-		<td><input type="text" id="txtRH1" placeholder="%"></td>
+		<td>z-value: </label></td>
+		<td><input type="text" id="zvalue" placeholder="z-value"></td>
 	</tr>
 
 	<tr>
-		<td>V<sub>1</sub>: </label></td>
-		<td><input type="text" id="txtV1" placeholder="m3/time"></td>
+		<td>t: </label></td>
+		<td><input type="text" id="time" placeholder="time data range/col (A1:A10)"></td>
 	</tr>
 	
 	<tr>
-		<td>T<sub>2</sub>: </label></td>
-		<td><input type="text" id="txtT2" placeholder="°C"></td>
+		<td>T: </label></td>
+		<td><input type="text" id="temperature" placeholder="temperature data range (B1:C10)"></td>
 	</tr>
 	
 	<tr>
-		<td>RH<sub>2</sub>: </label></td>
-		<td><input type="text" id="txtRH2" placeholder="%"></td>
-	</tr>
-
-	<tr>
-		<td>V<sub>2</sub>: </label></td>
-		<td><input type="text" id="txtV2" placeholder="m3/time"></td>
+		<td>T<sub>ref</sub>: </label></td>
+		<td><input type="text" id="t_ref" value="121" placeholder="Reference temperature"></td>
 	</tr>
 	
 	<tr>
@@ -136,11 +137,6 @@
 	
 <div id="info"></div>
 
-<div style="clear: both;">
-	<button id="pastebtn">Paste</button>
-</div>
-
-<div id="myGrid" style="height:30em; width:70%; clear: both; resize: both; overflow: auto;" class="ag-theme-alpine"></div>
 
 <script src="../../../node_modules/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
@@ -178,6 +174,7 @@
 	
 	let gridOptions = 
 	{
+		rowHeight: 25,
 		onCellClicked: CellClicked,
 		columnDefs: ColumnDefs,
 		rowData: RowData,
