@@ -2,7 +2,7 @@
   "name": "sciencesuit",
   "version": "1.0.0",
   "description": "ScienceSuit App",
-  "main": "./app/main.js",
+  "main": "./dist/main.js",
   "scripts": {
     "start": "electron ."
   },

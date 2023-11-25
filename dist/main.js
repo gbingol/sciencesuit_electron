@@ -22,7 +22,7 @@ const createWindow = () =>
 	})
 	
 	mainWnd.maximize();
-	mainWnd.loadFile('app/index.html');
+	mainWnd.loadFile('dist/index.html');
 }
 
 
