@@ -3,11 +3,11 @@
  * @param {string} str 
  * @returns {string[]}
  */
-function parse(str)
+function parseRange(str)
 {
 	//comes in format of A15, B20
 	//returns A and 15 or B and 20
-	s="";
+	let s="";
 
 	let i=0;
 	while(isNaN(str[i]))
@@ -30,6 +30,8 @@ function parseMultilineString(str)
 	let lines = str.split("\n");
 	for (let line of lines)
 	{
+		if(line.endsWith("\r"))
+			line = line.slice(0, -1);
 		let arr = line.split("\t");
 		retArr.push(arr);
 	}
@@ -117,12 +119,21 @@ class Grid
 		let clearBtn = btnDiv.appendChild(document.createElement("button"));
 		clearBtn.innerHTML="Clear";
 
+		let Btn = btnDiv.appendChild(document.createElement("button"));
+		Btn.innerHTML="Read";
+
 		this.gridDiv = this._div.appendChild(document.createElement("div"));
 		this.gridDiv.className = "ag-theme-alpine";
 		this.gridDiv.style.height = "100%";
 		this.gridDiv.style.width = "100%";
 
-		pasteBtn.addEventListener("click",(evt)=>
+		Btn.addEventListener("click", (evt)=>
+		{
+			console.log(this.getRangeData("A1:B2"));
+		});
+
+
+		pasteBtn.addEventListener("click", (evt)=>
 		{
 			this.paste();
 		});
@@ -133,6 +144,7 @@ class Grid
 		});
 	}
 
+	
 	InitGrid = async()=>
 	{
 		createCSS();
@@ -140,6 +152,7 @@ class Grid
 		this._gridOptions = await this.CreateGrid(this._div, this._nrows, this._ncols);
 		return this._gridOptions;
 	}
+
 
 	/**
 	 * 
@@ -187,6 +200,7 @@ class Grid
 		return gridOptions;	
 	}
 
+
 	CellClicked = (evt)=>
 	{
 		const field = evt.colDef.field;
@@ -196,6 +210,7 @@ class Grid
 		this._curCol = colindex;
 		this._curField = field;
 	}
+
 
 	paste = () =>
 	{
@@ -226,6 +241,7 @@ class Grid
 		});
 	}
 
+
 	clearCells = () =>
 	{
 		for (let i = 0; i < this._nrows; i++)
@@ -239,6 +255,46 @@ class Grid
 				rowNode.setDataValue(String.fromCharCode(Col), "");
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param {string} str 
+	 * @returns Array
+	 */
+	getRangeData = (str)=>
+	{
+		let rng = str.split(":");
+		if(rng.length != 2)
+			throw new Error("Invalid range");
+
+		let Start = parseRange(rng[0]);
+		let End = parseRange(rng[1]);
+
+		let stCol = Start[0].charCodeAt(0), stRow = parseInt(Start[1]);
+		let endCol = End[0].charCodeAt(0), EndRow = parseInt(End[1]);
+
+		if(stRow>EndRow)
+			throw new Error("Start row number cannot be greater than end row number");
+
+		if(stCol>endCol)
+			throw new Error("Starting column number cannot be greater than end column number");
+
+		let Arr = [];
+
+		for(let i=stRow; i<=EndRow; i++)
+		{
+			const rowNode = this._gridOptions.api.getRowNode((i-1).toString());
+			let a = [];
+			for(let j=stCol; j<=endCol; j++)
+			{
+				let data = rowNode.data[String.fromCharCode(j)];
+				a.push(data);
+			}
+			Arr.push(a);
+		}
+
+		return Arr;
 	}
 }
 
