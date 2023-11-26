@@ -114,15 +114,23 @@ class Grid
 		let pasteBtn = btnDiv.appendChild(document.createElement("button"));
 		pasteBtn.innerHTML="Paste";
 
-		let delBtn = btnDiv.appendChild(document.createElement("button"));
-		delBtn.innerHTML="Clear";
+		let clearBtn = btnDiv.appendChild(document.createElement("button"));
+		clearBtn.innerHTML="Clear";
 
 		this.gridDiv = this._div.appendChild(document.createElement("div"));
 		this.gridDiv.className = "ag-theme-alpine";
 		this.gridDiv.style.height = "100%";
 		this.gridDiv.style.width = "100%";
-		
 
+		pasteBtn.addEventListener("click",(evt)=>
+		{
+			this.paste();
+		});
+
+		clearBtn.addEventListener("click", (evt)=>
+		{
+			this.clearCells();
+		});
 	}
 
 	InitGrid = async()=>
@@ -216,6 +224,21 @@ class Grid
 				}
 			}
 		});
+	}
+
+	clearCells = () =>
+	{
+		for (let i = 0; i < this._nrows; i++)
+		{
+			let Row = i;
+			const rowNode = this._gridOptions.api.getRowNode(Row.toString());
+
+			for (let j = 0; j < this._ncols; j++)
+			{	
+				let Col = 65 + j 
+				rowNode.setDataValue(String.fromCharCode(Col), "");
+			}
+		}
 	}
 }
 
