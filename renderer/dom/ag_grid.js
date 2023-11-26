@@ -17,6 +17,27 @@ function parse(str)
 }
 
 
+/**
+ * 
+ * @param {string} str 
+ * @returns {string[]}
+ */
+function parseMultilineString(str)
+{
+	//str is a multiline string where each line contains entries separated with tabs
+	let retArr = []
+
+	let lines = str.split("\n");
+	for (let line of lines)
+	{
+		let arr = line.split("\t");
+		retArr.push(arr);
+	}
+
+	return retArr;
+}
+
+
 function createCSS()
 {
 	let alpine = document.head.appendChild(document.createElement("link"));
@@ -67,60 +88,117 @@ async function addScript()
 
 
 
-function CellClicked(evt)
+
+class Grid
 {
-	const field = evt.colDef.field;
-	const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
-	console.log(evt.rowIndex, "  ", colindex);
-}
-
-
-async function CreateGrid(div, nrows, ncols)
-{
-	let ColumnDefs = 
-	[
-		{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable:true, editable: false, width: 60}
-	];
-
-	
-	for(let i=65; i<=(65+ncols); ++i)
+	/**
+	 * 
+	 * @param {HTMLDivElement} div 
+	 * @param {Number} nrows 
+	 * @param {Number} ncols 
+	 */
+	constructor(div, nrows = 200, ncols = 15)
 	{
-		let obj = {};
-		obj.headerName = String.fromCharCode(i);
-		obj.field =  String.fromCharCode(i);
-		obj.width = 100;
-		ColumnDefs.push(obj);
+		this._div = div;
+		this._nrows = nrows;
+		this._ncols = ncols;
 	}
 
-	let RowData = [];
-	for(let i=0; i<=nrows; i++)
-		RowData.push({});
-	
-	let gridOptions = 
+	InitGrid = async()=>
 	{
-		rowHeight: 25,
-		onCellClicked: CellClicked,
-		columnDefs: ColumnDefs,
-		rowData: RowData,
-		animateRows: true,
-		defaultColDef: 
+		createCSS();
+		let e = await addScript()
+		this._gridOptions = await this.CreateGrid(this._div, this._nrows, this._ncols);
+		return this._gridOptions;
+	}
+
+	/**
+	 * 
+	 * @param {HTMLDivElement} div 
+	 * @param {Number} nrows 
+	 * @param {Number} ncols 
+	 */
+	CreateGrid = async (div, nrows, ncols)=>
+	{
+		let ColumnDefs = 
+		[
+			{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable:true, editable: false, width: 60}
+		];
+
+		
+		for(let i=65; i<=(65+ncols); ++i)
 		{
-			editable: true,
-			resizable: true,
+			let obj = {};
+			obj.headerName = String.fromCharCode(i);
+			obj.field =  String.fromCharCode(i);
+			obj.width = 100;
+			ColumnDefs.push(obj);
 		}
-	};
 
-	
-	new agGrid.Grid(div, gridOptions);
-	return gridOptions;	
+		let RowData = [];
+		for(let i=0; i<=nrows; i++)
+			RowData.push({});
+		
+		let gridOptions = 
+		{
+			rowHeight: 25,
+			onCellClicked: this.CellClicked,
+			columnDefs: ColumnDefs,
+			rowData: RowData,
+			animateRows: true,
+			defaultColDef: 
+			{
+				editable: true,
+				resizable: true,
+			}
+		};
+
+		
+		new agGrid.Grid(div, gridOptions);
+		return gridOptions;	
+	}
+
+	CellClicked = (evt)=>
+	{
+		const field = evt.colDef.field;
+		const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
+		
+		this._curRow = evt.rowIndex;
+		this._curCol = colindex;
+		this._curField = field;
+	}
+
+	paste = () =>
+	{
+		let row = this._curRow || 0;
+
+		//column numbering starts from 1, so for A which is 65 we need (col -1) +65 = (1-1) + 65 = A
+		let col = (this._curCol - 1) + 65 || 65;
+
+		/**
+		 * @type {string} field
+		 */
+		let field = this._curField || "A";	
+		
+		navigator.clipboard.readText().then(txt =>
+		{
+			let Arr = parseMultilineString(txt);
+			for (let i = 0; i < Arr.length; i++)
+			{
+				for (let j = 0; j < Arr[i].length; j++)
+				{
+					let Row = row + i;
+					let Col = col + j 
+
+					const rowNode = this._gridOptions.api.getRowNode(Row.toString());
+					rowNode.setDataValue(String.fromCharCode(Col), Arr[i][j]);
+				}
+			}
+		});
+	}
 }
 
 
-async function InitGrid(div, nrows=200, ncols = 15)
-{
-	createCSS();
-	let e = await addScript()
-	return CreateGrid(div, nrows, ncols);
-}
 
-export {InitGrid}
+
+export {Grid}

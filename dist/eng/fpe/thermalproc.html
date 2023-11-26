@@ -128,11 +128,12 @@
 <script type="module">
 	"use strict";
 
-	import {InitGrid} from '../../../renderer/dom/ag_grid.js';
+	import {Grid} from '../../../renderer/dom/ag_grid.js';
 
 	
 	let eGridDiv = document.querySelector('#myGrid');
-	InitGrid(eGridDiv).then(gridOptions=>
+	let grid = new Grid(eGridDiv);
+	grid.InitGrid(eGridDiv).then(gridOptions=>
 	{
 		let rowData = [];
 		gridOptions.api.forEachNode(node => rowData.push(node.data));
@@ -141,8 +142,7 @@
 		const pasteBtn = document.querySelector("#pastebtn");
 		pasteBtn.addEventListener("click",(evt)=>
 		{
-			const rowNode = gridOptions.api.getRowNode('1');
-			rowNode.setDataValue("B", "ABC");
+			grid.paste();
 		});
 
 	});
