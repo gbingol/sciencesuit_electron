@@ -74,11 +74,8 @@
 
 <h1>Thermal Processing</h1>
 
-<div style="clear: both;">
-	<button id="pastebtn">Paste</button>
-</div>
 
-<div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;" class="ag-theme-alpine"></div>
+<div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
 
 
 <table id="inputtable">
@@ -138,12 +135,6 @@
 		let rowData = [];
 		gridOptions.api.forEachNode(node => rowData.push(node.data));
 		const pricesArray = rowData.map(row => row['price']);
-
-		const pasteBtn = document.querySelector("#pastebtn");
-		pasteBtn.addEventListener("click",(evt)=>
-		{
-			grid.paste();
-		});
 
 	});
 

@@ -102,6 +102,27 @@ class Grid
 		this._div = div;
 		this._nrows = nrows;
 		this._ncols = ncols;
+
+		this._div.style.display = "flex";
+		this._div.style.flexDirection = "column";
+
+		let btnDiv = this._div.appendChild(document.createElement("div"));
+		btnDiv.style.display = "flex";
+		btnDiv.style.flexDirection = "row";
+		btnDiv.style.gap = "0.5em";
+
+		let pasteBtn = btnDiv.appendChild(document.createElement("button"));
+		pasteBtn.innerHTML="Paste";
+
+		let delBtn = btnDiv.appendChild(document.createElement("button"));
+		delBtn.innerHTML="Clear";
+
+		this.gridDiv = this._div.appendChild(document.createElement("div"));
+		this.gridDiv.className = "ag-theme-alpine";
+		this.gridDiv.style.height = "100%";
+		this.gridDiv.style.width = "100%";
+		
+
 	}
 
 	InitGrid = async()=>
@@ -153,8 +174,8 @@ class Grid
 			}
 		};
 
+		new agGrid.Grid(this.gridDiv, gridOptions);
 		
-		new agGrid.Grid(div, gridOptions);
 		return gridOptions;	
 	}
 
