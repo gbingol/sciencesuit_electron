@@ -9,10 +9,11 @@
 
 	<style>
 		table{
-			margin-left: 10px;
+			margin-top: 1em;
 			float: left;
 			width: 50%;
 			background-color: antiquewhite;
+			
 		}
 		td{
 			padding-top: 6px;
@@ -79,7 +80,6 @@
 
 <div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;" class="ag-theme-alpine"></div>
 
-<p>&nbsp;</p>
 
 <table id="inputtable">
 	<tr>
@@ -129,14 +129,6 @@
 	"use strict";
 
 	import {InitGrid} from '../../../renderer/dom/ag_grid.js';
-
-	
-	let CellClicked = function(evt)
-	{
-		const field = evt.colDef.field;
-		const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
-		console.log(evt.rowIndex, "  ", colindex);
-	}
 
 	
 	let eGridDiv = document.querySelector('#myGrid');

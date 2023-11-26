@@ -66,6 +66,15 @@ async function addScript()
 }
 
 
+
+function CellClicked(evt)
+{
+	const field = evt.colDef.field;
+	const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
+	console.log(evt.rowIndex, "  ", colindex);
+}
+
+
 async function CreateGrid(div, nrows, ncols)
 {
 	let ColumnDefs = 
@@ -90,7 +99,7 @@ async function CreateGrid(div, nrows, ncols)
 	let gridOptions = 
 	{
 		rowHeight: 25,
-		//onCellClicked: CellClicked,
+		onCellClicked: CellClicked,
 		columnDefs: ColumnDefs,
 		rowData: RowData,
 		animateRows: true,
