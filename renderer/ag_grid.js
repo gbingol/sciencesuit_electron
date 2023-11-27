@@ -1,28 +1,11 @@
-/**
- * 
- * @param {string} str 
- * @returns {string[]}
- */
-function parseRange(str)
-{
-	//comes in format of A15, B20
-	//returns A and 15 or B and 20
-	let s="";
-
-	let i=0;
-	while(isNaN(str[i]))
-		s += str[i++];
-
-	return [s, str.substring(i)];
-}
-
 
 /**
  * 
  * @param {string} str 
+ * @param {string}  delimiter
  * @returns {string[]}
  */
-function parseMultilineString(str)
+function parseMultilineString(str, delimiter = "\t")
 {
 	//str is a multiline string where each line contains entries separated with tabs
 	let retArr = []
@@ -30,14 +13,17 @@ function parseMultilineString(str)
 	let lines = str.split("\n");
 	for (let line of lines)
 	{
+		//check for Windows
 		if(line.endsWith("\r"))
 			line = line.slice(0, -1);
-		let arr = line.split("\t");
+
+		let arr = line.split(delimiter);
 		retArr.push(arr);
 	}
 
 	return retArr;
 }
+
 
 
 function createCSS()
@@ -91,7 +77,114 @@ async function addScript()
 
 
 
-class Worksheet
+
+
+/*******************           RANGE    ************************************/
+
+class CRange
+{
+	/**
+	 * @param {string} str 
+	 * @param {Worksheet} ws
+	 */
+	constructor(str, ws)
+	{
+		let rng = str.split(":");
+		if(rng.length != 2)
+			throw new Error("Invalid range");
+
+		let Start = this.parseRange(rng[0]);
+		let End = this.parseRange(rng[1]);
+
+		let stCol = Start[0].charCodeAt(0), stRow = parseInt(Start[1]);
+		let endCol = End[0].charCodeAt(0), endRow = parseInt(End[1]);
+
+		if(stRow>endRow)
+			throw new Error("Start row number cannot be greater than end row number");
+
+		if(stCol>endCol)
+			throw new Error("Starting column number cannot be greater than end column number");
+
+		this._ncols = endCol - stCol + 1;
+		this._nrows = endRow - stRow + 1;
+
+		this._TL = { "row": stRow, "col": stCol };
+		this._BR = { "row": endRow, "col": endCol };
+		this._ws = ws;
+	}
+
+
+	get nrows()
+	{
+		return this._nrows;
+	}
+
+
+	get ncols()
+	{
+		return this._ncols;
+	}
+
+
+	get topleft()
+	{
+		return this._TL;
+	}
+
+
+	get bottomright()
+	{
+		return this._BR;
+	}
+
+
+	/**
+	 * @param {string} str 
+	 * @returns {string[]}
+	 */
+	parseRange(str)
+	{
+		//comes in format of A15, B20
+		//returns A and 15 or B and 20
+		let s="";
+
+		let i=0;
+		while(isNaN(str[i]))
+			s += str[i++];
+
+		return [s, str.substring(i)];
+	}
+
+
+	get data()
+	{
+		let Arr = [];
+
+		let TL = this._TL;
+		let BR = this._BR;
+
+		for(let i=TL.row; i<=BR.row; i++)
+		{
+			const rowNode = this._ws.gridOptions.api.getRowNode((i-1).toString());
+			let a = [];
+			for(let j=TL.col; j<=BR.col; j++)
+			{
+				let data = rowNode.data[String.fromCharCode(j)];
+				a.push(data);
+			}
+			Arr.push(a);
+		}
+
+		return Arr;
+	}
+}
+
+
+
+
+/******************* WORKSHEET  ************************************/
+
+class CWorksheet
 {
 	/**
 	 * 
@@ -117,20 +210,12 @@ class Worksheet
 		pasteBtn.innerHTML="Paste";
 
 		let clearBtn = btnDiv.appendChild(document.createElement("button"));
-		clearBtn.innerHTML="Clear";
-
-		let Btn = btnDiv.appendChild(document.createElement("button"));
-		Btn.innerHTML="Read";
+		clearBtn.innerHTML="Clear Cells";
 
 		this.gridDiv = this._div.appendChild(document.createElement("div"));
 		this.gridDiv.className = "ag-theme-alpine";
 		this.gridDiv.style.height = "100%";
 		this.gridDiv.style.width = "100%";
-
-		Btn.addEventListener("click", (evt)=>
-		{
-			console.log(this.getRangeData("A1:B2"));
-		});
 
 
 		pasteBtn.addEventListener("click", (evt)=>
@@ -153,6 +238,10 @@ class Worksheet
 		return this._gridOptions;
 	}
 
+	get gridOptions()
+	{
+		return this._gridOptions;
+	}
 
 	/**
 	 * 
@@ -256,49 +345,9 @@ class Worksheet
 			}
 		}
 	}
-
-	/**
-	 * 
-	 * @param {string} str 
-	 * @returns Array
-	 */
-	getRangeData = (str)=>
-	{
-		let rng = str.split(":");
-		if(rng.length != 2)
-			throw new Error("Invalid range");
-
-		let Start = parseRange(rng[0]);
-		let End = parseRange(rng[1]);
-
-		let stCol = Start[0].charCodeAt(0), stRow = parseInt(Start[1]);
-		let endCol = End[0].charCodeAt(0), EndRow = parseInt(End[1]);
-
-		if(stRow>EndRow)
-			throw new Error("Start row number cannot be greater than end row number");
-
-		if(stCol>endCol)
-			throw new Error("Starting column number cannot be greater than end column number");
-
-		let Arr = [];
-
-		for(let i=stRow; i<=EndRow; i++)
-		{
-			const rowNode = this._gridOptions.api.getRowNode((i-1).toString());
-			let a = [];
-			for(let j=stCol; j<=endCol; j++)
-			{
-				let data = rowNode.data[String.fromCharCode(j)];
-				a.push(data);
-			}
-			Arr.push(a);
-		}
-
-		return Arr;
-	}
 }
 
 
 
 
-export {Worksheet}
+export {CWorksheet, CRange}

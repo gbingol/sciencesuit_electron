@@ -121,16 +121,29 @@
 	
 <div id="info"></div>
 
+<button id="btn">Dummy</button>
 
 <script type="module">
 	"use strict";
 
-	import {Worksheet} from '../../../renderer/ag_grid.js';
+	import {CWorksheet, CRange} from '../../../renderer/ag_grid.js';
 
 	
 	let ws_div = document.querySelector('#myGrid');
-	let ws = new Worksheet(ws_div);
-	ws.init().then(gridOptions=> { });
+	let ws = new CWorksheet(ws_div);
+	ws.init().then(gridOptions=> {
+		
+	 });
+
+	let btn = document.querySelector("#btn");
+	btn.onclick = ((evt)=>
+	{
+		let rng = new CRange("A1:B3", ws);
+		console.log(rng.data);
+		console.log(rng.ncols)
+		console.log(rng.nrows)
+	});
+	
 
 	
 
