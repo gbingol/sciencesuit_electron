@@ -125,18 +125,12 @@
 <script type="module">
 	"use strict";
 
-	import {Grid} from '../../../renderer/dom/ag_grid.js';
+	import {Worksheet} from '../../../renderer/ag_grid.js';
 
 	
-	let eGridDiv = document.querySelector('#myGrid');
-	let grid = new Grid(eGridDiv);
-	grid.InitGrid(eGridDiv).then(gridOptions=>
-	{
-		let rowData = [];
-		gridOptions.api.forEachNode(node => rowData.push(node.data));
-		const pricesArray = rowData.map(row => row['price']);
-
-	});
+	let ws_div = document.querySelector('#myGrid');
+	let ws = new Worksheet(ws_div);
+	ws.init().then(gridOptions=> { });
 
 	
 

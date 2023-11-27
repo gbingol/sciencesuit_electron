@@ -91,7 +91,7 @@ async function addScript()
 
 
 
-class Grid
+class Worksheet
 {
 	/**
 	 * 
@@ -145,7 +145,7 @@ class Grid
 	}
 
 	
-	InitGrid = async()=>
+	init = async()=>
 	{
 		createCSS();
 		let e = await addScript()
@@ -301,4 +301,4 @@ class Grid
 
 
 
-export {Grid}
+export {Worksheet}
