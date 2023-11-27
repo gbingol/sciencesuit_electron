@@ -5,7 +5,7 @@
  * @param {number} digits 
  * @returns {number}
  */
-function round(number, digits)
+export function round(number, digits)
 {
 	if (Number.isInteger(number))
 		return number;
@@ -22,7 +22,7 @@ function round(number, digits)
  * @param {number} a 
  * @returns {number}
  */
-function lerp(x, y, a)
+export function lerp(x, y, a)
 {
 	/*
 	lerp(20, 80, 0)   // 20
@@ -37,7 +37,7 @@ function lerp(x, y, a)
 	clamp(12, 20, 30) // 20
 	clamp(32, 20, 30) // 30
 */
-function clamp(a, min = 0, max = 1)
+export function clamp(a, min = 0, max = 1)
 {
 	return Math.min(max, Math.max(min, a));
 }
@@ -50,7 +50,7 @@ function clamp(a, min = 0, max = 1)
  * @param {number} a 
  * @returns {number}
  */
-function invlerp(x, y, a)
+export function invlerp(x, y, a)
 {
 	/*
 	invlerp(50, 100, 75)  // 0.5
@@ -70,7 +70,7 @@ function invlerp(x, y, a)
  * @param {number} xval 
  * @returns {number}
  */
-function linearinterp(x1, y1, x2, y2, xval)
+export function linearinterp(x1, y1, x2, y2, xval)
 {
 	//linear interpolation
 	if (x1 == x2)
@@ -89,11 +89,25 @@ function linearinterp(x1, y1, x2, y2, xval)
  * @param {number[]} arr
  * @returns {number[]}
  */
-function cumsum(arr)
+export function cumsum(arr)
 {
 	let sum = 0;
 	return arr.map(e => sum += e);
 }
 
+/**
+ * 
+ * @param {number[]} arr
+ * @returns {number[]}
+ */
+export function diff(arr)
+{
+	if (arr.length < 2)
+		throw new Error("Array must have at least 2 elements");
 
-export {linearinterp, round, invlerp, clamp, lerp, cumsum }
+	let x = [];
+	for (let i = 1; i < arr.length; ++i)
+		x.push(arr[i] - arr[i - 1]);
+
+	return x;
+}
