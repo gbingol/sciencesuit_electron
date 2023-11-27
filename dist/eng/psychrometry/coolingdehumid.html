@@ -63,7 +63,6 @@
 		}
     </style>
 
-	<script src="../../js/util.js"></script>
 	<script src ="psyutil.js"></script>
 	<script src ="../../../build/eng/water.js"></script>
 	<script type="module" src="../../../renderer/dom/div_copydel.js" defer></script>
@@ -145,8 +144,10 @@
 	
 <div id="info"></div>
 
-<script>
+<script type="module">
 	"use strict";
+
+	import {round, linearinterp} from '../../js/sci_math.js';
 
 	const btn = document.getElementById('compute');
 	const txtP =  document.getElementById('txtP');
@@ -199,7 +200,7 @@
 		let indexes = findIndexes(water.T(), T2+273.15);
 		let T = [water.T()[indexes[0]], water.T()[indexes[1]]];
 		let H = [water.hf()[indexes[0]], water.hf()[indexes[1]]];
-		let hwater = util.math.linearinterp(T[0], H[0], T[1], H[1], T2+273.15);
+		let hwater = linearinterp(T[0], H[0], T[1], H[1], T2+273.15);
 
 		let Q = ma*(h1-h3) - mw*hwater
 
@@ -236,8 +237,8 @@
 
 			s += "<br><i>Output values</i> <br>";
 
-			s += "<b>Heat Removal = </b>" + util.math.round(Q, digits) + " kJ / time <br>";
-			s += "<b>Moisture Removal = </b>" + util.math.round(mw, digits) + " kg / time <br>";
+			s += "<b>Heat Removal = </b>" + round(Q, digits) + " kJ / time <br>";
+			s += "<b>Moisture Removal = </b>" + round(mw, digits) + " kg / time <br>";
 
 			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
 			outDiv.innerHTML = s;

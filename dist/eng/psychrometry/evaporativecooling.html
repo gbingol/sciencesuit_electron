@@ -79,7 +79,6 @@
 
 	<script src ="psyutil.js"></script>
 	<script type="module" src="../../../renderer/dom/div_copydel.js" defer></script>
-	<script src="../../js/util.js"></script>
 </head>
 
 <body>
@@ -156,8 +155,10 @@
 	
 <div id="info"></div>
 
-<script>
+<script type="module">
 	"use strict";
+
+	import {round} from '../../js/sci_math.js';
 
 	const btn = document.getElementById('compute');
 
@@ -217,8 +218,8 @@
 
 			s += "<br><i>Output values</i> <br>";
 
-			s += "<b>T = </b>" + util.math.round(Tdb, digits) + " &deg;C <br>";
-			s += "<b>T<sub>min</sub> = </b>" + util.math.round(Twb, digits) + " &deg;C";
+			s += "<b>T = </b>" + round(Tdb, digits) + " &deg;C <br>";
+			s += "<b>T<sub>min</sub> = </b>" + round(Twb, digits) + " &deg;C";
 
 			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
 			outDiv.innerHTML = s;

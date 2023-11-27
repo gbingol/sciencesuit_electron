@@ -7,7 +7,6 @@
 
 	<link href="../../css/common.css" rel="stylesheet">
 
-	<script src="../../js/util.js"></script>
 	<script src ="psyutil.js"></script>
 	<script type="module" src="../../../renderer/dom/div_copydel.js" defer></script>
 
@@ -161,8 +160,10 @@
 	
 <div id="info"></div>
 
-<script>
+<script type="module">
 	"use strict";
+
+	import {round} from '../../js/sci_math.js';
 
 	const btn = document.getElementById('compute');
 	const txtP =  document.getElementById('txtP');
@@ -230,16 +231,18 @@
 
 		let digits = parseInt(txtDigits.value);
 
+		
+
 		try
 		{
 			let obj = compute(P, T1, RH1, V1, T2, RH2, V2);
 			let w3 = obj.w, h3 = obj.h, V3=obj.v, st3=obj.st;
 
-			let s = "<b>w=</b>" + util.math.round(w3, digits) + "kg / kg da <br>";
-			s += "<b>RH=</b>" + util.math.round(st3.RH(), digits) + "% <br>";
-			s += "<b>T<sub>db</sub>=</b>" + util.math.round(st3.Tdb(), digits) + "&deg;C <br>";
-			s += "<b>h=</b>" + util.math.round(h3, digits) + "kJ / kg da <br>";
-			s += "<b>Flow Rate=</b>" + util.math.round(V3, digits) + "m<sup>3</sup> / time";
+			let s = "<b>w=</b>" + round(w3, digits) + "kg / kg da <br>";
+			s += "<b>RH=</b>" + round(st3.RH(), digits) + "% <br>";
+			s += "<b>T<sub>db</sub>=</b>" + round(st3.Tdb(), digits) + "&deg;C <br>";
+			s += "<b>h=</b>" + round(h3, digits) + "kJ / kg da <br>";
+			s += "<b>Flow Rate=</b>" + round(V3, digits) + "m<sup>3</sup> / time";
 
 			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
 			outDiv.innerHTML = s;
