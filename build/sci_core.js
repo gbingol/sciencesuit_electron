@@ -111,5 +111,39 @@ class Psychrometry
 }
 
 
+/**
+ * 
+ * @param {Number[]} x 
+ * @param {Number[]} y 
+ * @returns {Number[]}
+ */
+function cumtrapz(x, y)
+{
+	if (!Array.isArray(x))
+		throw ("x must be array");
 
-module.exports = { Psychrometry };
+	if (!Array.isArray(y))
+		throw ("y must be array");
+
+	return addon.cumtrapz(x, y);
+}
+
+
+/**
+ * 
+ * @param {Number[]} x 
+ * @param {Number[]} y 
+ * @returns {Number}
+ */
+function trapz(x, y)
+{
+	if (!Array.isArray(x))
+		throw ("x must be array");
+
+	if (!Array.isArray(y))
+		throw ("y must be array");
+
+	return addon.trapz(x, y);
+}
+
+module.exports = { Psychrometry, cumtrapz, trapz };
