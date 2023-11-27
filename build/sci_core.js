@@ -133,17 +133,19 @@ function cumtrapz(x, y)
  * 
  * @param {Number[]} x 
  * @param {Number[]} y 
- * @returns {Number}
+ * @param {Boolean} isCumulative
+ * @returns {Number | Number[]}
  */
-function trapz(x, y)
+function trapz(x, y, isCumulative = false)
 {
+	//isCumulative = true, cumtrapz otherwise trapz
 	if (!Array.isArray(x))
 		throw ("x must be array");
 
 	if (!Array.isArray(y))
 		throw ("y must be array");
 
-	return addon.trapz(x, y);
+	return addon.trapz(x, y, isCumulative);
 }
 
-module.exports = { Psychrometry, cumtrapz, trapz };
+module.exports = { Psychrometry, trapz };
