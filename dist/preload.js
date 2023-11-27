@@ -1,12 +1,9 @@
 const { contextBridge } = require('electron')
 const path = require('node:path')
-const os = require('os');
 const { exec } = require('child_process');
 
 const { Psychrometry } = require('../build/sci_core.js');
 let {PythonShell} = require('python-shell');
-
-const { Grid } =require('ag-grid-community');
 
 
 /**
@@ -51,12 +48,10 @@ function RunPython(input, options, isstr = false)
 let funcs =
 {
 	dirname: () => { return __dirname; },
-	homedir: () => { return os.homedir(); },
 	projdir: () => { return path.dirname(__dirname); },
 	runcmd: (callback, cmd) => { return RunCmd(callback, cmd); },
 	runpython: (file, options, isstr=false) => { return RunPython(file, options, isstr); },
 	psychrometry: (k, v) => { return psychrometry(k, v); },
-	creategrid:(div, options)=>{return createGrid(div, options);}
 }
 
 
