@@ -16,41 +16,7 @@ def FindAvg(vec):
 
 
 
-class frmFoodThermalProc ( _se.Frame ):
 
-	def __init__( self, parent ):
-		_se.Frame.__init__ ( self, parent,title = u"Food Thermal Processing", size = wx.Size(-1, -1)) 
-		
-		self.SetBackgroundColour( wx.Colour( 255, 199, 142 ) )
-		
-		ParentPath = util.parent_path(__file__)
-		IconPath = ParentPath / "icons" / "thermalprocessing.jpg"
-		
-		self.SetIcon(makeicon(IconPath))
-		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
-
-		self.m_st_D_t = wx.StaticText( self, wx.ID_ANY, u"D (time):")
-		self.m_st_D_t.Wrap( -1 )
-		self.m_txt_D_t = NumTextCtrl( self)
-		
-		self.m_st_D_T = wx.StaticText( self, wx.ID_ANY, u"D (temperature):")
-		self.m_st_D_T.Wrap( -1 )
-		self.m_txt_D_T = NumTextCtrl( self)
-		
-		self.m_st_Z = wx.StaticText( self, wx.ID_ANY, u"z-value:")
-		self.m_st_Z.Wrap( -1 )
-		self.m_txt_Z = NumTextCtrl( self)
-		
-		self.m_st_t = wx.StaticText( self, wx.ID_ANY, u"Time:")
-		self.m_st_t.Wrap( -1 )
-		self.m_txt_t = _se.GridTextCtrl( self )
-		
-		self.m_st_T = wx.StaticText( self, wx.ID_ANY, u"Temperature(s):")
-		self.m_st_T.Wrap( -1 )
-		self.m_txt_T = _se.GridTextCtrl( self )
-
-		WS = _se.activeworksheet()
-		rng:_se.Range = WS.selection()
 
 		if rng != None and rng.ncols() >= 2:
 			N = 1 if rng.ncols() == 2 else rng.ncols() - 1 #ncols for temperature
@@ -63,22 +29,6 @@ class frmFoodThermalProc ( _se.Frame ):
 		self.m_stRefT.Wrap( -1 )
 		self.m_txtRefT = NumTextCtrl( self, val="121")
 
-		fgSizer = wx.FlexGridSizer( 0, 2, 5, 0 )
-		fgSizer.AddGrowableCol( 1 )
-		fgSizer.SetFlexibleDirection( wx.HORIZONTAL )
-		fgSizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		fgSizer.Add( self.m_st_D_t, 0, wx.ALL, 5 )
-		fgSizer.Add( self.m_txt_D_t, 1, wx.ALL|wx.EXPAND, 5 )
-		fgSizer.Add( self.m_st_D_T, 0, wx.ALL, 5 )
-		fgSizer.Add( self.m_txt_D_T, 0, wx.ALL|wx.EXPAND, 5 )
-		fgSizer.Add( self.m_st_Z, 0, wx.ALL, 5 )
-		fgSizer.Add( self.m_txt_Z, 1, wx.ALL|wx.EXPAND, 5 )
-		fgSizer.Add( self.m_st_t, 0, wx.ALL, 5 )
-		fgSizer.Add( self.m_txt_t, 1, wx.ALL|wx.EXPAND, 5 )
-		fgSizer.Add( self.m_st_T, 0, wx.ALL, 5 )
-		fgSizer.Add( self.m_txt_T, 1, wx.ALL|wx.EXPAND, 5 )
-		fgSizer.Add( self.m_stRefT, 0, wx.ALL, 5 )
-		fgSizer.Add( self.m_txtRefT, 0, wx.ALL|wx.EXPAND, 5 )
 
 		self.m_pnlOutput = _se.pnlOutputOptions( self)
 

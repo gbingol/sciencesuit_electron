@@ -128,6 +128,17 @@
 
 	import {CWorksheet, CRange} from '../../../renderer/ag_grid.js';
 
+
+	function FindAvg(arr)
+	{
+		let x = []
+	
+		for(let i=1; i<arr.length; ++i)
+			x.push((arr[i] + arr[i-1])/2.0)
+
+		return x 
+	}
+
 	
 	let ws_div = document.querySelector('#myGrid');
 	let ws = new CWorksheet(ws_div);
