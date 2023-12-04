@@ -1,4 +1,40 @@
 
+body{
+	display: flex;
+	gap: 0.5em;
+}
+
+
+#maincontent
+{
+	flex:8
+}
+
+
+#_sidepanel
+{
+	padding-top: 2em;
+	display: flex;
+	flex-direction: column;
+	z-index: 1;
+	gap: 1em;
+}
+
+
+
+#_sidepanel a
+{
+	color: darkblue;
+	padding-right: 0.5em;
+	padding-left: 0.5em;
+	text-decoration: none;
+}
+
+
+#_sidepanel a:hover {
+	background-color: seashell;
+}
+
 
 
 h2 { color: red; }
@@ -35,32 +71,21 @@ details { width: fit-content; }
 
 summary:hover { cursor: pointer; }
 
-/*References at the end of the page*/
-div.RelatedLinks a { margin-right: 20px; }
 
 
-/*All links to external web sites must be highlighted*/
-a[target="_blank"] { background-color:lightyellow; }
-
-
-
-
-figure 
-{
+figure {
 	border: 1px #cccccc solid;
 	padding: 4px;
 	margin: auto;
 }
 
-figcaption 
-{
+figcaption {
 	font-style: italic;
 	padding: 2px;
 	text-align: left;
 }
 
 figcaption::before {font-weight: bold;}
-
 
 .figure {counter-increment: figures;}
 .figure figcaption::before { content: 'Fig. ' counter(figures) ': '; }
@@ -172,15 +197,6 @@ img.scaled
 		margin-right: 1%;
 	}
     
-    
-	div.RelatedLinks { 
-		display: flex;
-		line-height: 1.5em;
-		flex-wrap: wrap;
-	}
-    
-    
-    
 	ol.linespaced li, ul.linespaced li {
 		margin-right: 2%;
 	}
@@ -199,13 +215,6 @@ img.scaled
 
 @media only screen and (max-width:600px) 
 {
-    .CodeCommand 
-    { 
-	padding-top:6px;
-	padding-bottom: 6px;
-    }
-
-
     div.youtube 
     {
 	width: 340px;

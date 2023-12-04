@@ -95,7 +95,7 @@ function GenerateHTMLPythonList(output, div)
 	}
 }
 
-let div = document.body.appendChild(document.createElement("div"));
+let div = document.querySelector("#maincontent").appendChild(document.createElement("div"));
 div.className = "PyHomes";
 
 let pHeader = div.appendChild(document.createElement("p"));

@@ -85,6 +85,9 @@
 
 
 <script src="../../mainmenu.js"></script>
+
+
+<div id="maincontent">
 	
 <h1>Psychrometric Calculator</h1>
 
@@ -337,7 +340,8 @@ plt.show(maximize=True)
 		{
 			let p = window.api.psychrometry(Keys, Vals);
 
-			let outDiv = document.body.appendChild(document.createElement("div-copydel"));
+			let outDiv = document.querySelector("#maincontent").
+						appendChild(document.createElement("div-copydel"));
 			outDiv.innerHTML = p.to_html(digits);
 			outDiv.scrollIntoView();
 
@@ -350,5 +354,9 @@ plt.show(maximize=True)
 		}
 	});
 </script>
+
+
+</div>
+
 </body>
 </html>
