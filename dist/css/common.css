@@ -111,6 +111,10 @@ table caption::before {font-weight: bold;}
 .table.reset{counter-reset: tables;}
 
 
+p{
+	font-size:1.2em;
+	line-height: 1.5em; 
+}
 
 
 /**** provides headings such as 1) 1.1).. ****/
