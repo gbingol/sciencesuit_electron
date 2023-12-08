@@ -111,3 +111,130 @@ export function diff(arr)
 
 	return x;
 }
+
+
+
+/*******************  SIMPLE ARRAY OPERATIONS ************************/
+
+/**
+ * @param {number[]} x
+ * @param {number[] | number} y 
+ * @returns {number[]}
+*/
+export function add(x, y)
+{
+	if(!(Array.isArray(x) || Array.isArray(y)))
+		throw new Error("x and/or y must be array");
+
+	let _x  = Array.from(Array.isArray(x) ? x: y);
+
+	if(Array.isArray(x) && Array.isArray(y))
+	{
+		if(x.length != y.length)
+			throw new Error("Array lengths must be same");
+
+		for(let i=0; i<_x.length; ++i)
+			_x[i] += y[i];
+	}
+
+	else if (Number.isFinite(x) || Number.isFinite(y))
+	{
+		let val = Number.isFinite(x) ? x: y;
+		for(let i=0; i<_x.length; ++i)
+			_x[i] += val;
+	}
+
+	return _x;
+}
+
+/**
+ * @param {number[]} x
+ * @param {number[] | number} y 
+ * @returns {number[]}
+*/
+export function sub(x, y)
+{
+	// x - y = x + (-y)
+	return add(x, Array.isArray(y) ? y.map(e=>-e) : -y);
+}
+
+
+/**
+ * @param {number[]} x
+ * @param {number[] | number} y 
+ * @returns {number[]}
+*/
+export function mul(x, y)
+{
+	if(!(Array.isArray(x) || Array.isArray(y)))
+		throw new Error("x and/or y must be array");
+
+	let _x  = Array.from(Array.isArray(x) ? x: y);
+
+	if(Array.isArray(x) && Array.isArray(y))
+	{
+		if(x.length != y.length)
+			throw new Error("Array lengths must be same");
+
+		for(let i=0; i<_x.length; ++i)
+			_x[i] *= y[i];
+	}
+
+	else if (Number.isFinite(x) || Number.isFinite(y))
+	{
+		let val = Number.isFinite(x) ? x: y;
+		for(let i=0; i<_x.length; ++i)
+			_x[i] *= val;
+	}
+
+	return _x;
+}
+
+
+/**
+ * @param {number[]} x
+ * @param {number[] | number} y 
+ * @returns {number[]}
+*/
+export function div(x, y)
+{
+	// x/y = x* (1/y)
+	return mul(x, Array.isArray(y) ? y.map(e=>1.0/e) : 1.0/y);
+}
+
+
+/**
+ * @param {number[]} x
+ * @param {number[] | number} y 
+ * @returns {number[]}
+*/
+export function pow(x, y)
+{
+	if(!(Array.isArray(x) || Array.isArray(y)))
+		throw new Error("x and/or y must be array");
+
+	let _x  = [];
+
+	if(Array.isArray(x) && Array.isArray(y))
+	{
+		if(x.length != y.length)
+			throw new Error("Array lengths must be same");
+
+		for(let i=0; i<_x.length; ++i)
+			_x[i] = Math.pow(x[i], y[i]);
+	}
+
+	else if (Number.isFinite(x))
+	{
+		for(let i=0; i<y.length; ++i)
+			_x[i] = Math.pow(x, y[i]);
+	}
+
+	else if (Number.isFinite(y))
+	{
+		for(let i=0; i<x.length; ++i)
+			_x[i] = Math.pow(x[i], y);
+	}
+
+	return _x;
+}

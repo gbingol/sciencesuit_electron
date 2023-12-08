@@ -40,7 +40,7 @@ class CVector
 	 * @param {number[]} y
 	 * @returns {number[]}
 	 */
-	subt(y)
+	sub(y)
 	{
 		if(this._x.length != y.length)
 			throw new Error("Array lengths must be same");
@@ -93,7 +93,7 @@ class CVector
 	 * @param {number[]} y
 	 * @returns {number[]}
 	 */
-	mult(y)
+	mul(y)
 	{
 		if(this._x.length != y.length)
 			throw new Error("Array lengths must be same");

@@ -12,8 +12,7 @@
 			margin-top: 1em;
 			float: left;
 			width: 50%;
-			background-color: antiquewhite;
-			
+			background-color: antiquewhite;	
 		}
 		td{
 			padding-top: 6px;
@@ -126,47 +125,11 @@
 
 <button id="btn">Dummy</button>
 
+
 <script type="module">
 	"use strict";
 
-	import {CWorksheet, CRange} from '../../../renderer/ag_grid.js';
-
-
-	function FindAvg(arr)
-	{
-		let x = []
 	
-		for(let i=1; i<arr.length; ++i)
-			x.push((arr[i] + arr[i-1])/2.0)
-
-		return x 
-	}
-
-	
-	let ws_div = document.querySelector('#myGrid');
-	let ws = new CWorksheet(ws_div);
-	ws.init().then(gridOptions=> {
-		
-	 });
-
-	let btn = document.querySelector("#btn");
-	btn.onclick = ((evt)=>
-	{
-		let rng = new CRange("A1:B3", ws);
-		console.log(rng.data);
-		console.log(rng.ncols)
-		console.log(rng.nrows)
-	});
-	
-	let txtz = document.querySelector("#zvalue");
-	let txtd_temp = document.querySelector("#d_temp")
-	let txtd_t = document.querySelector("#d_time");
-	let txtRefT = document.querySelector("#t_ref");
-
-	let zvalue = parsefloat(txtz.value)
-	let Dvalue_Temp = parsefloat(txtd_temp.value)
-	let Dvalue_Time = parsefloat(txtd_t.value)
-	let RefTemp = parsefloat(txtRefT.value)
 	
 </script>
 

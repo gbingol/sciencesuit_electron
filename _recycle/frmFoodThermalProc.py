@@ -4,84 +4,72 @@ import numpy as np
 
 
 
-def FindAvg(vec):
-	x = []
+
+
+	if rng != None and rng.ncols() >= 2:
+		N = 1 if rng.ncols() == 2 else rng.ncols() - 1 #ncols for temperature
+		rng1 = rng.subrange(0, 0, -1, 1)
+		rng2= rng.subrange(0, 1, -1, N)
+		self.m_txt_t.SetValue(str(rng1))
+		self.m_txt_T.SetValue(str(rng2))
+
+	self.m_stRefT = wx.StaticText( self, wx.ID_ANY, u"Ref Temperature:")
+	self.m_stRefT.Wrap( -1 )
+	self.m_txtRefT = NumTextCtrl( self, val="121")
+
+
+	self.m_pnlOutput = _se.pnlOutputOptions( self)
+
+	sdbSizer = wx.StdDialogButtonSizer()
+	self.m_ComputeBtn = wx.Button( self, wx.ID_OK, label = "Compute" )
+	sdbSizer.AddButton( self.m_ComputeBtn )
+	self.m_CloseBtn = wx.Button( self, wx.ID_CANCEL, label = "Close" )
+	sdbSizer.AddButton( self.m_CloseBtn )
+	sdbSizer.Realize()
+
+	mainSizer = wx.BoxSizer( wx.VERTICAL )
+	mainSizer.Add( fgSizer, 1, wx.EXPAND, 5 )
+	mainSizer.Add( self.m_pnlOutput, 0, wx.EXPAND |wx.ALL, 5 )
+	mainSizer.Add( sdbSizer, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+
+	self.SetSizerAndFit( mainSizer )
+	self.Layout()
+	self.Centre( wx.BOTH )
+
+	self.m_CloseBtn.Bind( wx.EVT_BUTTON, self.__OnCancelBtn )
+	self.m_ComputeBtn.Bind( wx.EVT_BUTTON, self.__OnBtnCompute )
+
+
+
+
+def Compute(self, t:np.ndarray, T:np.ndarray, Dval_time:float, Dval_T:float, zvalue:float, Ref_T:float):
+	assert len(t) == len(T), "Length of time and temperature data must be equal."
 	
-	for i in range(1, len(vec)):
-		avg = (vec[i] + vec[i-1])/2.0
-		x.append(avg)
+	DValue = Dval_time*10.0**((Dval_T-T)/zvalue) #array
+	LethalRate = 10.0**((T-Ref_T)/zvalue) #array
+	
+	"""
+	Previously scisuit.core.cumtrapz_d function was used, however it is discontinued.
+	FValue = scr.cumtrapz_d(x=t.tolist(), y=LethalRate.tolist()) # array
 
-	return x 
+	
+	Below is a list comprehension using np.trapz function which yields trapezoidal values 
+	at each node, therefore acts as cumulative. 
+	
+	Although this is fairly slow (can be optimized to use previous values), for this 
+	application it is fast enough. 
+	"""
+	FValue = [np.trapz(x=t[0:i], y=LethalRate[0:i]) for i in range(1, len(t)+1)]
+	
+	dt = np.diff(t)
+	avg_T = np.asfarray(FindAvg(T))
+	DVal_avg = Dval_time*10.0**((Dval_T-avg_T)/zvalue)
+	LogRed = dt/DVal_avg
+	
+	TotalLogRed = np.cumsum(LogRed)
+	TotalLogRed = np.insert(TotalLogRed, 0, 0.0) # at time=0 TotalLogRed(1)=0
 
-
-
-
-
-
-		if rng != None and rng.ncols() >= 2:
-			N = 1 if rng.ncols() == 2 else rng.ncols() - 1 #ncols for temperature
-			rng1 = rng.subrange(0, 0, -1, 1)
-			rng2= rng.subrange(0, 1, -1, N)
-			self.m_txt_t.SetValue(str(rng1))
-			self.m_txt_T.SetValue(str(rng2))
-
-		self.m_stRefT = wx.StaticText( self, wx.ID_ANY, u"Ref Temperature:")
-		self.m_stRefT.Wrap( -1 )
-		self.m_txtRefT = NumTextCtrl( self, val="121")
-
-
-		self.m_pnlOutput = _se.pnlOutputOptions( self)
-
-		sdbSizer = wx.StdDialogButtonSizer()
-		self.m_ComputeBtn = wx.Button( self, wx.ID_OK, label = "Compute" )
-		sdbSizer.AddButton( self.m_ComputeBtn )
-		self.m_CloseBtn = wx.Button( self, wx.ID_CANCEL, label = "Close" )
-		sdbSizer.AddButton( self.m_CloseBtn )
-		sdbSizer.Realize()
-
-		mainSizer = wx.BoxSizer( wx.VERTICAL )
-		mainSizer.Add( fgSizer, 1, wx.EXPAND, 5 )
-		mainSizer.Add( self.m_pnlOutput, 0, wx.EXPAND |wx.ALL, 5 )
-		mainSizer.Add( sdbSizer, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
-
-		self.SetSizerAndFit( mainSizer )
-		self.Layout()
-		self.Centre( wx.BOTH )
-
-		self.m_CloseBtn.Bind( wx.EVT_BUTTON, self.__OnCancelBtn )
-		self.m_ComputeBtn.Bind( wx.EVT_BUTTON, self.__OnBtnCompute )
-
-
-
-
-	def Compute(self, t:np.ndarray, T:np.ndarray, Dval_time:float, Dval_T:float, zvalue:float, Ref_T:float):
-		assert len(t) == len(T), "Length of time and temperature data must be equal."
-		
-		DValue = Dval_time*10.0**((Dval_T-T)/zvalue) #array
-		LethalRate = 10.0**((T-Ref_T)/zvalue) #array
-		
-		"""
-		Previously scisuit.core.cumtrapz_d function was used, however it is discontinued.
-		FValue = scr.cumtrapz_d(x=t.tolist(), y=LethalRate.tolist()) # array
-
-		
-		Below is a list comprehension using np.trapz function which yields trapezoidal values 
-		at each node, therefore acts as cumulative. 
-		
-		Although this is fairly slow (can be optimized to use previous values), for this 
-		application it is fast enough. 
-		"""
-		FValue = [np.trapz(x=t[0:i], y=LethalRate[0:i]) for i in range(1, len(t)+1)]
-		
-		dt = np.diff(t)
-		avg_T = np.asfarray(FindAvg(T))
-		DVal_avg = Dval_time*10.0**((Dval_T-avg_T)/zvalue)
-		LogRed = dt/DVal_avg
-		
-		TotalLogRed = np.cumsum(LogRed)
-		TotalLogRed = np.insert(TotalLogRed, 0, 0.0) # at time=0 TotalLogRed(1)=0
-
-		return [LethalRate, DValue, TotalLogRed, FValue]
+	return [LethalRate, DValue, TotalLogRed, FValue]
 		
 
 

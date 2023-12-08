@@ -155,8 +155,8 @@ class CRange
 		return [s, str.substring(i)];
 	}
 
-
-	get data()
+	//returns row-majored data
+	get datarows()
 	{
 		let Arr = [];
 
@@ -176,6 +176,18 @@ class CRange
 		}
 
 		return Arr;
+	}
+
+	//returns column-majored data
+	get data()
+	{
+		let a = this.datarows;
+
+		let arr = [];
+		for(let i=0; i<a[0].length; ++i)
+			arr.push(a.map(e=>e[i]));
+
+		return arr;
 	}
 }
 
