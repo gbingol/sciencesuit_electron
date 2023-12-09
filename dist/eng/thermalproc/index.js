@@ -1,4 +1,6 @@
-import {CWorksheet, CRange} from '../../../renderer/ag_grid.js';
+"use strict";
+
+import {CWorksheet, CRange} from '../../js/ext/ag_grid.js';
 import * as np from "../../js/sci_math.js";
 
 function FindAvg(arr)
@@ -44,7 +46,6 @@ function compute(t, T, Dval_time, Dval_T, zvalue, Ref_T)
 	
 let ws_div = document.querySelector('#myGrid');
 let ws = new CWorksheet(ws_div);
-ws.
 ws.init().then(gridOptions=> {
 	
 	});
@@ -63,7 +64,7 @@ let txtd_temp = document.querySelector("#d_temp")
 let txtd_t = document.querySelector("#d_time");
 let txtRefT = document.querySelector("#t_ref");
 
-	let zvalue = parsefloat(txtz.value)
-	let Dvalue_Temp = parsefloat(txtd_temp.value)
-	let Dvalue_Time = parsefloat(txtd_t.value)
-	let RefTemp = parsefloat(txtRefT.value)
+let zvalue = parsefloat(txtz.value);
+let Dvalue_Temp = parsefloat(txtd_temp.value);
+let Dvalue_Time = parsefloat(txtd_t.value);
+let RefTemp = parsefloat(txtRefT.value);
