@@ -46,25 +46,49 @@ function compute(t, T, Dval_time, Dval_T, zvalue, Ref_T)
 	
 let ws_div = document.querySelector('#myGrid');
 let ws = new CWorksheet(ws_div);
-ws.init().then(gridOptions=> {
-	
-	});
+ws.init().then(gridOptions=> {});
 
-let btn = document.querySelector("#btn");
-btn.onclick = ((evt)=>
+
+let btnCompute = document.querySelector("#compute");
+btnCompute.onclick = ((evt)=>
 {
-	let rng = new CRange("A1:B3", ws);
-	console.log(rng.data);
-	console.log(rng.ncols)
-	console.log(rng.nrows)
+	let txtz = document.querySelector("#zvalue");
+	let txtd_temp = document.querySelector("#d_temp")
+	let txtd_t = document.querySelector("#d_time");
+	let txtRefT = document.querySelector("#t_ref");
+
+	let txtTime = document.querySelector("#time");
+	let txtTemperature = document.querySelector("#temperature");
+
+	try
+	{
+		if(txtz.value === "") throw new Error("z-value cannot be blank");
+		if(txtd_temp.value === "") throw new Error("D(Temperature) cannot be blank");
+		if(txtd_temp.value === "") throw new Error("D(time) cannot be blank");
+
+		let zvalue = parseFloat(txtz.value);
+		let Dvalue_Temp = parseFloat(txtd_temp.value);
+		let Dvalue_Time = parseFloat(txtd_t.value);
+		let RefTemp = parseFloat(txtRefT.value);
+
+		if(Dvalue_Time<0 || Dvalue_Temp<0 || zvalue<0)
+			throw new Error("Neither D-values nor z-value can be negative");
+
+		let rng = new CRange(txtTime.value, ws);
+		let time = rng.data[0];
+
+		rng = new CRange(txtTemperature.value, ws);
+		let range_T = rng.data;
+
+		for(let T of range_T)
+		{
+			console.log(T);
+		}
+	}
+	catch(e)
+	{
+
+	}
+
+	
 });
-
-let txtz = document.querySelector("#zvalue");
-let txtd_temp = document.querySelector("#d_temp")
-let txtd_t = document.querySelector("#d_time");
-let txtRefT = document.querySelector("#t_ref");
-
-let zvalue = parsefloat(txtz.value);
-let Dvalue_Temp = parsefloat(txtd_temp.value);
-let Dvalue_Time = parsefloat(txtd_t.value);
-let RefTemp = parsefloat(txtRefT.value);

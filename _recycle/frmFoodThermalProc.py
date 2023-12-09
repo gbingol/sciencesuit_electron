@@ -74,70 +74,68 @@ def Compute(self, t:np.ndarray, T:np.ndarray, Dval_time:float, Dval_T:float, zva
 
 
 	
-	def __PrintVals(self, WS, Row, Col, time:np.ndarray, Temperatures:list, Results:list):
-		Headers=["Time ", "Temperature", "Lethality Rate", "D Value","Total Log Reduction", "F-Value"]
+def __PrintVals(self, WS, Row, Col, time:np.ndarray, Temperatures:list, Results:list):
+	Headers=["Time ", "Temperature", "Lethality Rate", "D Value","Total Log Reduction", "F-Value"]
 
-		for i in range(len(Temperatures)):
-			WS[Row, Col] = {'value':"Col #" + str(i+1) , 'weight':"bold"}
+	for i in range(len(Temperatures)):
+		WS[Row, Col] = {'value':"Col #" + str(i+1) , 'weight':"bold"}
+		Row += 1
+
+		for k in range(len(Headers)):
+			WS[Row, Col + k] = {'value': Headers[k], 'style':"italic"}
+
+
+		for j in range(len(time)):
 			Row += 1
-	
-			for k in range(len(Headers)):
-				WS[Row, Col + k] = {'value': Headers[k], 'style':"italic"}
+			CurResult = Results[i]
 
+			LethalRate = CurResult[0][j]
+			DValue = CurResult[1][j]
+			TotalLogRed = CurResult[2][j]
+			FValue = CurResult[3][j]
 
-			for j in range(len(time)):
-				Row += 1
-				CurResult = Results[i]
-
-				LethalRate = CurResult[0][j]
-				DValue = CurResult[1][j]
-				TotalLogRed = CurResult[2][j]
-				FValue = CurResult[3][j]
-
-				WS[Row, Col] = str(time[j])
-				WS[Row, Col+1] = str(Temperatures[i][j])
-				WS[Row, Col+2] = str(round(LethalRate, 3))
-				WS[Row, Col+3] = str(round(DValue, 3))
-				WS[Row, Col+4] = str(round(TotalLogRed, 3))
-				WS[Row, Col+5] = str(round(FValue, 2))
-			
-			Row += 2 #result of next computation
-				
-
-
-	def __OnBtnCompute( self, event ):
-		try:
-			assert self.m_txt_Z.GetValue() != "" , "z-value cannot be blank"
-			assert self.m_txt_D_T.GetValue() != "", "D(Temperature) cannot be blank"
-			assert self.m_txt_D_t.GetValue() != "", "D(time) cannot be blank"
+			WS[Row, Col] = str(time[j])
+			WS[Row, Col+1] = str(Temperatures[i][j])
+			WS[Row, Col+2] = str(round(LethalRate, 3))
+			WS[Row, Col+3] = str(round(DValue, 3))
+			WS[Row, Col+4] = str(round(TotalLogRed, 3))
+			WS[Row, Col+5] = str(round(FValue, 2))
 		
-			zvalue = float(self.m_txt_Z.GetValue())
-			Dvalue_Temp = float(self.m_txt_D_T.GetValue())
-			Dvalue_Time = float(self.m_txt_D_t.GetValue())
-			RefTemp = float(self.m_txtRefT.GetValue())
+		Row += 2 #result of next computation
+			
+
+
+def __OnBtnCompute( self, event ):
+	try:
 		
-			assert Dvalue_Time>0 and  zvalue>0, "D- and z-values >0 expected"
-
-			time = np.asfarray(_se.Range(self.m_txt_t.GetValue()).tolist())
-			range_T = _se.Range(self.m_txt_T.GetValue())
 	
+		zvalue = float(self.m_txt_Z.GetValue())
+		Dvalue_Temp = float(self.m_txt_D_T.GetValue())
+		Dvalue_Time = float(self.m_txt_D_t.GetValue())
+		RefTemp = float(self.m_txtRefT.GetValue())
+	
+		assert Dvalue_Time>0 and  zvalue>0, "D- and z-values >0 expected"
 
-			Results = []
-			Temperatures = []
+		time = np.asfarray(_se.Range(self.m_txt_t.GetValue()).tolist())
+		range_T = _se.Range(self.m_txt_T.GetValue())
 
-			for i in range(range_T.ncols()):				
-				temperature = np.asfarray(range_T.col(i)) 
-				result = self.Compute(time, temperature, Dvalue_Time, Dvalue_Temp, zvalue, RefTemp) 			
-				Results.append(result)
-				Temperatures.append(temperature)
-			
-			WS, Row, Col = self.m_pnlOutput.Get()
-			assert WS != None, "Output Options: The selected range is not in correct format or valid."
 
-			self.__PrintVals(WS, Row, Col, time, Temperatures, Results )
-			
-		except Exception as e:
-			wx.MessageBox(str(e), "Error")
+		Results = []
+		Temperatures = []
+
+		for i in range(range_T.ncols()):				
+			temperature = np.asfarray(range_T.col(i)) 
+			result = self.Compute(time, temperature, Dvalue_Time, Dvalue_Temp, zvalue, RefTemp) 			
+			Results.append(result)
+			Temperatures.append(temperature)
+		
+		WS, Row, Col = self.m_pnlOutput.Get()
+		assert WS != None, "Output Options: The selected range is not in correct format or valid."
+
+		self.__PrintVals(WS, Row, Col, time, Temperatures, Results )
+		
+	except Exception as e:
+		wx.MessageBox(str(e), "Error")
 
 
 
