@@ -77,6 +77,7 @@ btnCompute.onclick = ((evt)=>
 		let Dvalue_Temp = parseFloat(txtd_temp.value);
 		let Dvalue_Time = parseFloat(txtd_t.value);
 		let RefTemp = parseFloat(txtRefT.value);
+		let NDigits = parseInt(document.querySelector("txtDigits"));
 
 		if(Dvalue_Time<0 || Dvalue_Temp<0 || zvalue<0)
 			throw new Error("Neither D-values nor z-value can be negative");
@@ -119,10 +120,10 @@ btnCompute.onclick = ((evt)=>
 				s += "<tr>";
 				s += ("<td>" + time[j] + "</td>" + 
 					"<td>" + T[j] + "</td>" +
-					"<td>" + np.round(LR[j], 4) + "</td>" +
-					"<td>" + np.round(D[j], 2) + "</td>" +
-					"<td>" + np.round(TotRed[j], 3) + "</td>" +
-					"<td>" + np.round(F[j], 2) + "</td>");
+					"<td>" + np.round(LR[j], NDigits) + "</td>" +
+					"<td>" + np.round(D[j], NDigits) + "</td>" +
+					"<td>" + np.round(TotRed[j], NDigits) + "</td>" +
+					"<td>" + np.round(F[j], NDigits) + "</td>");
 				
 				s += "</tr>";
 			}
