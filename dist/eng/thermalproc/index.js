@@ -22,10 +22,10 @@ function compute(t, T, Dval_time, Dval_T, zvalue, Ref_T)
 	if(t.length != T.length)
 		throw new Error("Length of time and temperature data must be equal.");
 
-	let temp = np.div(np.sub(Dval_T - T), zvalue);
+	let temp = np.div(np.sub(Dval_T, T), zvalue);
 	let DValue =  np.mul(Dval_time, np.pow(10.0, temp));
 
-	temp = np.div(np.sub(T - Ref_T), zvalue);
+	temp = np.div(np.sub(T, Ref_T), zvalue);
 	let LethalRate = np.pow(10.0, temp);
 
 	let FValue = window.api.trapz(t, LethalRate, true);
@@ -33,14 +33,14 @@ function compute(t, T, Dval_time, Dval_T, zvalue, Ref_T)
 	
 	let avg_T = FindAvg(T);
 
-	temp = np.div(np.sub(Dval_T - avg_T), zvalue);
+	temp = np.div(np.sub(Dval_T, avg_T), zvalue);
 	let DVal_avg =  np.mul(Dval_time, np.pow(10.0, temp));
 	let LogRed = np.div(dt, DVal_avg);
 	
 	let TotalLogRed = np.cumsum(LogRed)
 	TotalLogRed.splice(0, 0, 0.0); // at time=0 TotalLogRed(1)=0
 
-	return [LethalRate, DValue, TotalLogRed, FValue]
+	return {"LR":LethalRate, "D":DValue, "TotRed": TotalLogRed, "F":FValue};
 }
 
 	
@@ -80,10 +80,59 @@ btnCompute.onclick = ((evt)=>
 		rng = new CRange(txtTemperature.value, ws);
 		let range_T = rng.data;
 
+		let Results = [];
 		for(let T of range_T)
 		{
-			console.log(T);
+			let s = `
+				<table class='output'>
+				<tr>
+				<th>Time</th>
+				<th>Temperature</th>
+				<th>Lethality Rate</th>
+				<th>D-value</th>
+				<th>Total Log Red</th>
+				<th>F-value</th>
+				</tr>`
+
+			let obj = compute(time.map(e=>parseFloat(e)), 
+				T.map(e=>parseFloat(e)), 
+				Dvalue_Time, 
+				Dvalue_Temp, 
+				zvalue, 
+				RefTemp);
+
+			let LR = obj.LR;
+			let D = obj.D;
+			let TotRed = obj.TotRed;
+			let F = obj.F;
+			
+			
+			for(let j=0; j<LR.length; ++j)
+			{
+				s += "<tr>";
+				s += ("<td>" + time[j] + "</td>" + 
+					"<td>" + T[j] + "</td>" +
+					"<td>" + np.round(LR[j], 4) + "</td>" +
+					"<td>" + np.round(D[j], 2) + "</td>" +
+					"<td>" + np.round(TotRed[j], 3) + "</td>" +
+					"<td>" + np.round(F[j], 2) + "</td>");
+				
+				s += "</tr>";
+			}
+
+			s += "</table>";
+			
+			Results.push(s);
 		}
+
+		let str ="";
+		for(let s of Results)
+			str += s + "<p>&nbsp;</p>"
+
+		let divCopy = document.createElement("div-copydel");
+		let outDiv = document.querySelector("#maincontent").appendChild(divCopy);
+		outDiv.innerHTML = str;
+		outDiv.scrollIntoView();
 	}
 	catch(e)
 	{
