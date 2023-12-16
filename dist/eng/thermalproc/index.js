@@ -3,6 +3,8 @@
 import {CWorksheet, CRange} from '../../js/ext/ag_grid.js';
 import * as np from "../../js/sci_math.js";
 
+const PAGEID = "THERMALPROC";
+
 function FindAvg(arr)
 {
 	let x = []
@@ -49,6 +51,16 @@ let ws = new CWorksheet(ws_div);
 ws.init().then(gridOptions=> {});
 
 
+window.onload = (evt)=>
+{
+	const inputs = document.querySelectorAll("#inputtable input");
+	for(let input of inputs)
+	{
+		input.value = localStorage.getItem(PAGEID + input.id);
+	}
+}
+
+
 let btnCompute = document.querySelector("#compute");
 btnCompute.onclick = ((evt)=>
 {
@@ -60,11 +72,11 @@ btnCompute.onclick = ((evt)=>
 	let txtTime = document.querySelector("#time");
 	let txtTemperature = document.querySelector("#temperature");
 
-	const ID = "THERMALPROC";
+	
 	const inputs = document.querySelectorAll("#inputtable input");
 	for(let input of inputs)
 	{
-		localStorage.setItem(ID+input.id, input.value);
+		localStorage.setItem(PAGEID + input.id, input.value);
 	}
 
 	try
