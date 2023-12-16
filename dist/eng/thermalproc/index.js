@@ -60,6 +60,13 @@ btnCompute.onclick = ((evt)=>
 	let txtTime = document.querySelector("#time");
 	let txtTemperature = document.querySelector("#temperature");
 
+	const ID = "THERMALPROC";
+	const inputs = document.querySelectorAll("#inputtable input");
+	for(let input of inputs)
+	{
+		localStorage.setItem(ID+input.id, input.value);
+	}
+
 	try
 	{
 		if(txtz.value === "") throw new Error("z-value cannot be blank");

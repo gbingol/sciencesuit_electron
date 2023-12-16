@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Adiabatic Mixing</title>
+	<title>Thermal Processing</title>
 
 	<link href="../../css/common.css" rel="stylesheet">
 
@@ -133,6 +133,18 @@
 <div id="info"></div>
 
 <script type="module" src="index.js"></script>
+
+<script>
+	window.onload = (evt)=>
+	{
+		const ID = "THERMALPROC";
+		const inputs = document.querySelectorAll("#inputtable input");
+		for(let input of inputs)
+		{
+			input.value = localStorage.getItem(ID+input.id);
+		}
+	}
+</script>
 
 
 </div>
