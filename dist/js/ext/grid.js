@@ -75,7 +75,12 @@ async function addScript()
 }
 
 
-
+function CellObj(row, col, value)
+{
+	this.row = row;
+	this.col = col;
+	this.value = value;
+}
 
 
 
@@ -224,6 +229,9 @@ class CWorksheet
 		let clearBtn = btnDiv.appendChild(document.createElement("button"));
 		clearBtn.innerHTML="Clear Cells";
 
+		let SaveBtn = btnDiv.appendChild(document.createElement("button"));
+		SaveBtn.innerHTML="Save";
+
 		this.gridDiv = this._div.appendChild(document.createElement("div"));
 		this.gridDiv.className = "ag-theme-alpine";
 		this.gridDiv.style.height = "100%";
@@ -238,6 +246,28 @@ class CWorksheet
 		clearBtn.addEventListener("click", (evt)=>
 		{
 			this.clearCells();
+		});
+
+		SaveBtn.addEventListener("click", evt=>
+		{
+			let retArr = [];
+		for (let i = 0; i < this._nrows; i++)
+		{
+			let Row = i;
+			const rowNode = this._gridOptions.api.getRowNode(Row.toString());
+
+			for (let j = 0; j < this._ncols; j++)
+			{	
+				let Col = 65 + j 
+				let value = rowNode.data[String.fromCharCode(Col)];
+				if(value && value !== "")
+				{
+					let obj = new CellObj(Row, Col, value);
+					retArr.push(obj);
+				}
+			}
+		}
+			console.log(retArr);
 		});
 	}
 
@@ -357,6 +387,27 @@ class CWorksheet
 			}
 		}
 	}
+
+
+	get data ()
+	{
+		let retArr = [];
+		for (let i = 0; i < this._nrows; i++)
+		{
+			let Row = i;
+			const rowNode = this._gridOptions.api.getRowNode(Row.toString());
+
+			for (let j = 0; j < this._ncols; j++)
+			{	
+				let Col = 65 + j 
+				let value = rowNode[String.fromCharCode(Col)];
+				let obj = new CellObj(Row, Col, value);
+				retArr.push(obj);
+			}
+		}
+	}
+
+	
 }
 
 
