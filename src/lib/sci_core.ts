@@ -1,4 +1,4 @@
-var addon = require('nodebind.node');
+var addon = require("./nodebind.node");
 
 
 class Psychrometry

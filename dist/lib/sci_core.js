@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.trapz = exports.Psychrometry = void 0;
-var addon = require('nodebind.node');
+var addon = require("./nodebind.node");
 class Psychrometry {
     constructor(Keys, Values) {
         this.P = () => { return this._P; };
