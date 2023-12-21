@@ -1,14 +1,22 @@
-var addon = require('bindings')('nodebind');
+var addon = require('nodebind.node');
 
 
 class Psychrometry
 {
-	/**
-	 * @param {Array} Keys
-	 * @param {Array} Values
-	 * @returns {null}
-	 */
-	constructor(Keys, Values)
+	private _P: number;
+	private _Tdb: number;
+	private _Twb: number;
+	private _Tdp: number;
+	private _h: number;
+	private _RH: number;
+	private _V: number;
+	private _Pw: number;
+	private _Pws: number;
+	private _W: number;
+	private _Ws: number;
+
+	
+	constructor(Keys:Array<string>, Values:Array<number>)
 	{
 		if (!Array.isArray(Keys))
 			throw ("First argument must be array");
@@ -31,7 +39,7 @@ class Psychrometry
 		this._Ws = e.ws;
 	}
 
-	static Instance(obj)
+	static Instance(obj:Object)
 	{
 		return new Psychrometry(Object.keys(obj), Object.values(obj));
 	}
@@ -53,19 +61,16 @@ class Psychrometry
 
 	V = () => { return this._V; }
 
-	round(number, digits)
+	round(num:number, digits:number):number|string
 	{
-		if (Number.isInteger(number))
-			return number;
+		if (Number.isInteger(num))
+			return num;
 
-		return number.toFixed(digits)
+		return num.toFixed(digits)
 	}
 
-	/**
-	 * @param {Number} digits
-	 * @returns {string}
-	 */
-	to_html = (digits=3) =>
+	
+	to_html = (digits:number=3):string =>
 	{
 		let s = "";
 			
@@ -85,10 +90,8 @@ class Psychrometry
 		return s;
 	}
 
-	/**
-	 * @returns {string}
-	 */
-	to_str()
+	
+	to_str():string
 	{
 		let s = "";
 			
@@ -111,13 +114,8 @@ class Psychrometry
 }
 
 
-/**
- * 
- * @param {Number[]} x 
- * @param {Number[]} y 
- * @returns {Number[]}
- */
-function cumtrapz(x, y)
+
+function cumtrapz(x:number[], y:number[])
 {
 	if (!Array.isArray(x))
 		throw ("x must be array");
@@ -129,14 +127,8 @@ function cumtrapz(x, y)
 }
 
 
-/**
- * 
- * @param {Number[]} x 
- * @param {Number[]} y 
- * @param {Boolean} isCumulative
- * @returns {Number | Number[]}
- */
-function trapz(x, y, isCumulative = false)
+
+function trapz(x: number[], y: number[], isCumulative: boolean = false): number | number[]
 {
 	//isCumulative = true, cumtrapz otherwise trapz
 	if (!Array.isArray(x))
@@ -148,4 +140,4 @@ function trapz(x, y, isCumulative = false)
 	return addon.trapz(x, y, isCumulative);
 }
 
-module.exports = { Psychrometry, trapz };
+export { Psychrometry, trapz };

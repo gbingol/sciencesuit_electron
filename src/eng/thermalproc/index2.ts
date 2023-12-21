@@ -1,3 +1,5 @@
+import * as np from '../../lib/sci_math';
+
 const PAGEID = "THERMALPROC";
 
 function FindAvg(arr:Array<number>)

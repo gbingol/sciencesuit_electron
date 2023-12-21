@@ -129,68 +129,79 @@ export function add(
 		throw new Error("Unexpected input");
 }
 
-/**
- * @param {number[]} x
- * @param {number[] | number} y 
- * @returns {number[]}
-*/
-export function sub(x, y)
+
+export function sub(
+	x: Array<number> | number, 
+	y:Array<number>|number):Array<number>
 {
 	// x - y = x + (-y)
 	return add(x, Array.isArray(y) ? y.map(e=>-e) : -y);
 }
 
 
-/**
- * @param {number[]} x
- * @param {number[] | number} y 
- * @returns {number[]}
-*/
-export function mul(x, y)
+export function mul(
+	x:Array<number>|number, 
+	y:Array<number>|number):Array<number>
 {
 	if(!(Array.isArray(x) || Array.isArray(y)))
 		throw new Error("x and/or y must be array");
 
-	let _x  = Array.from(Array.isArray(x) ? x: y);
+
+	let _x:Array<number>;
+	let val:number;
 
 	if(Array.isArray(x) && Array.isArray(y))
 	{
+		let _x  = Array.from(x);
+
 		if(x.length != y.length)
 			throw new Error("Array lengths must be same");
 
 		for(let i=0; i<_x.length; ++i)
 			_x[i] *= y[i];
+
+		return _x;
 	}
 
-	else if (Number.isFinite(x) || Number.isFinite(y))
+	else if(Array.isArray(x) && !Array.isArray(y))
 	{
-		let val = Number.isFinite(x) ? x: y;
+		_x = Array.from(x);		
+		val = y;
+
 		for(let i=0; i<_x.length; ++i)
 			_x[i] *= val;
+		
+		return _x;
 	}
+	else if(Array.isArray(y) && !Array.isArray(x))
+	{
+		_x = Array.from(y);
+		val = x;
 
-	return _x;
+		for(let i=0; i<_x.length; ++i)
+			_x[i] *= val;
+
+		return _x;
+	}
+	else
+		throw new Error("Unexpected input");
 }
 
 
-/**
- * @param {number[]} x
- * @param {number[] | number} y 
- * @returns {number[]}
-*/
-export function div(x, y)
+
+export function div(
+	x: Array<number> | number, 
+	y:Array<number>|number):Array<number>
 {
 	// x/y = x* (1/y)
 	return mul(x, Array.isArray(y) ? y.map(e=>1.0/e) : 1.0/y);
 }
 
 
-/**
- * @param {number[]} x
- * @param {number[] | number} y 
- * @returns {number[]}
-*/
-export function pow(x, y)
+
+export function pow(
+	x: Array<number> | number, 
+	y:Array<number>|number):Array<number>
 {
 	if(!(Array.isArray(x) || Array.isArray(y)))
 		throw new Error("x and/or y must be array");
@@ -206,13 +217,13 @@ export function pow(x, y)
 			_x[i] = Math.pow(x[i], y[i]);
 	}
 
-	else if (Number.isFinite(x))
+	else if (typeof x ==="number" && Array.isArray(y))
 	{
 		for(let i=0; i<y.length; ++i)
 			_x[i] = Math.pow(x, y[i]);
 	}
 
-	else if (Number.isFinite(y))
+	else if (typeof y ==="number"  && Array.isArray(x))
 	{
 		for(let i=0; i<x.length; ++i)
 			_x[i] = Math.pow(x[i], y);
