@@ -1,3 +1,4 @@
+"use strict";
 var addon = require("./nodebind.node");
 class Psychrometry {
     constructor(Keys, Values) {
@@ -83,4 +84,4 @@ function trapz(x, y, isCumulative = false) {
         throw ("y must be array");
     return addon.trapz(x, y, isCumulative);
 }
-export { Psychrometry, trapz };
+module.exports = { Psychrometry, trapz };

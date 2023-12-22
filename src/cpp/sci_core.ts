@@ -140,4 +140,4 @@ function trapz(x: number[], y: number[], isCumulative: boolean = false): number 
 	return addon.trapz(x, y, isCumulative);
 }
 
-export { Psychrometry, trapz };
+module.exports = { Psychrometry, trapz };

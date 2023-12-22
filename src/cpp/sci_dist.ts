@@ -22,4 +22,4 @@ function dnorm(
 
 
 
-export default { dnorm };
+module.exports = { dnorm };
