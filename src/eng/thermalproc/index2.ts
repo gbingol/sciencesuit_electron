@@ -21,7 +21,7 @@ function compute(
 	Dval_time:number, 
 	Dval_T:number, 
 	zvalue:number, 
-	Ref_T:number):Object
+	Ref_T:number)
 {
 	if(t.length != T.length)
 		throw new Error("Length of time and temperature data must be equal.");
@@ -32,7 +32,7 @@ function compute(
 	temp = np.div(np.sub(T, Ref_T), zvalue);
 	let LethalRate = np.pow(10.0, temp);
 
-	let FValue = window.api.trapz(t, LethalRate, true);
+	let FValue = window.api.trapz(t, LethalRate, true) as number[];
 	let dt = np.diff(t); 
 	
 	let avg_T = FindAvg(T);
@@ -66,7 +66,7 @@ window.onload = (evt)=>
 }
 
 
-let btnCompute = document.querySelector("#compute");
+let btnCompute = document.querySelector("#compute") as HTMLButtonElement;
 btnCompute.onclick = ((evt)=>
 {
 	let txtz = document.querySelector("#zvalue") as HTMLInputElement;
@@ -80,7 +80,7 @@ btnCompute.onclick = ((evt)=>
 
 	
 	const inputs = document.querySelectorAll("#inputtable input");
-	let storeObj = {};
+	let storeObj:Record<string, {}> = {};
 	for(let input of inputs)
 	{
 		let Input = input as HTMLInputElement;
@@ -164,7 +164,7 @@ btnCompute.onclick = ((evt)=>
 		then(reason=>console.log(reason));
 
 		let divCopy = document.createElement("div-copydel");
-		let outDiv = document.querySelector("#maincontent").appendChild(divCopy);
+		let outDiv = (document.querySelector("#maincontent") as HTMLDivElement).appendChild(divCopy);
 		outDiv.innerHTML = str;
 		outDiv.scrollIntoView();
 	}

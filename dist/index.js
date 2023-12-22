@@ -78,5 +78,5 @@ window.api.runcmd("py --list-paths").
     GenerateHTMLPythonList(output, div);
 }).
     catch(error => {
-    p.innerText = error;
+    //p.innerText=error;
 });

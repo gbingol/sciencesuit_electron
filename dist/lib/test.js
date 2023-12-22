@@ -1,4 +1,4 @@
-const core = require("./nodebind.node");
+import { dnorm } from "./nodebind.node";
 
 
-console.log(core.dnorm(5, 0, 1))
+console.log(dnorm(5, 0, 1))

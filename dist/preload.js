@@ -8,7 +8,7 @@ const electron_1 = require("electron");
 const node_path_1 = __importDefault(require("node:path"));
 const child_process_1 = require("child_process");
 const sci_core_1 = require("./lib/sci_core");
-let { PythonShell } = require('python-shell');
+const python_shell_1 = require("python-shell");
 //Run a termina command
 function RunCmd(cmd) {
     return new Promise((resolve, reject) => {
@@ -22,8 +22,8 @@ function RunCmd(cmd) {
 }
 function RunPython(input, options, isstr = false) {
     if (!isstr)
-        return PythonShell.run(input, options);
-    return PythonShell.runString(input, options);
+        return python_shell_1.PythonShell.run(input, options);
+    return python_shell_1.PythonShell.runString(input, options);
 }
 function psychrometry(k, v = undefined) {
     if (v != undefined && Array.isArray(k) && Array.isArray(v))

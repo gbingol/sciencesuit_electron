@@ -2,24 +2,20 @@
   "name": "sciencesuit",
   "version": "1.0.0",
   "description": "ScienceSuit App",
-  "main": "./dist/main.js",
+  "main": "./dist/main.cjs",
   "scripts": {
     "build": "tsc",
     "start": "npm run build && electron ."
   },
   "author": "Gokhan Bingol",
   "license": "ISC",
-  "devDependencies": {
-    "@types/electron": "^1.6.10",
-    "electron": "^27.0.0"
-  },
   "dependencies": {
     "ag-grid-community": "^30.2.1",
-    "bindings": "^1.5.0",
-    "highlight.js": "^11.9.0",
     "idb-keyval": "^6.2.1",
-    "monaco-editor": "^0.44.0",
-    "python-shell": "^5.0.0",
+    "python-shell": "^5.0.0"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
     "typescript": "^5.3.3"
   }
 }

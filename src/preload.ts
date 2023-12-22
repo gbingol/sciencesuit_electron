@@ -1,9 +1,9 @@
-import { contextBridge } from 'electron';
+import { contextBridge } from "electron";
 import path from 'node:path';
 import { exec } from 'child_process';
 
 import { Psychrometry, trapz } from './lib/sci_core';
-let {PythonShell} = require('python-shell');
+import {PythonShell} from 'python-shell';
 
 
 
