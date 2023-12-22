@@ -1,7 +1,7 @@
 "use strict";
 
 import {CWorksheet, CRange} from '../js/ext/ag_grid.js';
-import * as np from "../js/sci_math.js";
+import * as np from "../lib/sci_math.js";
 
 const PAGEID = "THERMALPROC";
 

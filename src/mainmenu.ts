@@ -20,8 +20,8 @@ function DesktopMenu(mBar: HTMLElement)
 {
 	let links = [
 		{"href":"index.html", "lbl": "Home" },
-		{ "href": "eng/psychrometry/index.html", "lbl": "Psychrometry" },
-		{ "href": "eng/thermalproc/index.html", "lbl": "Thermal Proc" },
+		{ "href": "psychrometry/index.html", "lbl": "Psychrometry" },
+		{ "href": "thermalproc/index.html", "lbl": "Thermal Proc" },
 		{ "href": "pipmngr.html", "lbl": "PIP" },
 	];
 

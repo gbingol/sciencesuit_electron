@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cooling with Dehumidification</title>
 
-	<link href="../../css/common.css" rel="stylesheet">
+	<link href="../css/common.css" rel="stylesheet">
 	<style>
 		table{
 			margin-left: 10px;
@@ -64,14 +64,14 @@
     </style>
 
 	<script src ="psyutil.js"></script>
-	<script src ="../../../build/eng/water.js"></script>
-	<script type="module" src="../../js/dom/div_copydel.js" defer></script>
+	<script src ="../lib/water.js"></script>
+	<script type="module" src="../js/dom/div_copydel.js" defer></script>
 </head>
 
 
 <body>
 
-<script src="../../mainmenu.js"></script>
+<script src="../mainmenu.js"></script>
 
 
 <div id="maincontent">
@@ -150,7 +150,7 @@
 <script type="module">
 	"use strict";
 
-	import {round, linearinterp} from '../../js/sci_math.js';
+	import {round, linearinterp} from '../lib/sci_math.js';
 
 	const btn = document.getElementById('compute');
 	const txtP =  document.getElementById('txtP');

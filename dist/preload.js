@@ -2,7 +2,7 @@ const { contextBridge } = require('electron')
 const path = require('node:path')
 const { exec } = require('child_process');
 
-const { Psychrometry, trapz } = require('../build/sci_core.js');
+const { Psychrometry, trapz } = require('./cpp/sci_core.js');
 let {PythonShell} = require('python-shell');
 
 
