@@ -1,4 +1,4 @@
-var addon = require('bindings')('nodebind');
+var addon = require('./nodebind');
 
 
 
