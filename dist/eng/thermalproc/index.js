@@ -1,7 +1,6 @@
 "use strict";
 
-import {CWorksheet, CRange} from '../../js/ext/grid.js';
-import {get, set} from '../../../node_modules/idb-keyval/dist/compat.js'
+import {CWorksheet, CRange} from '../../js/ext/ag_grid.js';
 import * as np from "../../js/sci_math.js";
 
 const PAGEID = "THERMALPROC";
@@ -54,15 +53,11 @@ ws.init().then(gridOptions=> {});
 
 window.onload = (evt)=>
 {
-	get(PAGEID).then(obj=>
+	const inputs = document.querySelectorAll("#inputtable input");
+	for(let input of inputs)
 	{
-		const inputs = document.querySelectorAll("#inputtable input");
-		for(let input of inputs)
-		{
-			input.value = obj[input.id];
-		}
-	});
-	
+		input.value = localStorage.getItem(PAGEID + input.id);
+	}
 }
 
 
@@ -79,10 +74,9 @@ btnCompute.onclick = ((evt)=>
 
 	
 	const inputs = document.querySelectorAll("#inputtable input");
-	let storeObj = {};
 	for(let input of inputs)
 	{
-		storeObj[input.id] =  input.value;
+		localStorage.setItem(PAGEID + input.id, input.value);
 	}
 
 	try
@@ -105,9 +99,6 @@ btnCompute.onclick = ((evt)=>
 
 		rng = new CRange(txtTemperature.value, ws);
 		let range_T = rng.data;
-
-		storeObj["t"] = time;
-		storeObj["T"] = range_T;
 
 		let Results = [];
 		for(let T of range_T)
@@ -157,9 +148,6 @@ btnCompute.onclick = ((evt)=>
 		let str ="";
 		for(let s of Results)
 			str += s + "<p>&nbsp;</p>"
-
-		set(PAGEID, storeObj).
-		then(reason=>console.log(reason));
 
 		let divCopy = document.createElement("div-copydel");
 		let outDiv = document.querySelector("#maincontent").appendChild(divCopy);

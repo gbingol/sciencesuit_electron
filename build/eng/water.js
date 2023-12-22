@@ -80,14 +80,14 @@ class Water
 	}
 }
 
-interface Array<T> {
-    findLastIndex(
-      predicate: (value: T, index: number, obj: T[]) => unknown,
-      thisArg?: any
-    ): number
-  }
 
-function findIndexes(arr: Array<number>, value: number, isIncreasing = true): Array<number>
+/**
+ * 
+ * @param {Array} arr 
+ * @param {Number} value 
+ * @returns {Array}
+ */
+function findIndexes(arr, value, isIncreasing = true)
 {
 	/*
 	Given an array and a value 
@@ -95,16 +95,10 @@ function findIndexes(arr: Array<number>, value: number, isIncreasing = true): Ar
 
 	arr = [1, 5, 8] and value =7 returns [1, 2]
 	*/
-	let uBnd:number, lBnd:number;
-	if (isIncreasing) 
-	{
+	let uBnd, lBnd;
+	if (isIncreasing) {
 		uBnd = arr.findIndex((elem) => elem >= value);
 		lBnd = arr.findLastIndex((elem) => elem < value);
-	}
-	else
-	{
-		uBnd=-1;
-		lBnd=-1;
 	}
 
 	if (uBnd < 0 || lBnd < 0)

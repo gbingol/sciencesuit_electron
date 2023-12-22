@@ -111,7 +111,7 @@ then((output:string)=>
 {	
 	GenerateHTMLPythonList(output, div);
 }).
-catch(error=>
+catch((error:string)=>
 {
 	//p.innerText=error;
 });
