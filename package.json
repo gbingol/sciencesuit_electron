@@ -2,7 +2,7 @@
   "name": "sciencesuit",
   "version": "1.0.0",
   "description": "ScienceSuit App",
-  "main": "./dist/main.cjs",
+  "main": "./dist/main.js",
   "scripts": {
     "build": "tsc",
     "start": "npm run build && electron ."
