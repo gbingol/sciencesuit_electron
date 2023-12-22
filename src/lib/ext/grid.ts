@@ -1,11 +1,7 @@
 
-/**
- * 
- * @param {string} str 
- * @param {string}  delimiter
- * @returns {string[]}
- */
-function parseMultilineString(str, delimiter = "\t")
+import * as agGrid from "ag-grid-community";
+
+function parseMultilineString(str: string, delimiter: string = "\t"): string[][]
 {
 	//str is a multiline string where each line contains entries separated with tabs
 	let retArr = []
@@ -75,141 +71,31 @@ async function addScript()
 }
 
 
-function CellObj(row, col, value)
+/******************* CELL  ************************************/
+
+
+interface Cell
 {
-	this.row = row;
-	this.col = col;
-	this.value = value;
+	row:number,
+	col:number,
+	value:string
 }
-
-
-
-/*******************           RANGE    ************************************/
-
-class CRange
-{
-	/**
-	 * @param {string} str 
-	 * @param {Worksheet} ws
-	 */
-	constructor(str, ws)
-	{
-		let rng = str.split(":");
-		if(rng.length != 2)
-			throw new Error("Invalid range");
-
-		let Start = this.parseRange(rng[0]);
-		let End = this.parseRange(rng[1]);
-
-		let stCol = Start[0].charCodeAt(0), stRow = parseInt(Start[1]);
-		let endCol = End[0].charCodeAt(0), endRow = parseInt(End[1]);
-
-		if(stRow>endRow)
-			throw new Error("Start row number cannot be greater than end row number");
-
-		if(stCol>endCol)
-			throw new Error("Starting column number cannot be greater than end column number");
-
-		this._ncols = endCol - stCol + 1;
-		this._nrows = endRow - stRow + 1;
-
-		this._TL = { "row": stRow, "col": stCol };
-		this._BR = { "row": endRow, "col": endCol };
-		this._ws = ws;
-	}
-
-
-	get nrows()
-	{
-		return this._nrows;
-	}
-
-
-	get ncols()
-	{
-		return this._ncols;
-	}
-
-
-	get topleft()
-	{
-		return this._TL;
-	}
-
-
-	get bottomright()
-	{
-		return this._BR;
-	}
-
-
-	/**
-	 * @param {string} str 
-	 * @returns {string[]}
-	 */
-	parseRange(str)
-	{
-		//comes in format of A15, B20
-		//returns A and 15 or B and 20
-		let s="";
-
-		let i=0;
-		while(isNaN(str[i]))
-			s += str[i++];
-
-		return [s, str.substring(i)];
-	}
-
-	//returns row-majored data
-	get datarows()
-	{
-		let Arr = [];
-
-		let TL = this._TL;
-		let BR = this._BR;
-
-		for(let i=TL.row; i<=BR.row; i++)
-		{
-			const rowNode = this._ws.gridOptions.api.getRowNode((i-1).toString());
-			let a = [];
-			for(let j=TL.col; j<=BR.col; j++)
-			{
-				let data = rowNode.data[String.fromCharCode(j)];
-				a.push(data);
-			}
-			Arr.push(a);
-		}
-
-		return Arr;
-	}
-
-	//returns column-majored data
-	get data()
-	{
-		let a = this.datarows;
-
-		let arr = [];
-		for(let i=0; i<a[0].length; ++i)
-			arr.push(a.map(e=>e[i]));
-
-		return arr;
-	}
-}
-
-
 
 
 /******************* WORKSHEET  ************************************/
 
-class CWorksheet
+class Worksheet
 {
-	/**
-	 * 
-	 * @param {HTMLDivElement} div 
-	 * @param {Number} nrows 
-	 * @param {Number} ncols 
-	 */
-	constructor(div, nrows = 200, ncols = 15)
+	private _div:HTMLDivElement;
+	private gridDiv:HTMLDivElement;
+	private _nrows: number;
+	private _ncols: number;
+	private _curRow:any;
+	private _curCol:any;
+	private _curField:any;
+	private _gridOptions:any;
+	
+	constructor(div: HTMLDivElement, nrows: number = 200, ncols: number = 15)
 	{
 		this._div = div;
 		this._nrows = nrows;
@@ -250,23 +136,23 @@ class CWorksheet
 
 		SaveBtn.addEventListener("click", evt=>
 		{
-			let retArr = [];
-		for (let i = 0; i < this._nrows; i++)
-		{
-			let Row = i;
-			const rowNode = this._gridOptions.api.getRowNode(Row.toString());
+			let retArr:Array<Cell> = [];
+			for (let i = 0; i < this._nrows; i++)
+			{
+				let Row = i;
+				const rowNode = this._gridOptions.api.getRowNode(Row.toString());
 
-			for (let j = 0; j < this._ncols; j++)
-			{	
-				let Col = 65 + j 
-				let value = rowNode.data[String.fromCharCode(Col)];
-				if(value && value !== "")
-				{
-					let obj = new CellObj(Row, Col, value);
-					retArr.push(obj);
+				for (let j = 0; j < this._ncols; j++)
+				{	
+					let Col = 65 + j 
+					let value = rowNode.data[String.fromCharCode(Col)];
+					if(value && value !== "")
+					{
+						let obj:Cell = {col:Col, row:Row, value:value};
+						retArr.push(obj);
+					}
 				}
 			}
-		}
 			console.log(retArr);
 		});
 	}
@@ -285,23 +171,27 @@ class CWorksheet
 		return this._gridOptions;
 	}
 
-	/**
-	 * 
-	 * @param {HTMLDivElement} div 
-	 * @param {Number} nrows 
-	 * @param {Number} ncols 
-	 */
-	CreateGrid = async (div, nrows, ncols)=>
+	
+	CreateGrid = async (div: HTMLDivElement, nrows: number, ncols: number)=>
 	{
-		let ColumnDefs = 
-		[
-			{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable:true, editable: false, width: 60}
+		let ColumnDefs: 
+		{ 
+			headerName: string; 
+			valueGetter?: string; 
+			suppressMovable?: boolean; 
+			editable?: boolean;
+			 width: number; }[] = 
+			 [{ headerName: "", valueGetter: "node.rowIndex + 1", suppressMovable: true, editable: false, width: 60 }
 		];
 
 		
 		for(let i=65; i<=(65+ncols); ++i)
 		{
-			let obj = {};
+			let obj:{ headerName: string, field: string, width: number } = {
+				headerName: "",
+				field: "",
+				width: 0
+			};
 			obj.headerName = String.fromCharCode(i);
 			obj.field =  String.fromCharCode(i);
 			obj.width = 100;
@@ -332,7 +222,7 @@ class CWorksheet
 	}
 
 
-	CellClicked = (evt)=>
+	CellClicked = (evt:agGrid.CellClickedEvent)=>
 	{
 		const field = evt.colDef.field;
 		const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
@@ -391,7 +281,7 @@ class CWorksheet
 
 	get data ()
 	{
-		let retArr = [];
+		let retArr:Array<Cell> = [];
 		for (let i = 0; i < this._nrows; i++)
 		{
 			let Row = i;
@@ -401,10 +291,12 @@ class CWorksheet
 			{	
 				let Col = 65 + j 
 				let value = rowNode[String.fromCharCode(Col)];
-				let obj = new CellObj(Row, Col, value);
+				let obj:Cell = {row:Row, col:Col, value:value};
 				retArr.push(obj);
 			}
 		}
+
+		return retArr;
 	}
 
 	
@@ -412,5 +304,123 @@ class CWorksheet
 
 
 
+/*******************           RANGE    ************************************/
 
-export {CWorksheet, CRange}
+interface Coords
+{
+	row: number,
+	col: number
+}
+
+class Range
+{
+	private _ncols:number;
+	private _nrows:number;
+	private _TL:Coords;
+	private _BR:Coords;
+	private _ws:Worksheet;
+
+	constructor(str:string, ws:Worksheet)
+	{
+		let rng = str.split(":");
+		if(rng.length != 2)
+			throw new Error("Invalid range");
+
+		let Start = this.parseRange(rng[0]);
+		let End = this.parseRange(rng[1]);
+
+		let stCol = Start[0].charCodeAt(0), stRow = parseInt(Start[1]);
+		let endCol = End[0].charCodeAt(0), endRow = parseInt(End[1]);
+
+		if(stRow>endRow)
+			throw new Error("Start row number cannot be greater than end row number");
+
+		if(stCol>endCol)
+			throw new Error("Starting column number cannot be greater than end column number");
+
+		this._ncols = endCol - stCol + 1;
+		this._nrows = endRow - stRow + 1;
+
+		this._TL = { "row": stRow, "col": stCol };
+		this._BR = { "row": endRow, "col": endCol };
+		this._ws = ws;
+	}
+
+
+	get nrows()
+	{
+		return this._nrows;
+	}
+
+
+	get ncols()
+	{
+		return this._ncols;
+	}
+
+
+	get topleft()
+	{
+		return this._TL;
+	}
+
+
+	get bottomright()
+	{
+		return this._BR;
+	}
+
+
+	parseRange(str:string):string[]
+	{
+		//comes in format of A15, B20
+		//returns A and 15 or B and 20
+		let s="";
+
+		let i=0;
+		while(isNaN(Number(str[i])))
+			s += str[i++];
+
+		return [s, str.substring(i)];
+	}
+
+	//returns row-majored data
+	get datarows()
+	{
+		let Arr = [];
+
+		let TL = this._TL;
+		let BR = this._BR;
+
+		for(let i=TL.row; i<=BR.row; i++)
+		{
+			const rowNode = this._ws.gridOptions.api.getRowNode((i-1).toString());
+			let a = [];
+			for(let j=TL.col; j<=BR.col; j++)
+			{
+				let data = rowNode.data[String.fromCharCode(j)];
+				a.push(data);
+			}
+			Arr.push(a);
+		}
+
+		return Arr;
+	}
+
+	//returns column-majored data
+	get data()
+	{
+		let a = this.datarows;
+
+		let arr = [];
+		for(let i=0; i<a[0].length; ++i)
+			arr.push(a.map(e=>e[i]));
+
+		return arr;
+	}
+}
+
+
+
+
+export {Worksheet, Range, Cell}
