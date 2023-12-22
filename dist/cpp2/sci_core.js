@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.trapz = exports.Psychrometry = void 0;
 var addon = require("./nodebind.node");
 class Psychrometry {
     constructor(Keys, Values) {
@@ -71,7 +68,6 @@ class Psychrometry {
         return s;
     }
 }
-exports.Psychrometry = Psychrometry;
 function cumtrapz(x, y) {
     if (!Array.isArray(x))
         throw ("x must be array");
@@ -87,4 +83,4 @@ function trapz(x, y, isCumulative = false) {
         throw ("y must be array");
     return addon.trapz(x, y, isCumulative);
 }
-exports.trapz = trapz;
+export { Psychrometry, trapz };

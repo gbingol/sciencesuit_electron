@@ -1,13 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.pow = exports.div = exports.mul = exports.sub = exports.add = exports.diff = exports.cumsum = exports.linearinterp = exports.invlerp = exports.clamp = exports.lerp = exports.round = void 0;
-function round(num, digits) {
+export function round(num, digits) {
     if (Number.isInteger(num))
         return num;
     return num.toFixed(digits);
 }
-exports.round = round;
-function lerp(x, y, a) {
+export function lerp(x, y, a) {
     /*
     lerp(20, 80, 0)   // 20
     lerp(20, 80, 1)   // 80
@@ -15,17 +11,15 @@ function lerp(x, y, a) {
     */
     return x * (1 - a) + y * a;
 }
-exports.lerp = lerp;
 /*
     clamp(24, 20, 30) // 24
     clamp(12, 20, 30) // 20
     clamp(32, 20, 30) // 30
 */
-function clamp(a, min = 0, max = 1) {
+export function clamp(a, min = 0, max = 1) {
     return Math.min(max, Math.max(min, a));
 }
-exports.clamp = clamp;
-function invlerp(x, y, a) {
+export function invlerp(x, y, a) {
     /*
     invlerp(50, 100, 75)  // 0.5
     invlerp(50, 100, 25)  // 0
@@ -33,8 +27,7 @@ function invlerp(x, y, a) {
     */
     return clamp((a - x) / (y - x));
 }
-exports.invlerp = invlerp;
-function linearinterp(x1, y1, x2, y2, xval) {
+export function linearinterp(x1, y1, x2, y2, xval) {
     //linear interpolation
     if (x1 == x2)
         return y1;
@@ -43,13 +36,11 @@ function linearinterp(x1, y1, x2, y2, xval) {
     n = y2 - m * x2;
     return m * xval + n;
 }
-exports.linearinterp = linearinterp;
-function cumsum(arr) {
+export function cumsum(arr) {
     let sum = 0;
     return arr.map(e => sum += e);
 }
-exports.cumsum = cumsum;
-function diff(arr) {
+export function diff(arr) {
     if (arr.length < 2)
         throw new Error("Array must have at least 2 elements");
     let x = [];
@@ -57,9 +48,8 @@ function diff(arr) {
         x.push(arr[i] - arr[i - 1]);
     return x;
 }
-exports.diff = diff;
 /*******************  SIMPLE ARRAY OPERATIONS ************************/
-function add(x, y) {
+export function add(x, y) {
     if (!(Array.isArray(x) || Array.isArray(y)))
         throw new Error("x and/or y must be array");
     let _x;
@@ -89,13 +79,11 @@ function add(x, y) {
     else
         throw new Error("Unexpected input");
 }
-exports.add = add;
-function sub(x, y) {
+export function sub(x, y) {
     // x - y = x + (-y)
     return add(x, Array.isArray(y) ? y.map(e => -e) : -y);
 }
-exports.sub = sub;
-function mul(x, y) {
+export function mul(x, y) {
     if (!(Array.isArray(x) || Array.isArray(y)))
         throw new Error("x and/or y must be array");
     let _x;
@@ -125,13 +113,11 @@ function mul(x, y) {
     else
         throw new Error("Unexpected input");
 }
-exports.mul = mul;
-function div(x, y) {
+export function div(x, y) {
     // x/y = x* (1/y)
     return mul(x, Array.isArray(y) ? y.map(e => 1.0 / e) : 1.0 / y);
 }
-exports.div = div;
-function pow(x, y) {
+export function pow(x, y) {
     if (!(Array.isArray(x) || Array.isArray(y)))
         throw new Error("x and/or y must be array");
     let _x = [];
@@ -151,4 +137,3 @@ function pow(x, y) {
     }
     return _x;
 }
-exports.pow = pow;
