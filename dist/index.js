@@ -70,7 +70,7 @@ function GenerateHTMLPythonList(output, div) {
 let div = document.querySelector("#maincontent").appendChild(document.createElement("div"));
 div.className = "PyHomes";
 let pHeader = div.appendChild(document.createElement("p"));
-pHeader.innerHTML = "Python Management";
+pHeader.innerHTML = "Manage Python";
 pHeader.style.cssText = "text-align: center; color: red; font-weight: bold;";
 let p_PyHomes = div.appendChild(document.createElement("p"));
 window.api.runcmd("py --list-paths").

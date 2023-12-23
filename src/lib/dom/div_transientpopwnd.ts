@@ -52,6 +52,5 @@ class DivTransientPopupWindow extends HTMLElement
 
 }
 
-export { DivTransientPopupWindow };
 	
 customElements.define("div-transientpopwnd", DivTransientPopupWindow);

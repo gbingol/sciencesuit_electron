@@ -100,7 +100,7 @@ let div = (<HTMLElement>document.querySelector("#maincontent")).appendChild(docu
 div.className = "PyHomes";
 
 let pHeader = div.appendChild(document.createElement("p"));
-pHeader.innerHTML = "Python Management";
+pHeader.innerHTML = "Manage Python";
 pHeader.style.cssText = "text-align: center; color: red; font-weight: bold;";
 
 let p_PyHomes = div.appendChild(document.createElement("p"));

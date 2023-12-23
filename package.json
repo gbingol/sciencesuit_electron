@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "ScienceSuit App",
   "main": "./dist/main.js",
-  "scripts": {
+  "scripts": 
+  {
     "build": "tsc",
     "start": "npm run build && electron ."
   },

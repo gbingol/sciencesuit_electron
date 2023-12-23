@@ -3,7 +3,6 @@
 	When copy clicked, it also shows a transient popup window
 */
 
-import { DivTransientPopupWindow } from "./div_transientpopwnd.js";
 
 class DivCopyDel extends HTMLElement 
 {
