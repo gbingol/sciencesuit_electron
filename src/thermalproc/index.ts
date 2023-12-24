@@ -92,7 +92,7 @@ btnCompute.onclick = ((evt)=>
 		let Dvalue_Temp = parseFloat(txtd_temp.value);
 		let Dvalue_Time = parseFloat(txtd_t.value);
 		let RefTemp = parseFloat(txtRefT.value);
-		let NDigits = parseInt((document.querySelector("txtDigits")  as HTMLInputElement).value);
+		let NDigits = parseInt((document.querySelector("#txtDigits")  as HTMLInputElement).value);
 
 		if(Dvalue_Time<0 || Dvalue_Temp<0 || zvalue<0)
 			throw new Error("Neither D-values nor z-value can be negative");

@@ -14,8 +14,9 @@
 		table{
 			margin-top: 1em;
 			float: left;
-			width: 50%;
-			background-color: antiquewhite;	
+			width: 40%;
+			background-color: indianred;	
+			resize: both;
 		}
 
 		table.output{
@@ -59,6 +60,13 @@
 		{
 			display: flex;
 			justify-content: center;
+		}
+
+		@media only screen and (max-width:900px)
+		{
+			table{
+				width: 60%;
+			}
 		}
 
 		@media only screen and (max-width:600px)
@@ -132,7 +140,7 @@
 	
 <div id="info"></div>
 
-<script type="module" src="index2.js"></script>
+<script type="module" src="index.js"></script>
 
 
 </div>

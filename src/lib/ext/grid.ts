@@ -1,4 +1,6 @@
 
+//import * as agGrid from 'ag-grid-community';
+
 function parseMultilineString(str: string, delimiter: string = "\t"): string[][]
 {
 	//str is a multiline string where each line contains entries separated with tabs
