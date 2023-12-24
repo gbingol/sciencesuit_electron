@@ -1,6 +1,4 @@
 
-import * as agGrid from 'ag-grid-community';
-
 function parseMultilineString(str: string, delimiter: string = "\t"): string[][]
 {
 	//str is a multiline string where each line contains entries separated with tabs
@@ -216,15 +214,17 @@ class Worksheet
 			}
 		};
 
+		// @ts-ignore
 		new agGrid.Grid(this.gridDiv, gridOptions);
 		
 		return gridOptions;	
 	}
 
-
+	// @ts-ignore
 	CellClicked = (evt:agGrid.CellClickedEvent)=>
 	{
 		const field = evt.colDef.field;
+		// @ts-ignore
 		const colindex = evt.columnApi.getColumns()?.findIndex((col) => col.getColDef().field === field);
 		
 		this._curRow = evt.rowIndex;

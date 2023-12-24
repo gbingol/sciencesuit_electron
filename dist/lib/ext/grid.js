@@ -7,7 +7,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import * as agGrid from 'ag-grid-community';
 function parseMultilineString(str, delimiter = "\t") {
     //str is a multiline string where each line contains entries separated with tabs
     let retArr = [];
@@ -66,7 +65,7 @@ class Worksheet {
     constructor(div, nrows = 200, ncols = 15) {
         this.init = () => __awaiter(this, void 0, void 0, function* () {
             createCSS();
-            //let e = await addScript()
+            let e = yield addScript();
             this._gridOptions = yield this.CreateGrid(this._div, this._nrows, this._ncols);
             return this._gridOptions;
         });
@@ -98,12 +97,15 @@ class Worksheet {
                     resizable: true,
                 }
             };
+            // @ts-ignore
             new agGrid.Grid(this.gridDiv, gridOptions);
             return gridOptions;
         });
+        // @ts-ignore
         this.CellClicked = (evt) => {
             var _a;
             const field = evt.colDef.field;
+            // @ts-ignore
             const colindex = (_a = evt.columnApi.getColumns()) === null || _a === void 0 ? void 0 : _a.findIndex((col) => col.getColDef().field === field);
             this._curRow = evt.rowIndex;
             this._curCol = colindex;
