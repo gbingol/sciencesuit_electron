@@ -1,7 +1,9 @@
-import {Worksheet, Range} from "../lib/comp/grid.js";
+import {Worksheet, Range, Cell} from "../lib/comp/grid.js";
 import * as np from "../lib/sci_math.js";
+import {get, set} from "../../node_modules/idb-keyval/dist/index.js"
 
 const PAGEID = "THERMALPROC";
+const WSKEY = PAGEID + "_WS";
 
 function FindAvg(arr:Array<number>)
 {
@@ -12,6 +14,8 @@ function FindAvg(arr:Array<number>)
 
 	return x;
 }
+
+let UserInputs = new Map<string, string>();
 	
 
 function compute(
@@ -49,7 +53,12 @@ function compute(
 	
 let ws_div = document.querySelector('#myGrid') as HTMLDivElement;
 let ws = new Worksheet(ws_div);
-ws.init().then(gridOptions=> {});
+ws.init().then(gridOptions=> {
+	get(WSKEY).then((value:Cell[])=>
+	{
+		ws.loadData(value);
+	});
+});
 
 
 window.onload = (evt)=>
@@ -79,7 +88,7 @@ btnCompute.onclick = ((evt)=>
 	for(let input of inputs)
 	{
 		let Input = input as HTMLInputElement;
-		localStorage.setItem(PAGEID + Input.id, Input.value);
+		UserInputs.set(Input.id, Input.value);
 	}
 
 	try
@@ -156,6 +165,9 @@ btnCompute.onclick = ((evt)=>
 		let outDiv = (document.querySelector("#maincontent") as HTMLDivElement).appendChild(divCopy);
 		outDiv.innerHTML = str;
 		outDiv.scrollIntoView();
+
+		set(PAGEID, UserInputs).then(()=>console.log(""));
+		set(WSKEY, ws.getDataCells()).then(()=>console.log(""));
 	}
 	catch(e)
 	{

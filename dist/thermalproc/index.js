@@ -1,12 +1,15 @@
 import { Worksheet, Range } from "../lib/comp/grid.js";
 import * as np from "../lib/sci_math.js";
+import { get, set } from "../../node_modules/idb-keyval/dist/index.js";
 const PAGEID = "THERMALPROC";
+const WSKEY = PAGEID + "_WS";
 function FindAvg(arr) {
     let x = [];
     for (let i = 1; i < arr.length; ++i)
         x.push((arr[i] + arr[i - 1]) / 2.0);
     return x;
 }
+let UserInputs = new Map();
 function compute(t, T, Dval_time, Dval_T, zvalue, Ref_T) {
     if (t.length != T.length)
         throw new Error("Length of time and temperature data must be equal.");
@@ -26,7 +29,11 @@ function compute(t, T, Dval_time, Dval_T, zvalue, Ref_T) {
 }
 let ws_div = document.querySelector('#myGrid');
 let ws = new Worksheet(ws_div);
-ws.init().then(gridOptions => { });
+ws.init().then(gridOptions => {
+    get(WSKEY).then((value) => {
+        ws.loadData(value);
+    });
+});
 window.onload = (evt) => {
     const inputs = document.querySelectorAll("#inputtable input");
     for (let input of inputs) {
@@ -45,7 +52,7 @@ btnCompute.onclick = ((evt) => {
     const inputs = document.querySelectorAll("#inputtable input");
     for (let input of inputs) {
         let Input = input;
-        localStorage.setItem(PAGEID + Input.id, Input.value);
+        UserInputs.set(Input.id, Input.value);
     }
     try {
         if (txtz.value === "")
@@ -102,6 +109,8 @@ btnCompute.onclick = ((evt) => {
         let outDiv = document.querySelector("#maincontent").appendChild(divCopy);
         outDiv.innerHTML = str;
         outDiv.scrollIntoView();
+        set(PAGEID, UserInputs).then(() => console.log(""));
+        set(WSKEY, ws.getDataCells()).then(() => console.log(""));
     }
     catch (e) {
     }

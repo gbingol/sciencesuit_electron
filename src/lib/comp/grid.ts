@@ -234,6 +234,43 @@ class Worksheet
 		this._curField = field;
 	}
 
+	getDataCells = ():Cell[] =>
+	{
+		let retArr:Array<Cell> = [];
+		for (let i = 0; i < this._nrows; i++)
+		{
+			let Row = i;
+			const rowNode = this._gridOptions.api.getRowNode(Row.toString());
+
+			for (let j = 0; j < this._ncols; j++)
+			{	
+				let Col = 65 + j 
+				let value = rowNode.data[String.fromCharCode(Col)];
+				if(value && value !== "")
+				{
+					let obj:Cell = {col:Col, row:Row, value:value};
+					retArr.push(obj);
+				}
+			}
+		}
+
+		return retArr;
+	}
+
+
+	loadData = (data:Cell[]) =>
+	{
+		for (let j = 0; j < data.length; j++)
+		{
+			let cell = data[j];
+			let Row = cell.row;
+			let Col = cell.col; 
+
+			const rowNode = this._gridOptions.api.getRowNode(Row.toString());
+			rowNode.setDataValue(String.fromCharCode(Col), cell.value);
+		}
+	}
+
 
 	paste = () =>
 	{

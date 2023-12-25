@@ -4,7 +4,7 @@
 */
 
 
-class CopyDelete extends HTMLDivElement 
+class CopyDelete extends HTMLElement 
 {
 	private contentTxt!: HTMLDivElement;
 	private outDiv!: HTMLDivElement;
