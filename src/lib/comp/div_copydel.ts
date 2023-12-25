@@ -4,7 +4,7 @@
 */
 
 
-class DivCopyDel extends HTMLElement 
+class CopyDelete extends HTMLDivElement 
 {
 	private contentTxt!: HTMLDivElement;
 	private outDiv!: HTMLDivElement;
@@ -87,4 +87,4 @@ class DivCopyDel extends HTMLElement
 
 }
 	
-customElements.define("div-copydel", DivCopyDel);
+customElements.define("div-copydel", CopyDelete);

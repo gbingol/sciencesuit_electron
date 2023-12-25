@@ -1,4 +1,4 @@
-import { Worksheet, Range } from "../lib/ext/grid.js";
+import { Worksheet, Range } from "../lib/comp/grid.js";
 import * as np from "../lib/sci_math.js";
 const PAGEID = "THERMALPROC";
 function FindAvg(arr) {

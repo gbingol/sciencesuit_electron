@@ -8,7 +8,7 @@
 	msgBox.timeout=3000; //if another 
 */
 
-class DivTransientPopupWindow extends HTMLElement 
+class TransientPopupWindow extends HTMLDivElement 
 {
 	private duration:number;
 	private shadow:ShadowRoot;
@@ -53,4 +53,4 @@ class DivTransientPopupWindow extends HTMLElement
 }
 
 	
-customElements.define("div-transientpopwnd", DivTransientPopupWindow);
+customElements.define("div-transientpopwnd", TransientPopupWindow);
