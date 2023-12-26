@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>1 sample t-test</title>
+
+	<link href="../css/common.css" rel="stylesheet">
+
+	<script type="module" src="../lib/comp/div_copydel.js" defer></script>
+	<script src="../lib/comp/div_transientpopwnd.js" defer></script>
+
+	<style>
+		table{
+			margin-top: 1em;
+			float: left;
+			width: 40%;
+			background-color: indianred;	
+			resize: both;
+		}
+
+		table.output{
+			margin-top: 1em;
+			width: 50%;
+		}
+
+		td{
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		td:nth-child(1)
+		{
+			font-weight: bold;
+			max-width: 2em;
+		}
+
+		input[type=text]{
+			width: 90%;
+		}
+
+		input[type=text]:focus {
+			outline: 3px solid #FFCC00;
+			box-shadow: 0 0 10px #FFCC00;
+		}
+
+		p.info
+		{
+			margin-right: 4em;
+			font-size: large;
+		}
+
+		ol.question li{
+			font-size: large;
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		div.img
+		{
+			display: flex;
+			justify-content: center;
+		}
+
+		@media only screen and (max-width:900px)
+		{
+			table{
+				width: 60%;
+			}
+		}
+
+		@media only screen and (max-width:600px)
+		{
+			p.info{
+				margin-right: auto;
+			}
+
+			table{
+				width: 80%;
+			}
+		}
+    </style>
+</head>
+
+
+<body>
+
+
+<script src="../mainmenu.js"></script>
+
+
+<div id="maincontent">
+
+<h1>1 Sample t-test</h1>
+
+
+<div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
+
+
+<table id="inputtable">
+	<tr>
+		<td>D<sub>t</sub>:</td>
+		<td><input type="text" value="" id="d_time" placeholder="D-value (time)"></td>
+	</tr>
+	<tr>
+		<td>D<sub>T</sub>: </label></td>
+		<td><input type="text" id="d_temp" placeholder="D-value (temperature)"></td>
+	</tr>
+	
+	<tr>
+		<td>z-value: </label></td>
+		<td><input type="text" id="zvalue" placeholder="z-value"></td>
+	</tr>
+
+	<tr>
+		<td>t: </label></td>
+		<td><input type="text" id="time" placeholder="time data range/col (A1:A10)"></td>
+	</tr>
+	
+	<tr>
+		<td>T: </label></td>
+		<td><input type="text" id="temperature" placeholder="temperature data range (B1:C10)"></td>
+	</tr>
+	
+	<tr>
+		<td>T<sub>ref</sub>: </label></td>
+		<td><input type="text" id="t_ref" value="121" placeholder="Reference temperature"></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" style="text-align: center; padding-top: 12px;">
+			<label style="float: left;" for="digits">Digits:</label>
+			<input style="width: 3em; float: left;" type="number" value="3" min="1" max="6" id="txtDigits">
+			
+			<button id="compute" type="button">Compute</button>
+		</td>
+	</tr>
+		
+</table>
+	
+<div id="info"></div>
+
+<script type="module" src="index.js"></script>
+
+
+</div>
+
+</body>
+</html>

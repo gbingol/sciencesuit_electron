@@ -1,23 +1,7 @@
-const core = require("./sci_core.js");
+const core = require("./sci_stat_tests.js");
 
 
-x= [0, 1, 2, 3, 4, 5, 6]
-y= [8.16, 1.89, 7.13, 7.48, 4.59, 0.82, 5.68]
+x = [0.69, 0.606, 0.57, 0.749, 0.672, 0.628, 0.609, 0.844, 0.654, 0.615, 0.668, 0.601, 0.576, 0.67, 0.606, 0.611, 0.553, 0.933];
+let res = core.test_t1(x, 0.618, "two.sided", 0.95)
 
-/**
-* @type {Array} a
- */
-let a=[
-	[1, 2], 
-	[3, 4],
-	[5, 6]];
-
-const create2dArray = (rows, columns) => [...Array(rows).keys()].map(i => Array(columns))
-
-let arr = []
-
-for(let i=0; i<a[0].length; ++i)
-	arr.push(a.map(e=>e[i]));
-
-
-console.log(arr);
+console.log(res);

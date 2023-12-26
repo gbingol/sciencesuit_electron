@@ -3,6 +3,7 @@ const path = require('node:path')
 const { exec } = require('child_process');
 
 const { Psychrometry, trapz } = require('./cpp/sci_core.js');
+const { test_t1 } = require('./cpp/sci_stat_tests.js');
 let {PythonShell} = require('python-shell');
 
 
@@ -52,6 +53,18 @@ function psychrometry(k, v=null)
 	return Psychrometry.Instance(k);
 }
 
+/**
+ * @param {number[]} x
+ * @param {number} mu  
+ * @param {string} alternative
+ * @param {number} conflevel
+ * @returns {Object}
+*/
+function _test_t1(x, mu, alternative, conflevel)
+{
+	return test_t1(x, mu, alternative, conflevel);
+}
+
 
 let funcs =
 {
@@ -62,6 +75,8 @@ let funcs =
 	
 	psychrometry: (k, v) => { return psychrometry(k, v); },
 	trapz: (x, y, isCumulative = false) => { return trapz(x, y, isCumulative); },
+
+	test_t1: (x, mu, alternative, conflevel)=> {return _test_t1(x, mu, alternative, conflevel)}
 }
 
 
