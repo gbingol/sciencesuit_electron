@@ -10,8 +10,8 @@ export const API:
 	test_t1: (
 		x: Array<number>,
 		mu: number,
-		alternative: core.stat.Alternative = core.stat.Alternative.TWOSIDED,
-		conflevel: number = 0.95) => core.stat.test_t1_result;
+		alternative: stat.Alternative = stat.Alternative.TWOSIDED,
+		conflevel: number = 0.95) => stat.test_t1_result;
 }
 
 declare global
