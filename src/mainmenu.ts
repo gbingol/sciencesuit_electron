@@ -22,6 +22,7 @@ function DesktopMenu(mBar: HTMLElement)
 		{"href":"index.html", "lbl": "Home" },
 		{ "href": "psychrometry/index.html", "lbl": "Psychrometry" },
 		{ "href": "thermalproc/index.html", "lbl": "Thermal Proc" },
+		{ "href": "stats/index.html", "lbl": "Statistics" },
 		{ "href": "pipmngr.html", "lbl": "PIP" },
 	];
 

@@ -1,6 +1,6 @@
 "use strict";
 var corestat = require("./nodebind.node");
-function test_t1(x, mu, alternative = core.stat.Alternative.TWOSIDED, conflevel = 0.95) {
+function test_t1(x, mu, alternative = stat.Alternative.TWOSIDED, conflevel = 0.95) {
     let obj = corestat.test_t1(x, mu, alternative, conflevel);
     let ret = {
         pvalue: obj["pvalue"],

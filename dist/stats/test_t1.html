@@ -99,32 +99,29 @@
 
 <table id="inputtable">
 	<tr>
-		<td>D<sub>t</sub>:</td>
-		<td><input type="text" value="" id="d_time" placeholder="D-value (time)"></td>
+		<td>Data:</td>
+		<td><input type="text" value="" id="x" placeholder="Data range (A1:A10)"></td>
 	</tr>
 	<tr>
-		<td>D<sub>T</sub>: </label></td>
-		<td><input type="text" id="d_temp" placeholder="D-value (temperature)"></td>
+		<td>&mu;: </label></td>
+		<td><input type="text" id="mu" placeholder="Test mean"></td>
 	</tr>
 	
 	<tr>
-		<td>z-value: </label></td>
-		<td><input type="text" id="zvalue" placeholder="z-value"></td>
+		<td>Confidence: </label></td>
+		<td><input type="text" id="conflevel" value="95"></td>
 	</tr>
 
 	<tr>
-		<td>t: </label></td>
-		<td><input type="text" id="time" placeholder="time data range/col (A1:A10)"></td>
-	</tr>
-	
-	<tr>
-		<td>T: </label></td>
-		<td><input type="text" id="temperature" placeholder="temperature data range (B1:C10)"></td>
-	</tr>
-	
-	<tr>
-		<td>T<sub>ref</sub>: </label></td>
-		<td><input type="text" id="t_ref" value="121" placeholder="Reference temperature"></td>
+		<td>Alternative: </label></td>
+		<td>
+			<select type="" id="alternative">
+				<option value="notequal" selected>not.equal</option>
+				<option value="greater">greater</option>
+				<option value="less">less</option>
+			</select>
+
+		</td>
 	</tr>
 	
 	<tr>
@@ -140,7 +137,7 @@
 	
 <div id="info"></div>
 
-<script type="module" src="index.js"></script>
+<script type="module" src="test_t1.js"></script>
 
 
 </div>

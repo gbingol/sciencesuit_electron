@@ -1,6 +1,6 @@
 import {Worksheet, Range, Cell} from "../lib/comp/grid.js";
 import * as np from "../lib/sci_math.js";
-import {get, set} from "../../node_modules/idb-keyval/dist/index.js"
+import {get, set} from "../../node_modules/idb-keyval/dist/index.js";
 
 const PAGEID = "THERMALPROC";
 const WSKEY = PAGEID + "_WS";

@@ -1,4 +1,4 @@
-namespace core.stat
+namespace stat
 {
 
 	enum Alternative {
