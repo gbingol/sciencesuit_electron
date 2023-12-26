@@ -63,12 +63,16 @@ ws.init().then(gridOptions=> {
 
 window.onload = (evt)=>
 {
-	const inputs = document.querySelectorAll("#inputtable input");
-	for(let input of inputs)
-	{
-		let Input = input as HTMLInputElement;
-		Input.value = localStorage.getItem(PAGEID + Input.id) as string;
-	}
+	get(PAGEID).then(
+		(value: Map<String, string>) => {
+			const inputs = document.querySelectorAll("#inputtable input");
+			for (let input of inputs) {
+				let Input = input as HTMLInputElement;
+				Input.value = value.get(Input.id) as string;
+			}
+		}
+	);
+	
 }
 
 

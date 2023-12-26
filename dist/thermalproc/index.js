@@ -35,11 +35,13 @@ ws.init().then(gridOptions => {
     });
 });
 window.onload = (evt) => {
-    const inputs = document.querySelectorAll("#inputtable input");
-    for (let input of inputs) {
-        let Input = input;
-        Input.value = localStorage.getItem(PAGEID + Input.id);
-    }
+    get(PAGEID).then((value) => {
+        const inputs = document.querySelectorAll("#inputtable input");
+        for (let input of inputs) {
+            let Input = input;
+            Input.value = value.get(Input.id);
+        }
+    });
 };
 let btnCompute = document.querySelector("#compute");
 btnCompute.onclick = ((evt) => {
