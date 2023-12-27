@@ -12,72 +12,7 @@
 
 	<style>
 		table{
-			margin-top: 1em;
-			float: left;
-			width: 40%;
 			background-color: indianred;	
-			resize: both;
-		}
-
-		table.output{
-			margin-top: 1em;
-			width: 50%;
-		}
-
-		td{
-			padding-top: 6px;
-			padding-bottom: 6px;
-		}
-
-		td:nth-child(1)
-		{
-			font-weight: bold;
-			max-width: 2em;
-		}
-
-		input[type=text]{
-			width: 90%;
-		}
-
-		input[type=text]:focus {
-			outline: 3px solid #FFCC00;
-			box-shadow: 0 0 10px #FFCC00;
-		}
-
-		p.info
-		{
-			margin-right: 4em;
-			font-size: large;
-		}
-
-		ol.question li{
-			font-size: large;
-			padding-top: 6px;
-			padding-bottom: 6px;
-		}
-
-		div.img
-		{
-			display: flex;
-			justify-content: center;
-		}
-
-		@media only screen and (max-width:900px)
-		{
-			table{
-				width: 60%;
-			}
-		}
-
-		@media only screen and (max-width:600px)
-		{
-			p.info{
-				margin-right: auto;
-			}
-
-			table{
-				width: 80%;
-			}
 		}
     </style>
 </head>
@@ -91,13 +26,13 @@
 
 <div id="maincontent">
 
-<h1>1 Sample t-test</h1>
+<h1>One-Sample t-test</h1>
 
 
 <div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
 
 
-<table id="inputtable">
+<table class="input" id="inputtable">
 	<tr>
 		<td>Data:</td>
 		<td><input type="text" value="" id="x" placeholder="Data range (A1:A10)"></td>

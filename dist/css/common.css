@@ -53,7 +53,18 @@ table.input td{
 table.input td:nth-child(1)
 {
 	font-weight: bold;
-	max-width: 2em;
+	max-width: fit-content;
+}
+
+table.input input[type=text]
+{
+	width: -webkit-fill-available;
+}
+
+table.input input[type=text]:focus 
+{
+	outline: 3px solid #FFCC00;
+	box-shadow: 0 0 10px #FFCC00;
 }
 
 

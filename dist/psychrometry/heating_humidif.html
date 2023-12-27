@@ -9,30 +9,8 @@
 	<link href="../css/common.css" rel="stylesheet">
 	
 	<style>
-		table{
-			margin-left: 10px;
-			float: left;
-			width: 50%;
+		table.input{
 			background-color: paleturquoise;
-		}
-		td{
-			padding-top: 6px;
-			padding-bottom: 6px;
-		}
-
-		td:nth-child(1)
-		{
-			font-weight: bold;
-			max-width: 2em;
-		}
-
-		input[type=text]{
-			width: 90%;
-		}
-
-		input[type=text]:focus {
-			outline: 3px solid #FFCC00;
-			box-shadow: 0 0 10px #FFCC00;
 		}
 		
 		p.info
@@ -70,9 +48,7 @@
 
 		@media only screen and (max-width:900px)
 		{
-			p.info{
-				margin-right: auto;
-			}
+			p.info{ margin-right: auto; }
 		}
     </style>
 
@@ -141,7 +117,7 @@
 <br>
 
 
-<table id="inputtable">
+<table class="input" id="inputtable">
 	<tr>
 		<td>P:</td>
 		<td><input type="text" value="101" id="txtP" placeholder="Pressure (kPa)"></td>

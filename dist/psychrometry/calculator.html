@@ -11,37 +11,8 @@
 	<script src="../lib/comp/div_copydel.js" defer></script>
 	<script src="../lib/comp/div_transientpopwnd.js" defer></script>
 	<style>
-		table{
-			margin-left: 10px;
-			float: left;
-			width: 50%;
-		}
-		td{
-			padding-top: 6px;
-			padding-bottom: 6px;
-		}
-
-		tr:nth-child(2n+2){
+		table.input{
 			background-color: paleturquoise;
-		}
-
-		tr:nth-child(2n+1){
-			background-color: mediumturquoise;
-		}
-
-		td:nth-child(1)
-		{
-			font-weight: bold;
-			max-width: 2em;
-		}
-
-		input[type=text]{
-			width: 90%;
-		}
-
-		input[type=text]:focus {
-			outline: 3px solid #FFCC00;
-			box-shadow: 0 0 10px #FFCC00;
 		}
 
 		#info{
@@ -71,13 +42,6 @@
 			background-color: burlywood;
 		}
 
-		@media only screen and (max-width:600px)
-		{
-			table{
-				width: 80%;
-			}
-		}
-
 	</style>
 </head>
 
@@ -105,7 +69,7 @@
 
 <br>
 
-<table id="inputtable">
+<table class="input" id="inputtable">
 <tr>
 	<td>
 		<input type="checkbox" id="chkP">

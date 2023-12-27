@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Thermal Processing</title>
+	<title>2-sample t-test</title>
 
 	<link href="../css/common.css" rel="stylesheet">
 
@@ -13,15 +13,6 @@
 	<style>
 		table.input{
 			background-color: indianred;	
-		}
-
-		input[type=text]{
-			width: 90%;
-		}
-
-		input[type=text]:focus {
-			outline: 3px solid #FFCC00;
-			box-shadow: 0 0 10px #FFCC00;
 		}
 
     </style>
@@ -36,7 +27,7 @@
 
 <div id="maincontent">
 
-<h1>Thermal Processing</h1>
+<h1>Two-Sample t-test</h1>
 
 
 <div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
@@ -44,32 +35,41 @@
 
 <table class="input" id="inputtable">
 	<tr>
-		<td>t: </label></td>
-		<td><input type="text" id="time" placeholder="time data range/col (A1:A10)"></td>
+		<td>x-data:</td>
+		<td><input type="text" value="" id="xdata" placeholder="Range (A1:A10)"></td>
+	</tr>
+
+	<tr>
+		<td>y-data:</td>
+		<td><input type="text" value="" id="ydata" placeholder="Range (B1:B10)"></td>
+	</tr>
+
+	<tr>
+		<td>&mu;: </label></td>
+		<td><input type="text" id="mu" placeholder="Mean difference"></td>
 	</tr>
 	
 	<tr>
-		<td>T: </label></td>
-		<td><input type="text" id="temperature" placeholder="temperature data range (B1:C10)"></td>
+		<td>Confidence: </label></td>
+		<td><input type="text" id="conflevel" value="95"></td>
 	</tr>
-	
+
 	<tr>
-		<td>D<sub>t</sub>:</td>
-		<td><input type="text" value="" id="d_time" placeholder="D-value (time)"></td>
+		<td>Equal variances: </label></td>
+		<td><input type="checkbox" id="varequal" value="0"></td>
 	</tr>
+
+
 	<tr>
-		<td>D<sub>T</sub>: </label></td>
-		<td><input type="text" id="d_temp" placeholder="D-value (temperature)"></td>
-	</tr>
-	
-	<tr>
-		<td>z-value: </label></td>
-		<td><input type="text" id="zvalue" placeholder="z-value"></td>
-	</tr>
-	
-	<tr>
-		<td>T<sub>ref</sub>: </label></td>
-		<td><input type="text" id="t_ref" value="121" placeholder="Reference temperature"></td>
+		<td>Alternative: </label></td>
+		<td>
+			<select type="" id="alternative">
+				<option value="notequal" selected>not.equal</option>
+				<option value="greater">greater</option>
+				<option value="less">less</option>
+			</select>
+
+		</td>
 	</tr>
 	
 	<tr>
@@ -85,7 +85,7 @@
 	
 <div id="info"></div>
 
-<script type="module" src="index.js"></script>
+<script type="module" src="test_t1.js"></script>
 
 
 </div>

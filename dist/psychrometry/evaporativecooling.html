@@ -9,31 +9,7 @@
 	<link href="../css/common.css" rel="stylesheet">
 	
 	<style>
-		table{
-			margin-left: 10px;
-			float: left;
-			width: 50%;
-			background-color: paleturquoise;
-		}
-		td{
-			padding-top: 6px;
-			padding-bottom: 6px;
-		}
-
-		td:nth-child(1)
-		{
-			font-weight: bold;
-			max-width: 2em;
-		}
-
-		input[type=text]{
-			width: 90%;
-		}
-
-		input[type=text]:focus {
-			outline: 3px solid #FFCC00;
-			box-shadow: 0 0 10px #FFCC00;
-		}
+		table.input{ background-color: paleturquoise; }
 
 		p.info
 		{
@@ -58,9 +34,7 @@
 			width: fit-content;
 		}
 
-		summary:hover{
-			background-color: burlywood;
-		}
+		summary:hover{ background-color: burlywood; }
 
 		div.hint
 		{
@@ -71,9 +45,7 @@
 
 		@media only screen and (max-width:900px)
 		{
-			p.info{
-				margin-right: auto;
-			}
+			p.info{	margin-right: auto; }
 		}
     </style>
 
@@ -125,7 +97,7 @@
 	Cengel YA, Boles MA, Kanaoglu M (2019). 
 	Thermodynamics: an engineering approach, 9th edition, McGraw-Hill Education.</p>
 
-<table id="inputtable">
+<table class="input" id="inputtable">
 	<tr>
 		<td>P:</td>
 		<td><input type="text" id="txtP" placeholder="Pressure (kPa)" value="101"></td>
