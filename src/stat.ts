@@ -1,14 +1,13 @@
-namespace stat
-{
 
-	enum Alternative {
+
+	export enum Alternative {
 		TWOSIDED = "two.sided",
 		GREATER = "greater",
 		LESS = "less"
 	}
 
 
-	type test_t1_result = {
+	export type test_t1_result = {
 		pvalue: number;
 		CI_lower: number,
 		CI_upper: number,
@@ -18,5 +17,3 @@ namespace stat
 		mean: number;
 		tcritical: number;
 	}
-
-}

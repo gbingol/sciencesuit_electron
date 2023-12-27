@@ -1,3 +1,4 @@
+import * as stat from '../stat.js';
 
 export function GetAlternative(s:string):stat.Alternative
 {
