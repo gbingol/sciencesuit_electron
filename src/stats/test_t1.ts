@@ -24,15 +24,15 @@ ws.init().then(gridOptions=> {
 window.onload = (evt)=>
 {
 	get(PAGEID).then(
-		(value: Map<String, string>) => {
-			const inputs = document.querySelectorAll("#inputtable");
+		(value: Map<String, string>) => 
+		{
+			if(value ===undefined) return;
+			
+			const inputs = document.querySelectorAll("#inputtable input, select");
 			for (let input of inputs) 
 			{
 				if(input instanceof HTMLInputElement || input instanceof HTMLSelectElement)
-				{
-					let Input = input as HTMLInputElement | HTMLSelectElement;
-					Input.value = value.get(Input.id) as string;
-				}
+					input.value = value.get(input.id) as string;
 			}
 		}
 	);
@@ -48,14 +48,16 @@ btnCompute.onclick = ((evt)=>
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
 	let selalternative = document.querySelector("#alternative") as HTMLSelectElement;
 	
-	const inputs = document.querySelectorAll("#inputtable input");
+	const inputs = document.querySelectorAll("#inputtable input, select");
 	for(let input of inputs)
 	{
-		let Input = input as HTMLInputElement | HTMLSelectElement;
-		UserInputs.set(Input.id, Input.value);
+		if(input instanceof HTMLInputElement || input instanceof HTMLSelectElement)
+		{
+			if(input.value ==="")
+				throw new Error("All entries must have valid values");
 
-		if(Input.value ==="")
-			throw new Error("All entries must have valid values");
+			UserInputs.set(input.id, input.value);
+		}
 	}
 
 	try
