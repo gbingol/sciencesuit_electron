@@ -73,7 +73,7 @@ btnCompute.onclick = ((evt)=>
 		let rng = new Range(txtxdata.value, ws);
 		let xdata = rng.data[0].map(e=>parseFloat(e));
 
-		let results = window.api.test_t1(xdata, mu, GetAlternative(alternative), conflevel);
+		let results = window.api.test_t1(xdata, mu, GetAlternative(alternative), conflevel/100);
 
 		
 		let s = `
@@ -106,6 +106,12 @@ btnCompute.onclick = ((evt)=>
 	}
 	catch(e)
 	{
+		let msgBox = document.createElement("div-transientpopwnd");
+		//@ts-ignore
+		msgBox.timeout = 3500;
+		//@ts-ignore
+		msgBox.innerHTML = e;
+		document.body.appendChild(msgBox);
 
 	}
 

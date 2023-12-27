@@ -12,6 +12,14 @@ export const API:
 		mu: number,
 		alternative: stat.Alternative = stat.Alternative.TWOSIDED,
 		conflevel: number = 0.95) => stat.test_t1_result;
+	
+	test_t2: (
+		x: Array<number>,
+		y: Array<number>,
+		mu: number,
+		varequal: boolean = true,
+		alternative: stat.Alternative = stat.Alternative.TWOSIDED,
+		conflevel: number = 0.95) => stat.test_t1_result;
 }
 
 declare global
