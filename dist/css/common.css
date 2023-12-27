@@ -35,6 +35,27 @@ body{
 	background-color: seashell;
 }
 
+table.input
+{
+	margin-top: 1em;
+	float: left;
+	width: 40%;	
+	resize: both;
+}
+
+
+
+table.input td{
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+table.input td:nth-child(1)
+{
+	font-weight: bold;
+	max-width: 2em;
+}
+
 
 
 h2 { color: red; }
@@ -182,6 +203,8 @@ img.scaled
 
 @media only screen and (max-width:900px) 
 {
+	table.input{width: 60%;	}
+
 	img{
 		width: auto;
 		height: auto;
@@ -219,6 +242,8 @@ img.scaled
 
 @media only screen and (max-width:600px) 
 {
+	table.input{width: 80%;	}
+
     div.youtube 
     {
 	width: 340px;

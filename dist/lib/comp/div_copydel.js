@@ -53,6 +53,20 @@ class CopyDelete extends HTMLElement {
 			border-width: 1px;
 			font-size: large;
 		}
+
+		table{
+			margin-top: 1em;
+			width: 50%;
+			border-collapse: collapse;
+			border: 1px solid green;
+		}
+		
+		table th, td{
+			padding-top: 6px;
+			padding-bottom: 6px;
+			border: 1px dashed black;
+			text-align: center;
+		}
 		`;
         shadow.appendChild(style);
         shadow.appendChild(this.outDiv);

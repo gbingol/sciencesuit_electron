@@ -11,28 +11,8 @@
 	<script src="../lib/comp/div_transientpopwnd.js" defer></script>
 
 	<style>
-		table{
-			margin-top: 1em;
-			float: left;
-			width: 40%;
+		table.input{
 			background-color: indianred;	
-			resize: both;
-		}
-
-		table.output{
-			margin-top: 1em;
-			width: 50%;
-		}
-
-		td{
-			padding-top: 6px;
-			padding-bottom: 6px;
-		}
-
-		td:nth-child(1)
-		{
-			font-weight: bold;
-			max-width: 2em;
 		}
 
 		input[type=text]{
@@ -44,41 +24,6 @@
 			box-shadow: 0 0 10px #FFCC00;
 		}
 
-		p.info
-		{
-			margin-right: 4em;
-			font-size: large;
-		}
-
-		ol.question li{
-			font-size: large;
-			padding-top: 6px;
-			padding-bottom: 6px;
-		}
-
-		div.img
-		{
-			display: flex;
-			justify-content: center;
-		}
-
-		@media only screen and (max-width:900px)
-		{
-			table{
-				width: 60%;
-			}
-		}
-
-		@media only screen and (max-width:600px)
-		{
-			p.info{
-				margin-right: auto;
-			}
-
-			table{
-				width: 80%;
-			}
-		}
     </style>
 </head>
 
@@ -97,7 +42,7 @@
 <div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
 
 
-<table id="inputtable">
+<table class="input" id="inputtable">
 	<tr>
 		<td>D<sub>t</sub>:</td>
 		<td><input type="text" value="" id="d_time" placeholder="D-value (time)"></td>

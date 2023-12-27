@@ -1,5 +1,6 @@
 "use strict";
 var corestat = require("./nodebind.node");
+//import * as stat from "../stat";
 function test_t1(x, mu, 
 //@ts-ignore
 alternative = stat.Alternative.TWOSIDED, 

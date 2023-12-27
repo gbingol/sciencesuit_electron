@@ -120,14 +120,14 @@ btnCompute.onclick = ((evt)=>
 		for(let T of range_T)
 		{
 			let s = `
-				<table class='output'>
+				<table>
 				<tr>
-				<th>Time</th>
-				<th>Temperature</th>
-				<th>Lethality Rate</th>
-				<th>D-value</th>
-				<th>Total Log Red</th>
-				<th>F-value</th>
+					<th>Time</th>
+					<th>Temperature</th>
+					<th>Lethality Rate</th>
+					<th>D-value</th>
+					<th>Total Log Red</th>
+					<th>F-value</th>
 				</tr>`
 
 			let obj = compute(time.map(e=>parseFloat(e)), 
