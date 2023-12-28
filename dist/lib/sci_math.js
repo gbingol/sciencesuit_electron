@@ -1,3 +1,13 @@
+export function sum(arr) {
+    if (arr.length == 0)
+        return 0.0;
+    return arr.reduce((acc, e) => acc + e, 0);
+}
+export function mean(arr) {
+    if (arr.length == 0)
+        throw new Error("Array does not contain any elements!");
+    return sum(arr) / arr.length;
+}
 export function round(num, digits) {
     if (Number.isInteger(num))
         return num;
