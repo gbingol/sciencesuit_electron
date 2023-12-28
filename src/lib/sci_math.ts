@@ -1,5 +1,22 @@
+export function sum(arr: number[]): number
+{
+	if (arr.length == 0)
+		return 0.0;
 
-export function round(num:number, digits:number):string|number
+	return arr.reduce((acc, e) => acc + e, 0);
+}
+
+
+export function mean(arr: number[]): number
+{
+	if (arr.length == 0)
+		throw new Error("Array does not contain any elements!");
+
+	return sum(arr) / arr.length;
+}
+
+
+export function round(num: number, digits: number): string | number
 {
 	if (Number.isInteger(num))
 		return num;
