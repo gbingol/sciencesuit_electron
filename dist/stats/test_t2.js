@@ -1,4 +1,5 @@
 import { Worksheet, Range } from "../lib/comp/grid.js";
+import * as np from "../lib/sci_math.js";
 import { get, set } from "../../node_modules/idb-keyval/dist/index.js";
 const PAGEID = "TESTT2";
 const WSKEY = PAGEID + "_WS";
@@ -27,6 +28,7 @@ btnCompute.onclick = ((evt) => {
     let txtxdata = document.querySelector("#xdata");
     let txtydata = document.querySelector("#ydata");
     let txtmu = document.querySelector("#mu");
+    let chkVarEqual = document.querySelector("#varequal");
     let txtconflevel = document.querySelector("#conflevel");
     let selalternative = document.querySelector("#alternative");
     const inputs = document.querySelectorAll("#inputtable input, select");
@@ -41,6 +43,7 @@ btnCompute.onclick = ((evt) => {
         let mu = parseFloat(txtmu.value);
         let conflevel = parseFloat(txtconflevel.value);
         let alternative = selalternative.value;
+        let varequal = chkVarEqual.checked;
         let NDigits = parseInt(document.querySelector("#txtDigits").value);
         if (conflevel < 0 || conflevel > 100)
             throw new Error("Confidence level must be [0, 100]");
@@ -48,19 +51,41 @@ btnCompute.onclick = ((evt) => {
         let xdata = rng.data[0].map(e => parseFloat(e));
         rng = new Range(txtydata.value, ws);
         let ydata = rng.data[0].map(e => parseFloat(e));
-        let results = window.api.test_t2(xdata, ydata, mu, false, alternative, conflevel / 100);
-        let s = `
-			<table class='output'>
-			<tr>
-			<th>N</th>
-			<th>Average</th>
-			<th>stdev</th>
-			<th>SE Mean</th>
-			<th>T</th>
-			<th>p-value</th>
-			</tr>`;
+        let results = window.api.test_t2(xdata, ydata, mu, varequal, alternative, conflevel / 100);
+        let s = "<table>";
         s += "<tr>";
-        s += "</tr></table>";
+        s += "<td>Observation</td>";
+        s += "<td>" + results.n1 + "</td>";
+        s += "<td>" + results.n2 + "</td>";
+        s += "</tr>";
+        s += "<tr>";
+        s += "<td>Mean</td>";
+        s += "<td>" + np.round(results.xaver, NDigits) + "</td>";
+        s += "<td>" + np.round(results.yaver, NDigits) + "</td>";
+        s += "</tr>";
+        s += "<tr>";
+        s += "<td>Std Deviation</td>";
+        s += "<td>" + np.round(results.s1, NDigits) + "</td>";
+        s += "<td>" + np.round(results.s2, NDigits) + "</td>";
+        s += "</tr>";
+        if (varequal) {
+            s += "<tr>";
+            s += "<td>Pooled variance</td>";
+            s += "<td colspan=2>" + np.round(results.sp, NDigits) + "</td>";
+            s += "</tr>";
+        }
+        s += "<tr><td colspan=3>&nbsp;</td></tr>";
+        s += "<tr>";
+        s += "<td>t<sub>critical</sub></td>";
+        s += "<td colspan=2>" + np.round(results.tcritical, NDigits) + "</td>";
+        s += "</tr>";
+        s += "<tr>";
+        s += "<td>p-value</td>";
+        s += "<td colspan=2>" + np.round(results.pvalue, NDigits) + "</td>";
+        s += "</tr>";
+        s += "<tr><td colspan=3>" + txtconflevel.value + "% Confidence Interval (" +
+            np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td></tr>";
+        s += "</table>";
         let divCopy = document.createElement("div-copydel");
         let outDiv = document.querySelector("#maincontent").appendChild(divCopy);
         outDiv.innerHTML = s;

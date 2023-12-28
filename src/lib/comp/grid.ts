@@ -361,9 +361,12 @@ class Range
 
 	constructor(str:string, ws:Worksheet)
 	{
+		if (!str.includes(":"))
+			throw new Error("Range must contain column (:) operator!");
+
 		let rng = str.split(":");
 		if(rng.length != 2)
-			throw new Error("Invalid range");
+			throw new Error("Expected range format (A1:B10)");
 
 		let Start = this.parseRange(rng[0]);
 		let End = this.parseRange(rng[1]);
@@ -371,11 +374,11 @@ class Range
 		let stCol = Start[0].charCodeAt(0), stRow = parseInt(Start[1]);
 		let endCol = End[0].charCodeAt(0), endRow = parseInt(End[1]);
 
-		if(stRow>endRow)
-			throw new Error("Start row number cannot be greater than end row number");
+		if(stRow>=endRow)
+			throw new Error("Start-Row < End-Row expected!");
 
 		if(stCol>endCol)
-			throw new Error("Starting column number cannot be greater than end column number");
+			throw new Error("Start-Column <= End-Column expected!");
 
 		this._ncols = endCol - stCol + 1;
 		this._nrows = endRow - stRow + 1;
@@ -419,6 +422,9 @@ class Range
 		let i=0;
 		while(isNaN(Number(str[i])))
 			s += str[i++];
+
+		if (s === "")
+			throw new Error(str + " does not contain a column label!");
 
 		return [s, str.substring(i)];
 	}

@@ -45,6 +45,7 @@ btnCompute.onclick = ((evt)=>
 	let txtxdata = document.querySelector("#xdata") as HTMLInputElement;
 	let txtydata = document.querySelector("#ydata") as HTMLInputElement;
 	let txtmu = document.querySelector("#mu") as HTMLInputElement;
+	let chkVarEqual = document.querySelector("#varequal") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
 	let selalternative = document.querySelector("#alternative") as HTMLSelectElement;
 	
@@ -65,6 +66,7 @@ btnCompute.onclick = ((evt)=>
 		let mu = parseFloat(txtmu.value);
 		let conflevel = parseFloat(txtconflevel.value);
 		let alternative = selalternative.value;
+		let varequal = chkVarEqual.checked;
 		let NDigits = parseInt((document.querySelector("#txtDigits")  as HTMLInputElement).value);
 
 		if(conflevel<0 || conflevel>100)
@@ -76,23 +78,53 @@ btnCompute.onclick = ((evt)=>
 		rng = new Range(txtydata.value, ws);
 		let ydata = rng.data[0].map(e=>parseFloat(e));
 
-		let results = window.api.test_t2(xdata, ydata, mu, false, alternative, conflevel/100);
-
+		let results = window.api.test_t2(xdata, ydata, mu, varequal, alternative, conflevel/100);
 		
-		let s = `
-			<table class='output'>
-			<tr>
-			<th>N</th>
-			<th>Average</th>
-			<th>stdev</th>
-			<th>SE Mean</th>
-			<th>T</th>
-			<th>p-value</th>
-			</tr>`
+		let s = "<table>";
+		
+		s += "<tr>"
+		s += "<td>Observation</td>";
+		s += "<td>" + results.n1 + "</td>";
+		s += "<td>" + results.n2 + "</td>";
+		s += "</tr>";
 
 		s += "<tr>";
+		s += "<td>Mean</td>";
+		s += "<td>" + np.round(results.xaver, NDigits) + "</td>";
+		s += "<td>" + np.round(results.yaver, NDigits) + "</td>";
+		s += "</tr>";
+
+		s += "<tr>";
+		s += "<td>Std Deviation</td>";
+		s += "<td>" + np.round(results.s1, NDigits) + "</td>";
+		s += "<td>" + np.round(results.s2, NDigits) + "</td>";
+		s += "</tr>";
+
+		if (varequal)
+		{
+			s += "<tr>"
+			s += "<td>Pooled variance</td>";
+			s += "<td colspan=2>" + np.round(results.sp as number, NDigits) + "</td>";
+			s += "</tr>";
+		}
+
+		s += "<tr><td colspan=3>&nbsp;</td></tr>";
+
+		s += "<tr>"
+		s += "<td>t<sub>critical</sub></td>";
+		s += "<td colspan=2>" + np.round(results.tcritical, NDigits) + "</td>";
+		s += "</tr>";
+
+		s += "<tr>"
+		s += "<td>p-value</td>";
+		s += "<td colspan=2>" +  np.round(results.pvalue, NDigits) + "</td>";
+		s += "</tr>";
+
 		
-		s += "</tr></table>";
+		s += "<tr><td colspan=3>" + txtconflevel.value + "% Confidence Interval (" +
+			np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td></tr>";
+		
+		s += "</table>";
 
 		let divCopy = document.createElement("div-copydel");
 		let outDiv = (document.querySelector("#maincontent") as HTMLDivElement).appendChild(divCopy);
@@ -112,6 +144,4 @@ btnCompute.onclick = ((evt)=>
 		document.body.appendChild(msgBox);
 
 	}
-
-	
 });

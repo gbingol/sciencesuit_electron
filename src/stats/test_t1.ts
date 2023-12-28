@@ -70,6 +70,8 @@ btnCompute.onclick = ((evt)=>
 			throw new Error("Confidence level must be [0, 100]");
 
 		let rng = new Range(txtxdata.value, ws);
+		if (rng.ncols != 1)
+			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
 		let xdata = rng.data[0].map(e=>parseFloat(e));
 
 		let results = window.api.test_t1(xdata, mu, alternative, conflevel/100);
