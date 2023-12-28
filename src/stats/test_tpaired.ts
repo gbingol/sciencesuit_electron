@@ -2,7 +2,7 @@ import {Worksheet, Range, Cell} from "../lib/comp/grid.js";
 import * as np from "../lib/sci_math.js";
 import {get, set} from "../../node_modules/idb-keyval/dist/index.js";
 
-const PAGEID = "TESTT2";
+const PAGEID = "TESTTPAIRED";
 const WSKEY = PAGEID + "_WS";
 
 
@@ -45,7 +45,6 @@ btnCompute.onclick = ((evt)=>
 	let txtxdata = document.querySelector("#xdata") as HTMLInputElement;
 	let txtydata = document.querySelector("#ydata") as HTMLInputElement;
 	let txtmu = document.querySelector("#mu") as HTMLInputElement;
-	let chkVarEqual = document.querySelector("#varequal") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
 	let selalternative = document.querySelector("#alternative") as HTMLSelectElement;
 	
@@ -66,7 +65,6 @@ btnCompute.onclick = ((evt)=>
 		let mu = parseFloat(txtmu.value);
 		let conflevel = parseFloat(txtconflevel.value);
 		let alternative = selalternative.value;
-		let varequal = chkVarEqual.checked;
 		let NDigits = parseInt((document.querySelector("#txtDigits")  as HTMLInputElement).value);
 
 		if(conflevel<0 || conflevel>100)
@@ -78,7 +76,7 @@ btnCompute.onclick = ((evt)=>
 		rng = new Range(txtydata.value, ws);
 		let ydata = rng.data[0].map(e=>parseFloat(e));
 
-		let results = window.api.test_t2(xdata, ydata, mu, varequal, alternative, conflevel/100);
+		let results = window.api.test_tpaired(xdata, ydata, mu, alternative, conflevel/100);
 		
 		let s = "<table>";
 		
