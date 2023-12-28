@@ -71,6 +71,11 @@ let funcs =
 	test_t2: (x, y, mu, varequal = true, alternative = "two.sided", conflevel = 0.95) =>
 	{
 		return stattests.test_t2(x, y, mu, varequal, alternative, conflevel)
+	},
+
+	test_tpaired: (x, y, mu, alternative = "two.sided", conflevel = 0.95) =>
+	{
+		return stattests.test_tpaired(x, y, mu, alternative, conflevel)
 	}
 }
 

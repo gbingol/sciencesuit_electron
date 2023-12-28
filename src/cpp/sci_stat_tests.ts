@@ -24,9 +24,21 @@ function test_t2(
 	
 }
 
+//x, y, mu, alternative="two.sided", conflevel=0.95
+function test_tpaired(
+	x: Array<number>,
+	y:Array<number>,
+	mu: number,
+	alternative:string = "two.sided",
+	conflevel: number = 0.95):Object
+{
+	return corestat.test_tpaired(x, y, mu, alternative, conflevel);
+	
+}
+
 
 
 module.exports =
 {
-	test_t1, test_t2
+	test_t1, test_t2, test_tpaired
 };

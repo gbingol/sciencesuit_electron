@@ -4,11 +4,11 @@ export namespace stat
 		pvalue: number;
 		CI_lower: number,
 		CI_upper: number,
-		SE: number;
-		N: number;
-		stdev: number;
-		mean: number;
-		tcritical: number;
+		SE: number,
+		N: number,
+		stdev: number,
+		mean: number,
+		tcritical: number
 	}
 
 	export type test_t2_result = {
@@ -24,6 +24,21 @@ export namespace stat
 		s1: number,
 		s2: number,
 		sp?: number
+	}
+
+	export type test_tpaired_result ={
+		pvalue: number;
+		CI_lower: number,
+		CI_upper: number,
+		tcritical: number,
+		xaver: number,
+		yaver: number,
+		s1: number,
+		s2: number,
+		SE: number,
+		N: number,
+		stdev: number, //stdev of difference
+		mean: number //mean of difference
 	}
 	
 }
@@ -57,6 +72,13 @@ export const API: {
 		varequal: boolean = true,
 		alternative: string = "two.sided",
 		conflevel: number = 0.95) => stat.test_t2_result;
+	
+	test_tpaired: (
+		x: Array<number>,
+		y: Array<number>,
+		mu: number,
+		alternative: string = "two.sided",
+		conflevel: number = 0.95) => stat.test_tpaired_result;
 }
 
 declare global
