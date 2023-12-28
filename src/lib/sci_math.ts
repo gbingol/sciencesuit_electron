@@ -15,6 +15,51 @@ export function mean(arr: number[]): number
 	return sum(arr) / arr.length;
 }
 
+export function variance(
+	vector:number[], 
+	ddof:number):number
+{
+	let sum_X = 0;
+	let sum_X2 = 0;
+
+	let N = vector.length;
+
+	if (N < 3)
+		throw new Error("Array must have at least 3 elements");
+
+	if (ddof >= N)
+		throw new Error("ddof must be smaller than len");
+
+	for (let Num of vector)
+	{
+		sum_X += Num;
+		sum_X2 += Num * Num;
+	}
+
+	let E_X = sum_X / N, E_X2 = sum_X2 / N;
+	let varPop = E_X2 - E_X * E_X; //Population
+
+	let df_Population = N;
+	let df_Sample = df_Population - 1;
+
+	return varPop * df_Population / (N - ddof);
+}
+
+export function stdev(
+	v:number[],
+	ddof:number):number
+{
+	let N = v.length;
+
+	if (N < 3)
+		throw new Error("At least 3 elements expected");
+
+	if (ddof >= N)
+		throw new Error("ddof must be smaller than len");
+
+	return Math.pow(variance(v, ddof), 0.5);
+}
+
 
 export function round(num: number, digits: number): string | number
 {
