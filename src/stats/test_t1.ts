@@ -74,10 +74,9 @@ btnCompute.onclick = ((evt)=>
 		let xdata = rng.data[0].map(e=>parseFloat(e));
 
 		let results = window.api.test_t1(xdata, mu, GetAlternative(alternative), conflevel/100);
-
 		
 		let s = `
-			<table class='output'>
+			<table>
 			<tr>
 			<th>N</th>
 			<th>Average</th>
@@ -93,7 +92,12 @@ btnCompute.onclick = ((evt)=>
 		s += "<td>"+ np.round(results.stdev, NDigits) + "</td>";
 		s += "<td>"+ np.round(results.SE, NDigits) + "</td>";
 		s += "<td>"+ np.round(results.tcritical, NDigits) + "</td>";
-		s += "<td>"+ np.round(results.pvalue, NDigits) + "</td>";
+		s += "<td>" + np.round(results.pvalue, NDigits) + "</td>";
+		s += "</tr>";
+
+		s += "<tr>";
+		s += "<td colspan=6>" + txtconflevel.value + "% Confidence Interval (" +
+			np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td>";
 		s += "</tr></table>";
 
 		let divCopy = document.createElement("div-copydel");

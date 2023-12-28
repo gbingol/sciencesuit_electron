@@ -1,3 +1,30 @@
+export type test_t1_result = {
+	pvalue: number;
+	CI_lower: number,
+	CI_upper: number,
+	SE: number;
+	N: number;
+	stdev: number;
+	mean: number;
+	tcritical: number;
+}
+
+export type test_t2_result = {
+	pvalue: number;
+	CI_lower: number,
+	CI_upper: number,
+	tcritical: number,
+	n1: number,
+	n2: number,
+	df:number,
+	xaver: number,
+	yaver: number,
+	s1: number,
+	s2: number,
+	sp?: number
+}
+
+
 export const API:
 {
 	dirname: () => string;
@@ -10,16 +37,16 @@ export const API:
 	test_t1: (
 		x: Array<number>,
 		mu: number,
-		alternative: stat.Alternative = stat.Alternative.TWOSIDED,
-		conflevel: number = 0.95) => stat.test_t1_result;
+		alternative: Alternative = Alternative.TWOSIDED,
+		conflevel: number = 0.95) => test_t1_result;
 	
 	test_t2: (
 		x: Array<number>,
 		y: Array<number>,
 		mu: number,
 		varequal: boolean = true,
-		alternative: stat.Alternative = stat.Alternative.TWOSIDED,
-		conflevel: number = 0.95) => stat.test_t1_result;
+		alternative: Alternative = Alternative.TWOSIDED,
+		conflevel: number = 0.95) => test_t2_result;
 }
 
 declare global

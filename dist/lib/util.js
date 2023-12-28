@@ -1,4 +1,4 @@
-import * as stat from '../stat.js';
+import * as stat from '../globaltypes.js';
 export function GetAlternative(s) {
     if (s === "two.sided" || s === "notequal")
         return stat.Alternative.TWOSIDED;

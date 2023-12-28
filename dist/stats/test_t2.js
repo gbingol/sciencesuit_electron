@@ -1,8 +1,7 @@
 import { Worksheet, Range } from "../lib/comp/grid.js";
-import * as np from "../lib/sci_math.js";
 import { get, set } from "../../node_modules/idb-keyval/dist/index.js";
 import { GetAlternative } from "../lib/util.js";
-const PAGEID = "TESTT1";
+const PAGEID = "TESTT2";
 const WSKEY = PAGEID + "_WS";
 let UserInputs = new Map();
 let ws_div = document.querySelector('#myGrid');
@@ -26,7 +25,8 @@ window.onload = (evt) => {
 };
 let btnCompute = document.querySelector("#compute");
 btnCompute.onclick = ((evt) => {
-    let txtxdata = document.querySelector("#x");
+    let txtxdata = document.querySelector("#xdata");
+    let txtydata = document.querySelector("#ydata");
     let txtmu = document.querySelector("#mu");
     let txtconflevel = document.querySelector("#conflevel");
     let selalternative = document.querySelector("#alternative");
@@ -47,9 +47,11 @@ btnCompute.onclick = ((evt) => {
             throw new Error("Confidence level must be [0, 100]");
         let rng = new Range(txtxdata.value, ws);
         let xdata = rng.data[0].map(e => parseFloat(e));
-        let results = window.api.test_t1(xdata, mu, GetAlternative(alternative), conflevel / 100);
+        rng = new Range(txtydata.value, ws);
+        let ydata = rng.data[0].map(e => parseFloat(e));
+        let results = window.api.test_t2(xdata, ydata, mu, false, GetAlternative(alternative), conflevel / 100);
         let s = `
-			<table>
+			<table class='output'>
 			<tr>
 			<th>N</th>
 			<th>Average</th>
@@ -59,16 +61,6 @@ btnCompute.onclick = ((evt) => {
 			<th>p-value</th>
 			</tr>`;
         s += "<tr>";
-        s += "<td>" + results.N + "</td>";
-        s += "<td>" + np.round(results.mean, NDigits) + "</td>";
-        s += "<td>" + np.round(results.stdev, NDigits) + "</td>";
-        s += "<td>" + np.round(results.SE, NDigits) + "</td>";
-        s += "<td>" + np.round(results.tcritical, NDigits) + "</td>";
-        s += "<td>" + np.round(results.pvalue, NDigits) + "</td>";
-        s += "</tr>";
-        s += "<tr>";
-        s += "<td colspan=6>" + txtconflevel.value + "% Confidence Interval (" +
-            np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td>";
         s += "</tr></table>";
         let divCopy = document.createElement("div-copydel");
         let outDiv = document.querySelector("#maincontent").appendChild(divCopy);

@@ -77,7 +77,7 @@ btnCompute.onclick = ((evt)=>
 		rng = new Range(txtydata.value, ws);
 		let ydata = rng.data[0].map(e=>parseFloat(e));
 
-		let results = window.api.test_t1(xdata, mu, GetAlternative(alternative), conflevel/100);
+		let results = window.api.test_t2(xdata, ydata, mu, false, GetAlternative(alternative), conflevel/100);
 
 		
 		let s = `
@@ -92,12 +92,7 @@ btnCompute.onclick = ((evt)=>
 			</tr>`
 
 		s += "<tr>";
-		s += "<td>"+results.N+ "</td>";
-		s += "<td>"+ np.round(results.mean, NDigits) + "</td>";
-		s += "<td>"+ np.round(results.stdev, NDigits) + "</td>";
-		s += "<td>"+ np.round(results.SE, NDigits) + "</td>";
-		s += "<td>"+ np.round(results.tcritical, NDigits) + "</td>";
-		s += "<td>"+ np.round(results.pvalue, NDigits) + "</td>";
+		
 		s += "</tr></table>";
 
 		let divCopy = document.createElement("div-copydel");
