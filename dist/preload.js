@@ -23,37 +23,6 @@ function RunCmd(cmd)
 	});
 }
 
-/**
- * 
- * @param {string} input 
- * @param {Object} options 
- * @param {boolean} isstr 
- * @returns {Promise}
- */
-function RunPython(input, options, isstr = false)
-{
-	if (!isstr)
-		return PythonShell.run(input, options);
-
-	return PythonShell.runString(input, options);
-}
-
-
-
-/**
- * @param {string[] | Object} k
- * @param {string[]} v 
- * @returns {Psychrometry}
-*/
-function psychrometry(k, v=null)
-{
-	if (v != null)
-		return new Psychrometry(k, v);
-
-	return Psychrometry.Instance(k);
-}
-
-
 
 
 let funcs =
@@ -73,14 +42,20 @@ let funcs =
 		return RunCmd(callback, cmd);
 	},
 
-	runpython: (file, options, isstr = false) =>
+	runpython: (input, options, isstr = false) =>
 	{
-		return RunPython(file, options, isstr);
+		if (!isstr)
+			return PythonShell.run(input, options);
+
+		return PythonShell.runString(input, options);
 	},
 	
 	psychrometry: (k, v) =>
 	{
-		return psychrometry(k, v);
+		if (v != null)
+			return new Psychrometry(k, v);
+
+		return Psychrometry.Instance(k);
 	},
 
 	trapz: (x, y, isCumulative = false) =>

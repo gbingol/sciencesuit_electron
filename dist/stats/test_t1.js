@@ -1,7 +1,6 @@
 import { Worksheet, Range } from "../lib/comp/grid.js";
 import * as np from "../lib/sci_math.js";
 import { get, set } from "../../node_modules/idb-keyval/dist/index.js";
-import { GetAlternative } from "../lib/util.js";
 const PAGEID = "TESTT1";
 const WSKEY = PAGEID + "_WS";
 let UserInputs = new Map();
@@ -47,7 +46,7 @@ btnCompute.onclick = ((evt) => {
             throw new Error("Confidence level must be [0, 100]");
         let rng = new Range(txtxdata.value, ws);
         let xdata = rng.data[0].map(e => parseFloat(e));
-        let results = window.api.test_t1(xdata, mu, GetAlternative(alternative), conflevel / 100);
+        let results = window.api.test_t1(xdata, mu, alternative, conflevel / 100);
         let s = `
 			<table>
 			<tr>

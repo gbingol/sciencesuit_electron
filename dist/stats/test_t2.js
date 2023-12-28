@@ -1,6 +1,5 @@
 import { Worksheet, Range } from "../lib/comp/grid.js";
 import { get, set } from "../../node_modules/idb-keyval/dist/index.js";
-import { GetAlternative } from "../lib/util.js";
 const PAGEID = "TESTT2";
 const WSKEY = PAGEID + "_WS";
 let UserInputs = new Map();
@@ -49,7 +48,7 @@ btnCompute.onclick = ((evt) => {
         let xdata = rng.data[0].map(e => parseFloat(e));
         rng = new Range(txtydata.value, ws);
         let ydata = rng.data[0].map(e => parseFloat(e));
-        let results = window.api.test_t2(xdata, ydata, mu, false, GetAlternative(alternative), conflevel / 100);
+        let results = window.api.test_t2(xdata, ydata, mu, false, alternative, conflevel / 100);
         let s = `
 			<table class='output'>
 			<tr>
