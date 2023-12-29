@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>2-sample t-test</title>
+	<title>F-test</title>
 
 	<link href="../css/common.css" rel="stylesheet">
 
@@ -27,7 +27,7 @@
 
 <div id="maincontent">
 
-<h1>Two-Sample t-test</h1>
+<h1>F-test</h1>
 
 
 <div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
@@ -48,6 +48,12 @@
 		<td>Ratio: </label></td>
 		<td><input type="text" id="ratio" value="1.0"></td>
 	</tr>
+
+	<tr>
+		<td>Confidence: </label></td>
+		<td><input type="text" id="conflevel" value="95"></td>
+	</tr>
+
 
 	<tr>
 		<td>Alternative: </label></td>

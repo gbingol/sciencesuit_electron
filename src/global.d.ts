@@ -15,7 +15,7 @@ export namespace stat
 		pvalue: number,
 		CI_lower: number,
 		CI_upper: number,
-		fFcritical:number,
+		fcritical:number,
 		df1: number,
 		df2: number
 		var1: number,

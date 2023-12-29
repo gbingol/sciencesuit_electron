@@ -45,8 +45,7 @@ btnCompute.onclick = ((evt)=>
 {
 	let txtxdata = document.querySelector("#xdata") as HTMLInputElement;
 	let txtydata = document.querySelector("#ydata") as HTMLInputElement;
-	let txtmu = document.querySelector("#mu") as HTMLInputElement;
-	let chkVarEqual = document.querySelector("#varequal") as HTMLInputElement;
+	let txtratio = document.querySelector("#ratio") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
 	let selalternative = document.querySelector("#alternative") as HTMLSelectElement;
 	
@@ -64,10 +63,9 @@ btnCompute.onclick = ((evt)=>
 
 	try
 	{
-		let mu = parseFloat(txtmu.value);
+		let ratio = parseFloat(txtratio.value);
 		let conflevel = parseFloat(txtconflevel.value);
 		let alternative = selalternative.value;
-		let varequal = chkVarEqual.checked;
 		let NDigits = parseInt((document.querySelector("#txtDigits")  as HTMLInputElement).value);
 
 		if(conflevel<0 || conflevel>100)
@@ -83,46 +81,37 @@ btnCompute.onclick = ((evt)=>
 			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
 		let ydata = util.FilterNumbers(rng.data[0]);
 
-		let results = window.api.test_t2(xdata, ydata, mu, varequal, alternative, conflevel/100);
+		let results = window.api.test_f(xdata, ydata, ratio, alternative, conflevel / 100);
 		
-		let s = "<table>";
+		let s = `<table>
+			<tr>
+				<th>&nbsp;</th>
+				<th>df</th>
+				<th>variance</th>
+			</tr>`;
 		
 		s += "<tr>"
-		s += "<td>Observation</td>";
-		s += "<td>" + results.n1 + "</td>";
-		s += "<td>" + results.n2 + "</td>";
+		s += "<td>Sample 1</td>";
+		s += "<td>" + results.df1 + "</td>";
+		s += "<td>" + np.round(results.var1, NDigits) + "</td>";
 		s += "</tr>";
 
-		s += "<tr>";
-		s += "<td>Mean</td>";
-		s += "<td>" + np.round(results.xaver, NDigits) + "</td>";
-		s += "<td>" + np.round(results.yaver, NDigits) + "</td>";
+		s += "<tr>"
+		s += "<td>Sample 2</td>";
+		s += "<td>" + results.df2 + "</td>";
+		s += "<td>" + np.round(results.var2, NDigits) + "</td>";
 		s += "</tr>";
-
-		s += "<tr>";
-		s += "<td>Std Deviation</td>";
-		s += "<td>" + np.round(results.s1, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s2, NDigits) + "</td>";
-		s += "</tr>";
-
-		if (varequal)
-		{
-			s += "<tr>"
-			s += "<td>Pooled variance</td>";
-			s += "<td colspan=2>" + np.round(results.sp as number, NDigits) + "</td>";
-			s += "</tr>";
-		}
 
 		s += "<tr><td colspan=3>&nbsp;</td></tr>";
 
 		s += "<tr>"
-		s += "<td>t<sub>critical</sub></td>";
-		s += "<td colspan=2>" + np.round(results.tcritical, NDigits) + "</td>";
+		s += "<td>F<sub>critical</sub></td>";
+		s += "<td colspan=2 style='text-align:left;'>" + np.round(results.fcritical, NDigits) + "</td>";
 		s += "</tr>";
 
 		s += "<tr>"
 		s += "<td>p-value</td>";
-		s += "<td colspan=2>" +  np.round(results.pvalue, NDigits) + "</td>";
+		s += "<td colspan=2 style='text-align:left;'>" +  np.round(results.pvalue, NDigits) + "</td>";
 		s += "</tr>";
 
 		
