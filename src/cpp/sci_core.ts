@@ -115,29 +115,4 @@ class Psychrometry
 
 
 
-function cumtrapz(x:number[], y:number[])
-{
-	if (!Array.isArray(x))
-		throw ("x must be array");
-
-	if (!Array.isArray(y))
-		throw ("y must be array");
-
-	return addon.cumtrapz(x, y);
-}
-
-
-
-function trapz(x: number[], y: number[], isCumulative: boolean = false): number | number[]
-{
-	//isCumulative = true, cumtrapz otherwise trapz
-	if (!Array.isArray(x))
-		throw ("x must be array");
-
-	if (!Array.isArray(y))
-		throw ("y must be array");
-
-	return addon.trapz(x, y, isCumulative);
-}
-
-module.exports = { Psychrometry, trapz };
+module.exports = { Psychrometry };
