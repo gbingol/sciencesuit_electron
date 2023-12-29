@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>2-sample t-test</title>
+
+	<link href="../css/common.css" rel="stylesheet">
+
+	<script type="module" src="../lib/comp/div_copydel.js" defer></script>
+	<script src="../lib/comp/div_transientpopwnd.js" defer></script>
+
+	<style>
+		table.input{
+			background-color: floralwhite;	
+		}
+
+    </style>
+</head>
+
+
+<body>
+
+
+<script src="../mainmenu.js"></script>
+
+
+<div id="maincontent">
+
+<h1>Two-Sample t-test</h1>
+
+
+<div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
+
+
+<table class="input" id="inputtable">
+	<tr>
+		<td>x-data:</td>
+		<td><input type="text" value="" id="xdata" placeholder="Range (A1:A10)"></td>
+	</tr>
+
+	<tr>
+		<td>y-data:</td>
+		<td><input type="text" value="" id="ydata" placeholder="Range (B1:B10)"></td>
+	</tr>
+	
+	<tr>
+		<td>Ratio: </label></td>
+		<td><input type="text" id="ratio" value="1.0"></td>
+	</tr>
+
+	<tr>
+		<td>Alternative: </label></td>
+		<td>
+			<select type="" id="alternative">
+				<option value="notequal" selected>not equal</option>
+				<option value="greater">greater than</option>
+				<option value="less">less than</option>
+			</select>
+
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" style="text-align: center; padding-top: 12px;">
+			<label style="float: left;" for="digits">Digits:</label>
+			<input style="width: 3em; float: left;" type="number" value="3" min="1" max="6" id="txtDigits">
+			
+			<button id="compute" type="button">Compute</button>
+		</td>
+	</tr>
+		
+</table>
+	
+<div id="info"></div>
+
+<script type="module" src="test_f.js"></script>
+
+
+</div>
+
+</body>
+</html>

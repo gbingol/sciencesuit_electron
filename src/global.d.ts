@@ -11,6 +11,17 @@ export namespace stat
 		zcritical: number
 	}
 
+	export type test_f_result = {
+		pvalue: number,
+		CI_lower: number,
+		CI_upper: number,
+		fFcritical:number,
+		df1: number,
+		df2: number
+		var1: number,
+		var2: number
+	}
+
 	export type test_t1_result = {
 		pvalue: number,
 		CI_lower: number,
@@ -76,6 +87,13 @@ export const API: {
 		mu: number,
 		alternative: string = "two.sided",
 		conflevel: number = 0.95) => stat.test_z_result;
+	
+	test_f: (
+		x: Array<number>,
+		y: Array<number>,
+		ratio: number = 1.0,
+		alternative: string = "two.sided",
+		conflevel: number = 0.95) => stat.test_f_result;
 	
 	test_t1: (
 		x: Array<number>,

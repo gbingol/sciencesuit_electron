@@ -12,6 +12,19 @@ function test_z(
 }
 
 
+//x, y, sd, alternative="two.sided", conflevel=0.95
+function test_f(
+	x: Array<number>,
+	y:Array<number>,
+	ratio: number = 1.0,
+	alternative:string = "two.sided",
+	conflevel: number = 0.95):Object
+{
+	return corestat.test_f(x, y, ratio, alternative, conflevel);
+	
+}
+
+
 function test_t1(
 	x: Array<number>,
 	mu: number,
@@ -51,6 +64,6 @@ function test_tpaired(
 
 module.exports =
 {
-	test_t1, test_t2, test_tpaired,
-	test_z
+	test_z, test_f,
+	test_t1, test_t2, test_tpaired
 };

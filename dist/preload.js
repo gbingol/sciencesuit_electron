@@ -68,6 +68,11 @@ let funcs =
 		return stattests.test_z(x, sd, mu, alternative, conflevel)
 	},
 
+	test_f: (x, y, ratio=1.0, alternative = "two.sided", conflevel = 0.95) =>
+	{
+		return stattests.test_f(x, y, ratio, alternative, conflevel)
+	},
+
 	test_t1: (x, mu, alternative, conflevel) =>
 	{
 		return stattests.test_t1(x, mu, alternative, conflevel)
