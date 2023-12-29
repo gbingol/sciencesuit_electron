@@ -62,6 +62,11 @@ let funcs =
 	{
 		return trapz(x, y, isCumulative);
 	},
+	
+	test_z: (x, sd, mu, alternative, conflevel) =>
+	{
+		return stattests.test_z(x, sd, mu, alternative, conflevel)
+	},
 
 	test_t1: (x, mu, alternative, conflevel) =>
 	{

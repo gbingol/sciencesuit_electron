@@ -1,7 +1,18 @@
 export namespace stat
 {
+	export type test_z_result = {
+		pvalue: number,
+		CI_lower: number,
+		CI_upper: number,
+		SE: number,
+		N: number,
+		stdev: number,
+		mean: number,
+		zcritical: number
+	}
+
 	export type test_t1_result = {
-		pvalue: number;
+		pvalue: number,
 		CI_lower: number,
 		CI_upper: number,
 		SE: number,
@@ -12,7 +23,7 @@ export namespace stat
 	}
 
 	export type test_t2_result = {
-		pvalue: number;
+		pvalue: number,
 		CI_lower: number,
 		CI_upper: number,
 		tcritical: number,
@@ -27,7 +38,7 @@ export namespace stat
 	}
 
 	export type test_tpaired_result ={
-		pvalue: number;
+		pvalue: number,
 		CI_lower: number,
 		CI_upper: number,
 		tcritical: number,
@@ -58,6 +69,13 @@ export const API: {
 		x: number[],
 		y: number[],
 		isCumulative?: boolean) => any;
+	
+	test_z: (
+		x: Array<number>,
+		sd: number,
+		mu: number,
+		alternative: string = "two.sided",
+		conflevel: number = 0.95) => stat.test_z_result;
 	
 	test_t1: (
 		x: Array<number>,
