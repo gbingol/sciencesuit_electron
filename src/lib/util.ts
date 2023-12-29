@@ -1,3 +1,4 @@
+//Only returns entries that can be converted to number (uses parseFloat)
 export function FilterNumbers(arr: any[]): number[]
 {
 	let retArr:number[] = []
@@ -9,4 +10,10 @@ export function FilterNumbers(arr: any[]): number[]
 	}
 
 	return retArr
+}
+
+//All types can be converted to string!
+export function ToStringArray(arr: any[]): string[]
+{
+	return arr.map(e => String(e));
 }
