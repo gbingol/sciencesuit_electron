@@ -8,7 +8,7 @@ function dist_pf(
 {
 	
 	if (df1 <=0 || df2<=0)
-		throw "df1>0 and df2>0 expected";
+		throw new Error("df1>0 and df2>0 expected");
 
 	return addon.dist_pf(x, df1, df2);
 }
@@ -19,14 +19,8 @@ function dist_dnorm(
 	mean: number = 0,
 	sd: number = 1): Array<number> | number
 {
-	if (typeof x!=="number" && !Array.isArray(x))
-		throw "x must be number or array";
-
-	if (typeof mean!=="number")
-		throw "mean must be number";
-	
-	if (typeof sd!=="number" || sd <= 0)
-		throw "sd >0 expected";
+	if (sd <= 0)
+		throw new Error("sd >0 expected");
 
 	return addon.dist_dnorm(x, mean, sd);
 }

@@ -1,12 +1,16 @@
 "use strict";
 var addon = require("./nodebind.node");
-function dnorm(x, mean = 0, sd = 1) {
-    if (typeof x !== "number" && !Array.isArray(x))
-        throw "x must be number or array";
-    if (typeof mean !== "number")
-        throw "mean must be number";
-    if (typeof sd !== "number" || sd <= 0)
-        throw "sd >0 expected";
-    return addon.dnorm(x, mean, sd);
+function dist_pf(x, df1, df2) {
+    if (df1 <= 0 || df2 <= 0)
+        throw new Error("df1>0 and df2>0 expected");
+    return addon.dist_pf(x, df1, df2);
 }
-module.exports = { dnorm };
+function dist_dnorm(x, mean = 0, sd = 1) {
+    if (sd <= 0)
+        throw new Error("sd >0 expected");
+    return addon.dist_dnorm(x, mean, sd);
+}
+module.exports = {
+    dist_pf,
+    dist_dnorm,
+};
