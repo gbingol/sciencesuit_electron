@@ -1,5 +1,6 @@
 import {Worksheet, Range, Cell} from "../lib/comp/grid.js";
 import * as np from "../lib/sci_math.js";
+import * as util from "../lib/util.js";
 import {get, set} from "../../node_modules/idb-keyval/dist/index.js";
 
 const PAGEID = "TESTT2";
@@ -75,12 +76,12 @@ btnCompute.onclick = ((evt)=>
 		let rng = new Range(txtxdata.value, ws);
 		if (rng.ncols != 1)
 			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
-		let xdata = rng.data[0].map(e=>parseFloat(e));
+		let xdata = util.FilterNumbers(rng.data[0]);
 
 		rng = new Range(txtydata.value, ws);
 		if (rng.ncols != 1)
 			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
-		let ydata = rng.data[0].map(e=>parseFloat(e));
+		let ydata = util.FilterNumbers(rng.data[0]);
 
 		let results = window.api.test_t2(xdata, ydata, mu, varequal, alternative, conflevel/100);
 		

@@ -1,6 +1,17 @@
 var corestat = require("./nodebind.node");
 
 
+function test_z(
+	x: Array<number>,
+	sd: number,
+	mu: number,
+	alternative:string = "two.sided",
+	conflevel: number = 0.95):Object
+{
+	return corestat.test_z(x, sd, mu, alternative, conflevel);
+}
+
+
 function test_t1(
 	x: Array<number>,
 	mu: number,
@@ -40,5 +51,6 @@ function test_tpaired(
 
 module.exports =
 {
-	test_t1, test_t2, test_tpaired
+	test_t1, test_t2, test_tpaired,
+	test_z
 };

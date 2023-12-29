@@ -3,7 +3,7 @@ import * as np from "../lib/sci_math.js";
 import * as util from "../lib/util.js";
 import {get, set} from "../../node_modules/idb-keyval/dist/index.js";
 
-const PAGEID = "TESTTPAIRED";
+const PAGEID = "TESTZ";
 const WSKEY = PAGEID + "_WS";
 
 
@@ -43,8 +43,8 @@ window.onload = (evt)=>
 let btnCompute = document.querySelector("#compute") as HTMLButtonElement;
 btnCompute.onclick = ((evt)=>
 {
-	let txtxdata = document.querySelector("#xdata") as HTMLInputElement;
-	let txtydata = document.querySelector("#ydata") as HTMLInputElement;
+	let txtxdata = document.querySelector("#x") as HTMLInputElement;
+	let txtsd = document.querySelector("#sd") as HTMLInputElement;
 	let txtmu = document.querySelector("#mu") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
 	let selalternative = document.querySelector("#alternative") as HTMLSelectElement;
@@ -63,6 +63,7 @@ btnCompute.onclick = ((evt)=>
 
 	try
 	{
+		let stdev = parseFloat(txtsd.value);
 		let mu = parseFloat(txtmu.value);
 		let conflevel = parseFloat(txtconflevel.value);
 		let alternative = selalternative.value;
@@ -71,70 +72,40 @@ btnCompute.onclick = ((evt)=>
 		if(conflevel<0 || conflevel>100)
 			throw new Error("Confidence level must be [0, 100]");
 
+		if (stdev <= 0)
+			throw new Error("standard deviation >0 expected");
+
 		let rng = new Range(txtxdata.value, ws);
 		if (rng.ncols != 1)
 			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
 		let xdata = util.FilterNumbers(rng.data[0]);
 
-		rng = new Range(txtydata.value, ws);
-		if (rng.ncols != 1)
-			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
-		let ydata = util.FilterNumbers(rng.data[0]);
-
-		let results = window.api.test_tpaired(xdata, ydata, mu, alternative, conflevel/100);
+		let results = window.api.test_z(xdata, stdev, mu, alternative, conflevel/100);
 		
-		let s = `<table><tr>
-		<th></th>
-		<th>N</th>
-		<th>Mean</th>
-		<th>Std Deviation</th>
-		<th>SE Mean</th>
-		</tr>
-		`;
-		
-		s += "<tr>"
-		s += "<td>Sample 1</td>";
-		s += "<td>" + results.N + "</td>";
-		s += "<td>" + np.round(results.xaver, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s1, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s1/Math.sqrt(results.N), NDigits) + "</td>";	
+		let s = `
+			<table>
+			<tr>
+			<th>N</th>
+			<th>Average</th>
+			<th>stdev</th>
+			<th>SE Mean</th>
+			<th>z</th>
+			<th>p-value</th>
+			</tr>`
+
+		s += "<tr>";
+		s += "<td>"+results.N+ "</td>";
+		s += "<td>"+ np.round(results.mean, NDigits) + "</td>";
+		s += "<td>"+ np.round(results.stdev, NDigits) + "</td>";
+		s += "<td>"+ np.round(results.SE, NDigits) + "</td>";
+		s += "<td>"+ np.round(results.zcritical, NDigits) + "</td>";
+		s += "<td>" + np.round(results.pvalue, NDigits) + "</td>";
 		s += "</tr>";
 
-		s += "<tr>"
-		s += "<td>Sample 2</td>";
-		s += "<td>" + results.N + "</td>";
-		s += "<td>" + np.round(results.yaver, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s2, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s2/Math.sqrt(results.N), NDigits) + "</td>";	
-		s += "</tr>";
-
-		s += "<tr>"
-		s += "<td>Difference</td>";
-		s += "<td>&nbsp;</td>";
-		s += "<td>" + np.round(results.mean, NDigits) + "</td>";
-		s += "<td>" + np.round(results.stdev, NDigits) + "</td>";
-		s += "<td>&nbsp;</td>";
-		s += "</tr>";
-
-
-		s += "<tr><td colspan=5>&nbsp;</td></tr>";
-
-		s += "<tr>"
-		s += "<td>t<sub>critical</sub></td>";
-		s += "<td colspan=4 style='text-align: left;'> " + np.round(results.tcritical, NDigits) + "</td>";
-		s += "</tr>";
-
-		s += "<tr>"
-		s += "<td>p-value</td>";
-		s += "<td colspan=4 style='text-align: left;'> " +  np.round(results.pvalue, NDigits) + "</td>";
-		s += "</tr>";
-
-		s += "<tr><td colspan=5>&nbsp;</td></tr>";
-		
-		s += "<tr><td colspan=5>" + txtconflevel.value + "% Confidence Interval (" +
-			np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td></tr>";
-		
-		s += "</table>";
+		s += "<tr>";
+		s += "<td colspan=6>" + txtconflevel.value + "% Confidence Interval (" +
+			np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td>";
+		s += "</tr></table>";
 
 		let divCopy = document.createElement("div-copydel");
 		let outDiv = (document.querySelector("#maincontent") as HTMLDivElement).appendChild(divCopy);
@@ -154,4 +125,6 @@ btnCompute.onclick = ((evt)=>
 		document.body.appendChild(msgBox);
 
 	}
+
+	
 });

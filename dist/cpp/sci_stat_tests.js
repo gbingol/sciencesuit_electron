@@ -1,5 +1,8 @@
 "use strict";
 var corestat = require("./nodebind.node");
+function test_z(x, sd, mu, alternative = "two.sided", conflevel = 0.95) {
+    return corestat.test_z(x, sd, mu, alternative, conflevel);
+}
 function test_t1(x, mu, alternative = "two.sided", conflevel = 0.95) {
     return corestat.test_t1(x, mu, alternative, conflevel);
 }
@@ -13,5 +16,6 @@ function test_tpaired(x, y, mu, alternative = "two.sided", conflevel = 0.95) {
 }
 module.exports =
     {
-        test_t1, test_t2, test_tpaired
+        test_t1, test_t2, test_tpaired,
+        test_z
     };
