@@ -58,10 +58,6 @@ let funcs =
 		return Psychrometry.Instance(k);
 	},
 
-	trapz: (x, y, isCumulative = false) =>
-	{
-		return trapz(x, y, isCumulative);
-	},
 	
 	test_z: (x, sd, mu, alternative, conflevel) =>
 	{

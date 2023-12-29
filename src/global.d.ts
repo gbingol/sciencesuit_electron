@@ -76,11 +76,6 @@ export const API: {
 		k: string[] | Object,
 		v?: number[]) => Psychrometry;
 	
-	trapz: (
-		x: number[],
-		y: number[],
-		isCumulative?: boolean) => any;
-	
 	test_z: (
 		x: Array<number>,
 		sd: number,

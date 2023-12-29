@@ -1,5 +1,6 @@
 import {Worksheet, Range, Cell} from "../lib/comp/grid.js";
 import * as np from "../lib/sci_math.js";
+import { cumtrapz } from "../lib/sci_integ.js";
 import {get, set} from "../../node_modules/idb-keyval/dist/index.js";
 
 const PAGEID = "THERMALPROC";
@@ -35,7 +36,7 @@ function compute(
 	temp = np.div(np.sub(T, Ref_T), zvalue);
 	let LethalRate = np.pow(10.0, temp);
 
-	let FValue = window.api.trapz(t, LethalRate, true);
+	let FValue = cumtrapz(t, LethalRate);
 	let dt = np.diff(t); 
 	
 	let avg_T = FindAvg(T);
