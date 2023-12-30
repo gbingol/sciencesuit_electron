@@ -23,7 +23,6 @@ addInputListener(txtV2, "V2", "V<sub>2</sub>");
 const txtDigits =  document.getElementById('txtDigits') as HTMLInputElement;
 
 
-
 function compute(P:number, T1:number, RH1:number, V1:number, T2:number, RH2:number, V2:number)
 {
 	let st1 = window.api.psychrometry({"tdb":T1, "rh":RH1, "p":P});

@@ -75,7 +75,7 @@ btnCompute.onclick = ((evt)=>
 			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
 		let xdata = util.FilterNumbers(rng.data[0]);
 
-		let results = window.api.test_t1(xdata, mu, alternative, conflevel/100);
+		let results = window.api.stat.test_t1(xdata, mu, alternative, conflevel/100);
 		
 		let s = `
 			<table>

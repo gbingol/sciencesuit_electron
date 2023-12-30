@@ -44,7 +44,7 @@ export function aov(args:number[][])
 
 	let Fvalue = MS_Treatment/MSError;
 
-	let pvalue = 1 - (window.api.dist.pf(Fvalue, DFTreatment, DFError) as number);
+	let pvalue = 1 - (window.api.stat.dist.pf(Fvalue, DFTreatment, DFError) as number);
 
 	let Dict = 
 	{
