@@ -74,7 +74,8 @@ pHeader.innerHTML = "Manage Python";
 pHeader.style.cssText = "text-align: center; color: red; font-weight: bold;";
 let p_PyHomes = div.appendChild(document.createElement("p"));
 window.api.runcmd("py --list-paths").
-    then((output) => {
+    //@ts-ignore
+    then(output => {
     GenerateHTMLPythonList(output, div);
 }).
     catch((error) => {

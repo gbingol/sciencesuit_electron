@@ -1,3 +1,5 @@
+//const { myapi } = require('./preload');
+
 export namespace stat
 {
 	export type test_z_result = {
@@ -63,53 +65,6 @@ export namespace stat
 		mean: number //mean of difference
 	}
 	
-}
-
-
-export const API: {
-	dirname: () => string;
-	projdir: () => string;
-	runcmd: (cmd: string) => Promise<any>;
-	runpython: (file: any, options: any, isstr?: boolean) => Promise<any>;
-	
-	psychrometry: (
-		k: string[] | Object,
-		v?: number[]) => Psychrometry;
-	
-	test_z: (
-		x: Array<number>,
-		sd: number,
-		mu: number,
-		alternative: string = "two.sided",
-		conflevel: number = 0.95) => stat.test_z_result;
-	
-	test_f: (
-		x: Array<number>,
-		y: Array<number>,
-		ratio: number = 1.0,
-		alternative: string = "two.sided",
-		conflevel: number = 0.95) => stat.test_f_result;
-	
-	test_t1: (
-		x: Array<number>,
-		mu: number,
-		alternative: string = "two.sided",
-		conflevel: number = 0.95) => stat.test_t1_result;
-	
-	test_t2: (
-		x: Array<number>,
-		y: Array<number>,
-		mu: number,
-		varequal: boolean = true,
-		alternative: string = "two.sided",
-		conflevel: number = 0.95) => stat.test_t2_result;
-	
-	test_tpaired: (
-		x: Array<number>,
-		y: Array<number>,
-		mu: number,
-		alternative: string = "two.sided",
-		conflevel: number = 0.95) => stat.test_tpaired_result;
 }
 
 declare global

@@ -107,9 +107,10 @@ let p_PyHomes = div.appendChild(document.createElement("p"));
 
 
 window.api.runcmd("py --list-paths").
-then((output:string)=> 
+//@ts-ignore
+then(output=> 
 {	
-	GenerateHTMLPythonList(output, div);
+	GenerateHTMLPythonList(output as string, div);
 }).
 catch((error:string)=>
 {

@@ -78,7 +78,7 @@ btnOutdated.onclick = async function(evt)
 
 		let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip list -o --format=json "
 		let output = await window.api.runcmd(cmd);
-		json = JSON.parse(output);
+		json = JSON.parse(output as string);
 	}
 	catch(e) 
 	{
@@ -121,7 +121,7 @@ btnOutdated.onclick = async function(evt)
 					" -m pip install --upgrade " + e.name;
 				let output = await window.api.runcmd(UpgradeCmd);
 				divPip.scrollIntoView();
-				divPip.innerText=output;
+				divPip.innerText = <string>output;
 
 				DisableButtons(false);
 			}
@@ -142,8 +142,7 @@ btnOutdated.onclick = async function(evt)
 
 
 const btnInstalled = document.querySelector('#btnInstalled') as HTMLButtonElement;
-btnInstalled.onclick = async function(evt)
-{
+btnInstalled.onclick = async function(evt) {
 	const divModules = document.querySelector('#modules') as HTMLDivElement;
 	divModules.innerHTML="Working on it...";
 
@@ -156,7 +155,7 @@ btnInstalled.onclick = async function(evt)
 
 		let cmd = "py -"+localStorage.getItem("pyversion") + " -m pip list --format=json "
 		let output = await window.api.runcmd(cmd);
-		json = JSON.parse(output);
+		json = JSON.parse(output as string);
 	}
 	catch(e) {
 		divModules.innerText = e as string;
@@ -190,8 +189,7 @@ btnInstalled.onclick = async function(evt)
 		table.appendChild(row);
 
 		btnInfo.disabled = !window.navigator.onLine;
-		btnInfo.onclick = async (evt)=>
-		{
+		btnInfo.onclick = async (evt)=> {
 			try {
 				DisableButtons();
 				divPip.innerText="";
@@ -200,7 +198,7 @@ btnInstalled.onclick = async function(evt)
 					" -m pip show " + e.name;
 				let output = await window.api.runcmd(ShowCmd);
 				divPip.scrollIntoView();
-				divPip.innerText=output;
+				divPip.innerText = output as string;
 
 				DisableButtons(false);
 			}
@@ -210,8 +208,7 @@ btnInstalled.onclick = async function(evt)
 			}
 		}
 
-		btnRemove.onclick = async (evt)=>
-		{
+		btnRemove.onclick = async (evt)=>{
 			try {
 				divPip.innerText = "";
 					
@@ -222,7 +219,7 @@ btnInstalled.onclick = async function(evt)
 
 				let output = await window.api.runcmd(remCmd);
 				divPip.scrollIntoView();
-				divPip.innerText = output;
+				divPip.innerText = output as string;
 
 				DisableButtons(false);
 			}		
