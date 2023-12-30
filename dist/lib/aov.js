@@ -1,4 +1,5 @@
-export function aov(args) {
+//ANALYSIS OF VARIANCE
+export function aov_oneway(args) {
     let SS_Treatment = 0, SS_Error = 0, SS_Total = 0;
     let NEntries = 0;
     //C is a variable defined to speed up computations (see Larsen Marx Chapter 12 on ANOVA)

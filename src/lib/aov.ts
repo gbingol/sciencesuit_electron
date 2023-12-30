@@ -1,4 +1,6 @@
-export function aov(args:number[][])
+//ANALYSIS OF VARIANCE
+
+export function aov_oneway(args: number[][])
 {
 	let SS_Treatment = 0, SS_Error = 0, SS_Total = 0;
 	let NEntries = 0;
