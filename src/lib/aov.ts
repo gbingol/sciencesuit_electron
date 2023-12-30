@@ -69,3 +69,39 @@ export function aov_oneway(args: number[][])
 
 	return Dict;
 }
+
+function tukey(Alpha: number, anovaResult:Object): Array
+{
+/*
+	perform tukey test \n
+	tukey(Alpha)-> list
+*/
+
+if(len(self.m_Averages) == 0):
+	raise RuntimeError("first compute must be called")
+
+if(isinstance(Alpha, numbers.Number) == False):
+	raise TypeError("Alpha must be of type number")
+
+D = qdist(1-Alpha, self.m_DFTreatment-1, self.m_DFError-1) / math.sqrt(self.m_SampleSizes[0])
+ConfIntervalLength = D*math.sqrt(self.m_MSError)
+
+self.m_TukeyTable=[]
+for i in range(len(self.m_Averages)):
+	for j in range(i+1, len(self.m_Averages)):
+		MeanValueDiff = self.m_Averages[i]-self.m_Averages[j]
+		ConfInterval1 = MeanValueDiff-ConfIntervalLength
+		ConfInterval2 = MeanValueDiff+ConfIntervalLength
+
+		com = self.TukeyComparison()
+
+		com.m_a=i
+		com.m_b=j
+		com.m_MeanValueDiff=MeanValueDiff
+		com.m_CILow = min(ConfInterval1,ConfInterval2)
+		com.m_CIHigh = max(ConfInterval1,ConfInterval2)
+
+		self.m_TukeyTable.append(com)
+
+return self.m_TukeyTable
+}
