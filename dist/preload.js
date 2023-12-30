@@ -4,6 +4,7 @@ const path = require('node:path');
 const { exec } = require('child_process');
 const scicore = require('./cpp/sci_core.js');
 const stattests = require('./cpp/sci_stat_tests.js');
+const statdists = require('./cpp/sci_stat_tests.js');
 let { PythonShell } = require('python-shell');
 //Run a termina command
 function RunCmd(cmd) {
@@ -51,6 +52,11 @@ const API = {
     },
     test_tpaired: (x, y, mu, alternative = "two.sided", conflevel = 0.95) => {
         return stattests.test_tpaired(x, y, mu, alternative, conflevel);
+    },
+    dist: {
+        pf: (x, df1, df2) => {
+            return statdists.dist_pf(x, df1, df2);
+        }
     }
 };
 module.exports = { API };

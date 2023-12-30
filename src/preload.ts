@@ -4,25 +4,9 @@ const { exec } = require('child_process');
 
 const scicore = require('./cpp/sci_core.js');
 const stattests = require('./cpp/sci_stat_tests.js');
+const statdists = require('./cpp/sci_stat_tests.js');
 let {PythonShell} = require('python-shell');
 
-
-
-//Run a termina command
-function RunCmd(cmd:string) 
-{
-	return new Promise((resolve, reject)=>
-	{
-		//@ts-ignore
-		exec(cmd, (error, stdout, stderr) =>
-		{
-			if (error)
-				reject(error);
-			else 
-				resolve(stdout);
-		});
-	});
-}
 
 
 const API =
@@ -39,7 +23,17 @@ const API =
 
 	runcmd: (cmd:string) =>
 	{
-		return RunCmd(cmd);
+		return new Promise((resolve, reject)=>
+		{
+			//@ts-ignore
+			exec(cmd, (error, stdout, stderr) =>
+			{
+				if (error)
+					reject(error);
+				else 
+					resolve(stdout);
+			});
+		});
 	},
 
 	runpython: (input:string, options:Object, isstr = false) =>
@@ -82,6 +76,15 @@ const API =
 	test_tpaired: (x:number[], y:number[], mu:number, alternative = "two.sided", conflevel = 0.95) =>
 	{
 		return stattests.test_tpaired(x, y, mu, alternative, conflevel)
+	},
+
+	//Statistical Distributions
+	dist: 
+	{
+		pf: (x: number[] | number, df1: number, df2:number):number[] | number =>
+		{
+			return statdists.dist_pf(x, df1, df2);
+		}
 	}
 }
 
