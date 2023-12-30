@@ -62,8 +62,8 @@ const API = {
     runpython: runpython,
     //core functions
     psychrometry: psychrometry,
-    //statistical tests
     stat: {
+        //statistical tests
         test_z: test_z,
         test_f: test_f,
         test_t1: test_t1,
