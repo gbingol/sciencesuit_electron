@@ -1,6 +1,6 @@
 import { round, linearinterp } from '../lib/sci_math.js';
 import { addInputListener, checkInputs } from './psyutil.js';
-import { Water, findIndexes } from '../lib/water.js';
+import { Water, findIndexes } from '../lib/eng/water.js';
 const btn = document.getElementById('compute');
 const txtP = document.getElementById('txtP');
 const txtT1 = document.getElementById('txtT1');
