@@ -12,3 +12,14 @@ export function FilterNumbers(arr) {
 export function ToStringArray(arr) {
     return arr.map(e => String(e));
 }
+export function polyval(x, Coeffs) {
+    /*
+    Given the coefficients of a polynomial in a0 + a1*x + a2*x^2 + ...
+    evaluates x
+    */
+    let sum = 0;
+    for (let i = 0; i < Coeffs.length; i++) {
+        sum += Coeffs[i] * Math.pow(x, i);
+    }
+    return sum;
+}
