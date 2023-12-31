@@ -1,7 +1,7 @@
 import { Worksheet, Range } from "../../lib/comp/grid.js";
-import * as np from "../../lib/sci_math.js";
 import * as util from "../../lib/util.js";
 import { get, set } from "../../../node_modules/idb-keyval/dist/index.js";
+import { aov_oneway } from "../../lib/aov.js";
 const PAGEID = "AOV_ONEWAY";
 const WSKEY = PAGEID + "_WS";
 let UserInputs = new Map();
@@ -26,70 +26,36 @@ window.onload = (evt) => {
 };
 let btnCompute = document.querySelector("#compute");
 btnCompute.onclick = ((evt) => {
-    let txtxdata = document.querySelector("#xdata");
-    let txtydata = document.querySelector("#ydata");
-    let txtmu = document.querySelector("#mu");
-    let chkVarEqual = document.querySelector("#varequal");
+    let txtresponse = document.querySelector("#response");
+    let txtfactors = document.querySelector("#factors");
     let txtconflevel = document.querySelector("#conflevel");
-    let selalternative = document.querySelector("#alternative");
+    let chkStacked = document.querySelector("#stacked");
+    let chkTukey = document.querySelector("#tukey");
     const inputs = document.querySelectorAll("#inputtable input, select");
     for (let input of inputs) {
         if (input instanceof HTMLInputElement || input instanceof HTMLSelectElement) {
-            if (input.value === "")
+            if (!input.disabled && input.value === "")
                 throw new Error("All entries must have valid values");
             UserInputs.set(input.id, input.value);
         }
     }
     try {
-        let mu = parseFloat(txtmu.value);
         let conflevel = parseFloat(txtconflevel.value);
-        let alternative = selalternative.value;
-        let varequal = chkVarEqual.checked;
+        let IsStacked = chkStacked.checked;
+        let IsTukey = chkTukey.checked;
         let NDigits = parseInt(document.querySelector("#txtDigits").value);
         if (conflevel < 0 || conflevel > 100)
             throw new Error("Confidence level must be [0, 100]");
-        let rng = new Range(txtxdata.value, ws);
-        if (rng.ncols != 1)
-            throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
-        let xdata = util.FilterNumbers(rng.data[0]);
-        rng = new Range(txtydata.value, ws);
-        if (rng.ncols != 1)
-            throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
-        let ydata = util.FilterNumbers(rng.data[0]);
-        let results = window.api.stat.test_t2(xdata, ydata, mu, varequal, alternative, conflevel / 100);
+        let rng = new Range(txtresponse.value, ws);
+        if (IsStacked == false && rng.ncols < 3)
+            throw new Error(`Range contains ${rng.ncols} columns. At least 3 expected!`);
+        let responses = [];
+        for (let d of rng.data)
+            responses.push(util.FilterNumbers(d));
+        let results = aov_oneway(responses);
+        console.log(results);
+        return;
         let s = "<table>";
-        s += "<tr>";
-        s += "<td>Observation</td>";
-        s += "<td>" + results.n1 + "</td>";
-        s += "<td>" + results.n2 + "</td>";
-        s += "</tr>";
-        s += "<tr>";
-        s += "<td>Mean</td>";
-        s += "<td>" + np.round(results.xaver, NDigits) + "</td>";
-        s += "<td>" + np.round(results.yaver, NDigits) + "</td>";
-        s += "</tr>";
-        s += "<tr>";
-        s += "<td>Std Deviation</td>";
-        s += "<td>" + np.round(results.s1, NDigits) + "</td>";
-        s += "<td>" + np.round(results.s2, NDigits) + "</td>";
-        s += "</tr>";
-        if (varequal) {
-            s += "<tr>";
-            s += "<td>Pooled variance</td>";
-            s += "<td colspan=2>" + np.round(results.sp, NDigits) + "</td>";
-            s += "</tr>";
-        }
-        s += "<tr><td colspan=3>&nbsp;</td></tr>";
-        s += "<tr>";
-        s += "<td>t<sub>critical</sub></td>";
-        s += "<td colspan=2>" + np.round(results.tcritical, NDigits) + "</td>";
-        s += "</tr>";
-        s += "<tr>";
-        s += "<td>p-value</td>";
-        s += "<td colspan=2>" + np.round(results.pvalue, NDigits) + "</td>";
-        s += "</tr>";
-        s += "<tr><td colspan=3>" + txtconflevel.value + "% Confidence Interval (" +
-            np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td></tr>";
         s += "</table>";
         let divCopy = document.createElement("div-copydel");
         let outDiv = document.querySelector("#maincontent").appendChild(divCopy);
