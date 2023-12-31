@@ -1,9 +1,9 @@
-import {Worksheet, Range, Cell} from "../lib/comp/grid.js";
-import * as np from "../lib/sci_math.js";
-import * as util from "../lib/util.js";
-import {get, set} from "../../node_modules/idb-keyval/dist/index.js";
+import {Worksheet, Range, Cell} from "../../lib/comp/grid.js";
+import * as np from "../../lib/sci_math.js";
+import * as util from "../../lib/util.js";
+import {get, set} from "../../../node_modules/idb-keyval/dist/index.js";
 
-const PAGEID = "TESTTPAIRED";
+const PAGEID = "TESTF";
 const WSKEY = PAGEID + "_WS";
 
 
@@ -45,7 +45,7 @@ btnCompute.onclick = ((evt)=>
 {
 	let txtxdata = document.querySelector("#xdata") as HTMLInputElement;
 	let txtydata = document.querySelector("#ydata") as HTMLInputElement;
-	let txtmu = document.querySelector("#mu") as HTMLInputElement;
+	let txtratio = document.querySelector("#ratio") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
 	let selalternative = document.querySelector("#alternative") as HTMLSelectElement;
 	
@@ -63,7 +63,7 @@ btnCompute.onclick = ((evt)=>
 
 	try
 	{
-		let mu = parseFloat(txtmu.value);
+		let ratio = parseFloat(txtratio.value);
 		let conflevel = parseFloat(txtconflevel.value);
 		let alternative = selalternative.value;
 		let NDigits = parseInt((document.querySelector("#txtDigits")  as HTMLInputElement).value);
@@ -81,57 +81,41 @@ btnCompute.onclick = ((evt)=>
 			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
 		let ydata = util.FilterNumbers(rng.data[0]);
 
-		let results = window.api.stat.test_tpaired(xdata, ydata, mu, alternative, conflevel/100);
+		let results = window.api.stat.test_f(xdata, ydata, ratio, alternative, conflevel / 100);
 		
-		let s = `<table><tr>
-		<th></th>
-		<th>N</th>
-		<th>Mean</th>
-		<th>Std Deviation</th>
-		<th>SE Mean</th>
-		</tr>
-		`;
+		let s = `<table>
+			<tr>
+				<th>&nbsp;</th>
+				<th>df</th>
+				<th>variance</th>
+			</tr>`;
 		
 		s += "<tr>"
 		s += "<td>Sample 1</td>";
-		s += "<td>" + results.N + "</td>";
-		s += "<td>" + np.round(results.xaver, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s1, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s1/Math.sqrt(results.N), NDigits) + "</td>";	
+		s += "<td>" + results.df1 + "</td>";
+		s += "<td>" + np.round(results.var1, NDigits) + "</td>";
 		s += "</tr>";
 
 		s += "<tr>"
 		s += "<td>Sample 2</td>";
-		s += "<td>" + results.N + "</td>";
-		s += "<td>" + np.round(results.yaver, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s2, NDigits) + "</td>";
-		s += "<td>" + np.round(results.s2/Math.sqrt(results.N), NDigits) + "</td>";	
+		s += "<td>" + results.df2 + "</td>";
+		s += "<td>" + np.round(results.var2, NDigits) + "</td>";
 		s += "</tr>";
 
-		s += "<tr>"
-		s += "<td>Difference</td>";
-		s += "<td>&nbsp;</td>";
-		s += "<td>" + np.round(results.mean, NDigits) + "</td>";
-		s += "<td>" + np.round(results.stdev, NDigits) + "</td>";
-		s += "<td>&nbsp;</td>";
-		s += "</tr>";
-
-
-		s += "<tr><td colspan=5>&nbsp;</td></tr>";
+		s += "<tr><td colspan=3>&nbsp;</td></tr>";
 
 		s += "<tr>"
-		s += "<td>t<sub>critical</sub></td>";
-		s += "<td colspan=4 style='text-align: left;'> " + np.round(results.tcritical, NDigits) + "</td>";
+		s += "<td>F<sub>critical</sub></td>";
+		s += "<td colspan=2 style='text-align:left;'>" + np.round(results.fcritical, NDigits) + "</td>";
 		s += "</tr>";
 
 		s += "<tr>"
 		s += "<td>p-value</td>";
-		s += "<td colspan=4 style='text-align: left;'> " +  np.round(results.pvalue, NDigits) + "</td>";
+		s += "<td colspan=2 style='text-align:left;'>" +  np.round(results.pvalue, NDigits) + "</td>";
 		s += "</tr>";
 
-		s += "<tr><td colspan=5>&nbsp;</td></tr>";
 		
-		s += "<tr><td colspan=5>" + txtconflevel.value + "% Confidence Interval (" +
+		s += "<tr><td colspan=3>" + txtconflevel.value + "% Confidence Interval (" +
 			np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td></tr>";
 		
 		s += "</table>";

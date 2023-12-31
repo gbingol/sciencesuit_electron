@@ -3,12 +3,12 @@
 <head>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>F-test</title>
+	<title>Paired t-test</title>
 
-	<link href="../css/common.css" rel="stylesheet">
+	<link href="../../css/common.css" rel="stylesheet">
 
-	<script type="module" src="../lib/comp/div_copydel.js" defer></script>
-	<script src="../lib/comp/div_transientpopwnd.js" defer></script>
+	<script type="module" src="../../lib/comp/div_copydel.js" defer></script>
+	<script src="../../lib/comp/div_transientpopwnd.js" defer></script>
 
 	<style>
 		table.input{
@@ -22,12 +22,12 @@
 <body>
 
 
-<script src="../mainmenu.js"></script>
+<script src="../../mainmenu.js"></script>
 
 
 <div id="maincontent">
 
-<h1>F-test</h1>
+<h1>Paired t-test</h1>
 
 
 <div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
@@ -43,17 +43,16 @@
 		<td>y-data:</td>
 		<td><input type="text" value="" id="ydata" placeholder="Range (B1:B10)"></td>
 	</tr>
-	
-	<tr>
-		<td>Ratio: </label></td>
-		<td><input type="text" id="ratio" value="1.0"></td>
-	</tr>
 
+	<tr>
+		<td>Mean difference: </label></td>
+		<td><input type="text" id="mu" value="0.0"></td>
+	</tr>
+	
 	<tr>
 		<td>Confidence: </label></td>
 		<td><input type="text" id="conflevel" value="95"></td>
 	</tr>
-
 
 	<tr>
 		<td>Alternative: </label></td>
@@ -80,7 +79,7 @@
 	
 <div id="info"></div>
 
-<script type="module" src="test_f.js"></script>
+<script type="module" src="test_tpaired.js"></script>
 
 
 </div>

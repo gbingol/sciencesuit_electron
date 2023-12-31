@@ -1,7 +1,7 @@
-import {Worksheet, Range, Cell} from "../lib/comp/grid.js";
-import * as np from "../lib/sci_math.js";
-import * as util from "../lib/util.js";
-import {get, set} from "../../node_modules/idb-keyval/dist/index.js";
+import {Worksheet, Range, Cell} from "../../lib/comp/grid.js";
+import * as np from "../../lib/sci_math.js";
+import * as util from "../../lib/util.js";
+import {get, set} from "../../../node_modules/idb-keyval/dist/index.js";
 
 const PAGEID = "TESTT2";
 const WSKEY = PAGEID + "_WS";

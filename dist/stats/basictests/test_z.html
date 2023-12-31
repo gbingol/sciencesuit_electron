@@ -3,12 +3,12 @@
 <head>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>1 sample t-test</title>
+	<title>z-test</title>
 
-	<link href="../css/common.css" rel="stylesheet">
+	<link href="../../css/common.css" rel="stylesheet">
 
-	<script type="module" src="../lib/comp/div_copydel.js" defer></script>
-	<script src="../lib/comp/div_transientpopwnd.js" defer></script>
+	<script type="module" src="../../lib/comp/div_copydel.js" defer></script>
+	<script src="../../lib/comp/div_transientpopwnd.js" defer></script>
 
 	<style>
 		table{
@@ -21,12 +21,12 @@
 <body>
 
 
-<script src="../mainmenu.js"></script>
+<script src="../../mainmenu.js"></script>
 
 
 <div id="maincontent">
 
-<h1>One-Sample t-test</h1>
+<h1>z-test</h1>
 
 
 <div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
@@ -37,9 +37,15 @@
 		<td>Data:</td>
 		<td><input type="text" value="" id="x" placeholder="Data range (A1:A10)"></td>
 	</tr>
+
+	<tr>
+		<td>&sigma;: </label></td>
+		<td><input type="text" id="sd" placeholder="Standard deviation of population"></td>
+	</tr>
+
 	<tr>
 		<td>&mu;: </label></td>
-		<td><input type="text" id="mu" placeholder="Test mean"></td>
+		<td><input type="text" id="mu" placeholder="Assumed mean of population"></td>
 	</tr>
 	
 	<tr>
@@ -72,7 +78,7 @@
 	
 <div id="info"></div>
 
-<script type="module" src="test_t1.js"></script>
+<script type="module" src="test_z.js"></script>
 
 
 </div>

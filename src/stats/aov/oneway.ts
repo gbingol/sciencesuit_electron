@@ -1,9 +1,9 @@
-import {Worksheet, Range, Cell} from "../lib/comp/grid.js";
-import * as np from "../lib/sci_math.js";
-import * as util from "../lib/util.js";
-import {get, set} from "../../node_modules/idb-keyval/dist/index.js";
+import {Worksheet, Range, Cell} from "../../lib/comp/grid.js";
+import * as np from "../../lib/sci_math.js";
+import * as util from "../../lib/util.js";
+import {get, set} from "../../../node_modules/idb-keyval/dist/index.js";
 
-const PAGEID = "TESTZ";
+const PAGEID = "AOV_ONEWAY";
 const WSKEY = PAGEID + "_WS";
 
 
@@ -43,9 +43,10 @@ window.onload = (evt)=>
 let btnCompute = document.querySelector("#compute") as HTMLButtonElement;
 btnCompute.onclick = ((evt)=>
 {
-	let txtxdata = document.querySelector("#x") as HTMLInputElement;
-	let txtsd = document.querySelector("#sd") as HTMLInputElement;
+	let txtxdata = document.querySelector("#xdata") as HTMLInputElement;
+	let txtydata = document.querySelector("#ydata") as HTMLInputElement;
 	let txtmu = document.querySelector("#mu") as HTMLInputElement;
+	let chkVarEqual = document.querySelector("#varequal") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
 	let selalternative = document.querySelector("#alternative") as HTMLSelectElement;
 	
@@ -63,49 +64,72 @@ btnCompute.onclick = ((evt)=>
 
 	try
 	{
-		let stdev = parseFloat(txtsd.value);
 		let mu = parseFloat(txtmu.value);
 		let conflevel = parseFloat(txtconflevel.value);
 		let alternative = selalternative.value;
+		let varequal = chkVarEqual.checked;
 		let NDigits = parseInt((document.querySelector("#txtDigits")  as HTMLInputElement).value);
 
 		if(conflevel<0 || conflevel>100)
 			throw new Error("Confidence level must be [0, 100]");
-
-		if (stdev <= 0)
-			throw new Error("standard deviation >0 expected");
 
 		let rng = new Range(txtxdata.value, ws);
 		if (rng.ncols != 1)
 			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
 		let xdata = util.FilterNumbers(rng.data[0]);
 
-		let results = window.api.stat.test_z(xdata, stdev, mu, alternative, conflevel/100);
-		
-		let s = `
-			<table>
-			<tr>
-			<th>N</th>
-			<th>Average</th>
-			<th>stdev</th>
-			<th>SE Mean</th>
-			<th>z</th>
-			<th>p-value</th>
-			</tr>`
+		rng = new Range(txtydata.value, ws);
+		if (rng.ncols != 1)
+			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
+		let ydata = util.FilterNumbers(rng.data[0]);
 
-		s += "<tr>";
-		s += "<td>"+results.N+ "</td>";
-		s += "<td>"+ np.round(results.mean, NDigits) + "</td>";
-		s += "<td>"+ np.round(results.stdev, NDigits) + "</td>";
-		s += "<td>"+ np.round(results.SE, NDigits) + "</td>";
-		s += "<td>"+ np.round(results.zcritical, NDigits) + "</td>";
-		s += "<td>" + np.round(results.pvalue, NDigits) + "</td>";
+		let results = window.api.stat.test_t2(xdata, ydata, mu, varequal, alternative, conflevel/100);
+		
+		let s = "<table>";
+		
+		s += "<tr>"
+		s += "<td>Observation</td>";
+		s += "<td>" + results.n1 + "</td>";
+		s += "<td>" + results.n2 + "</td>";
 		s += "</tr>";
 
 		s += "<tr>";
-		s += "<td colspan=6>" + txtconflevel.value + "% Confidence Interval (" +
-			np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td>";
-		s += "</tr></table>";
+		s += "<td>Mean</td>";
+		s += "<td>" + np.round(results.xaver, NDigits) + "</td>";
+		s += "<td>" + np.round(results.yaver, NDigits) + "</td>";
+		s += "</tr>";
+
+		s += "<tr>";
+		s += "<td>Std Deviation</td>";
+		s += "<td>" + np.round(results.s1, NDigits) + "</td>";
+		s += "<td>" + np.round(results.s2, NDigits) + "</td>";
+		s += "</tr>";
+
+		if (varequal)
+		{
+			s += "<tr>"
+			s += "<td>Pooled variance</td>";
+			s += "<td colspan=2>" + np.round(results.sp as number, NDigits) + "</td>";
+			s += "</tr>";
+		}
+
+		s += "<tr><td colspan=3>&nbsp;</td></tr>";
+
+		s += "<tr>"
+		s += "<td>t<sub>critical</sub></td>";
+		s += "<td colspan=2>" + np.round(results.tcritical, NDigits) + "</td>";
+		s += "</tr>";
+
+		s += "<tr>"
+		s += "<td>p-value</td>";
+		s += "<td colspan=2>" +  np.round(results.pvalue, NDigits) + "</td>";
+		s += "</tr>";
+
+		
+		s += "<tr><td colspan=3>" + txtconflevel.value + "% Confidence Interval (" +
+			np.round(results.CI_lower, NDigits) + ", " + np.round(results.CI_upper, NDigits) + ")</td></tr>";
+		
+		s += "</table>";
 
 		let divCopy = document.createElement("div-copydel");
 		let outDiv = (document.querySelector("#maincontent") as HTMLDivElement).appendChild(divCopy);
@@ -125,6 +149,4 @@ btnCompute.onclick = ((evt)=>
 		document.body.appendChild(msgBox);
 
 	}
-
-	
 });

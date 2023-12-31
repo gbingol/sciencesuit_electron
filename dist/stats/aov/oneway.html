@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>One-way ANOVA</title>
+
+	<link href="../../css/common.css" rel="stylesheet">
+
+	<script type="module" src="../../lib/comp/div_copydel.js" defer></script>
+	<script src="../../lib/comp/div_transientpopwnd.js" defer></script>
+
+	<style>
+		table.input{
+			background-color: floralwhite;	
+		}
+
+    </style>
+</head>
+
+
+<body>
+
+
+<script src="../../mainmenu.js"></script>
+
+
+<div id="maincontent">
+
+<h1>One-way ANOVA</h1>
+
+
+<div id="myGrid" style="height:30em; width:50%; clear: both; resize: both; overflow: auto;"></div>
+
+
+<table class="input" id="inputtable">
+	<tr>
+		<td>Response:</td>
+		<td><input type="text" value="" id="response" placeholder="Range (A1:A10)"></td>
+	</tr>
+
+	<tr>
+		<td>Factors:</td>
+		<td><input type="text" value="" id="factors" placeholder="Range (B1:B10)" disabled></td>
+	</tr>
+
+	
+	<tr>
+		<td>Confidence: </label></td>
+		<td><input type="text" id="conflevel" value="95"></td>
+	</tr>
+
+	<tr>
+		<td>Stacked: </label></td>
+		<td><input type="checkbox" id="stacked" value="0"></td>
+	</tr>
+
+	<tr>
+		<td>Tukey's Test: </label></td>
+		<td><input type="checkbox" id="tukey" value="0"></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" style="text-align: center; padding-top: 12px;">
+			<label style="float: left;" for="digits">Digits:</label>
+			<input style="width: 3em; float: left;" type="number" value="3" min="1" max="6" id="txtDigits">
+			
+			<button id="compute" type="button">Compute</button>
+		</td>
+	</tr>
+		
+</table>
+	
+<div id="info"></div>
+
+<script type="module" src="oneway.js"></script>
+
+
+</div>
+
+</body>
+</html>
