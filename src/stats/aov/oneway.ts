@@ -81,9 +81,9 @@ btnCompute.onclick = ((evt)=>
 			responses.push(util.FilterNumbers(d));
 
 
-		let results = aov_oneway(responses);
+		let res = aov_oneway(responses);
 		
-		let s = `
+		let AOVTable = `
 		<table>
 		<tr>
 			<th>Source</th>
@@ -93,15 +93,37 @@ btnCompute.onclick = ((evt)=>
 			<th>F</th>
 			<th>P</th>
 		</tr>
+		<tr>
+			<td>Treatment</td>
+			<td>${np.round(res.DF_Treatment, NDigits)}</td>
+			<td>${np.round(res.SS__Treatment, NDigits)}</td>
+			<td>${np.round(res.MS_Treatment, NDigits)}</td>
+			<td>${np.round(res.Fvalue, NDigits)}</td>
+			<td>${np.round(res.pvalue, NDigits)}</td>
+		</tr>
+		<tr>
+			<td>Error</td>
+			<td>${np.round(res.DF_Error, NDigits)}</td>
+			<td>${np.round(res.SS_Error, NDigits)}</td>
+			<td>${np.round(res.MS_Error, NDigits)}</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td>Total</td>
+			<td>${np.round(res.DF_Total, NDigits)}</td>
+			<td>${np.round(res.SS_Total, NDigits)}</td>
+			<td>${np.round(res.MS_Total, NDigits)}</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		</table>
 		`
-		
-		
-		
-		s += "</table>";
 
 		let divCopy = document.createElement("div-copydel");
 		let outDiv = (document.querySelector("#maincontent") as HTMLDivElement).appendChild(divCopy);
-		outDiv.innerHTML = s;
+		outDiv.innerHTML = AOVTable;
 		outDiv.scrollIntoView();
 
 		set(PAGEID, UserInputs).then(()=>console.log(""));

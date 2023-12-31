@@ -1,4 +1,5 @@
 import { Worksheet, Range } from "../../lib/comp/grid.js";
+import * as np from "../../lib/sci_math.js";
 import * as util from "../../lib/util.js";
 import { get, set } from "../../../node_modules/idb-keyval/dist/index.js";
 import { aov_oneway } from "../../lib/aov.js";
@@ -52,14 +53,47 @@ btnCompute.onclick = ((evt) => {
         let responses = [];
         for (let d of rng.data)
             responses.push(util.FilterNumbers(d));
-        let results = aov_oneway(responses);
-        console.log(results);
-        return;
-        let s = "<table>";
-        s += "</table>";
+        let res = aov_oneway(responses);
+        let AOVTable = `
+		<table>
+		<tr>
+			<th>Source</th>
+			<th>df</th>
+			<th>SS</th>
+			<th>MS</th>
+			<th>F</th>
+			<th>P</th>
+		</tr>
+		<tr>
+			<td>Treatment</td>
+			<td>${np.round(res.DF_Treatment, NDigits)}</td>
+			<td>${np.round(res.SS__Treatment, NDigits)}</td>
+			<td>${np.round(res.MS_Treatment, NDigits)}</td>
+			<td>${np.round(res.Fvalue, NDigits)}</td>
+			<td>${np.round(res.pvalue, NDigits)}</td>
+		</tr>
+		<tr>
+			<td>Error</td>
+			<td>${np.round(res.DF_Error, NDigits)}</td>
+			<td>${np.round(res.SS_Error, NDigits)}</td>
+			<td>${np.round(res.MS_Error, NDigits)}</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td>Total</td>
+			<td>${np.round(res.DF_Total, NDigits)}</td>
+			<td>${np.round(res.SS_Total, NDigits)}</td>
+			<td>${np.round(res.MS_Total, NDigits)}</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		</table>
+		`;
         let divCopy = document.createElement("div-copydel");
         let outDiv = document.querySelector("#maincontent").appendChild(divCopy);
-        outDiv.innerHTML = s;
+        outDiv.innerHTML = AOVTable;
         outDiv.scrollIntoView();
         set(PAGEID, UserInputs).then(() => console.log(""));
         set(WSKEY, ws.getDataCells()).then(() => console.log(""));
@@ -73,3 +107,18 @@ btnCompute.onclick = ((evt) => {
         document.body.appendChild(msgBox);
     }
 });
+/*
+Source	df			SS		MS		F	P
+Treatment	3		4194.333333	1398.111111	27.227091	0.000000
+Error	20	1027.0	51.350000
+Total	23	5221.333333	227.014493
+                    
+Pairwise Diff	Difference (i-j)	Tukey Interval
+1-2			-0.83	-12.41, 10.75
+1-3			-16.17	-27.75, -4.59
+1-4			-32.33	-43.91, -20.75
+2-3			-15.33	-26.91, -3.75
+2-4	-		31.5		-43.08, -19.92
+3-4			-16.17	-27.75, -4.59
+
+*/ 
