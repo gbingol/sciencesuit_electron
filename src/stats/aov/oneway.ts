@@ -82,10 +82,18 @@ btnCompute.onclick = ((evt)=>
 
 
 		let results = aov_oneway(responses);
-		console.log(results);
-		return;
 		
-		let s = "<table>";
+		let s = `
+		<table>
+		<tr>
+			<th>Source</th>
+			<th>df</th>
+			<th>SS</th>
+			<th>MS</th>
+			<th>F</th>
+			<th>P</th>
+		</tr>
+		`
 		
 		
 		
