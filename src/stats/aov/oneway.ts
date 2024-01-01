@@ -95,17 +95,17 @@ btnCompute.onclick = ((evt)=>
 		</tr>
 		<tr>
 			<td>Treatment</td>
-			<td>${np.round(res.DF_Treatment, NDigits)}</td>
-			<td>${np.round(res.SS__Treatment, NDigits)}</td>
-			<td>${np.round(res.MS_Treatment, NDigits)}</td>
+			<td>${np.round(res.DF_Treat, NDigits)}</td>
+			<td>${np.round(res.SS_Treat, NDigits)}</td>
+			<td>${np.round(res.MS_Treat, NDigits)}</td>
 			<td>${np.round(res.Fvalue, NDigits)}</td>
 			<td>${np.round(res.pvalue, NDigits)}</td>
 		</tr>
 		<tr>
 			<td>Error</td>
-			<td>${np.round(res.DF_Error, NDigits)}</td>
-			<td>${np.round(res.SS_Error, NDigits)}</td>
-			<td>${np.round(res.MS_Error, NDigits)}</td>
+			<td>${np.round(res.DF_Err, NDigits)}</td>
+			<td>${np.round(res.SS_Err, NDigits)}</td>
+			<td>${np.round(res.MS_Err, NDigits)}</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>

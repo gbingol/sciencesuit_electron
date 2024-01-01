@@ -4,12 +4,12 @@ import { linearinterp } from "./sci_math.js";
 
 export type oneway_aov_Results = {
 	pvalue:number,
-	DF_Treatment:number,
-	SS__Treatment:number, 
-	MS_Treatment:number,
-	DF_Error:number, 
-	SS_Error:number, 
-	MS_Error:number,
+	DF_Treat:number,
+	SS_Treat:number, 
+	MS_Treat:number,
+	DF_Err:number, 
+	SS_Err:number, 
+	MS_Err:number,
 	DF_Total: number, 
 	SS_Total:number, 
 	MS_Total: number,
@@ -78,12 +78,12 @@ export function aov_oneway(args: number[][])
 	let Dict:oneway_aov_Results = 
 	{
 		pvalue:pvalue,
-		DF_Treatment:DFTreatment,
-		SS__Treatment:SS_Treatment, 
-		MS_Treatment:MS_Treatment,
-		DF_Error:DFError, 
-		SS_Error:SS_Error, 
-		MS_Error:MSError,
+		DF_Treat:DFTreatment,
+		SS_Treat:SS_Treatment, 
+		MS_Treat:MS_Treatment,
+		DF_Err:DFError, 
+		SS_Err:SS_Error, 
+		MS_Err:MSError,
 		DF_Total: DF_Total, 
 		SS_Total:SS_Total, 
 		MS_Total: SS_Total/DF_Total,
@@ -103,8 +103,8 @@ export function tukey(Alpha: number, Results:oneway_aov_Results)
 		perform tukey test \n
 		tukey(Alpha)-> list
 	*/
-	let D = qdist(1-Alpha, Results.DF_Treatment-1, Results.DF_Error-1) / Math.sqrt(Results.Sample_Sizes[0]);
-	let ConfIntervalLength = D*Math.sqrt(Results.MS_Error);
+	let D = qdist(1-Alpha, Results.DF_Treat-1, Results.DF_Err-1) / Math.sqrt(Results.Sample_Sizes[0]);
+	let ConfIntervalLength = D*Math.sqrt(Results.MS_Err);
 
 	let TukeyTable:TukeyComparison[] = []
 	for(let i=0; i<Results.Averages.length; i++)
