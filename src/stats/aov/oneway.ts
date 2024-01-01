@@ -2,10 +2,40 @@ import {Worksheet, Range, Cell} from "../../lib/comp/grid.js";
 import * as np from "../../lib/sci_math.js";
 import * as util from "../../lib/util.js";
 import { get, set } from "../../../node_modules/idb-keyval/dist/index.js";
-import { aov_oneway } from "../../lib/aov.js";
+import { aov_oneway, tukey } from "../../lib/aov.js";
 
 const PAGEID = "AOV_ONEWAY";
 const WSKEY = PAGEID + "_WS";
+
+
+function parseFactors(factors: string[], responses: number[])
+{
+	/*
+	Input: 
+	Reponse = [1,2,3,4]
+	Factors = ["A", "B", "A", "B"]
+
+	Output: 2D array (without header)
+	A	B
+	1	2
+	3	4
+	*/
+	let unique = [... new Set(factors)];
+	let retArr: number[][] = [];
+
+	unique.forEach(e => retArr.push([]));
+
+	for (let i = 0; i < factors.length; ++i)
+	{
+		for (let j = 0; j < unique.length; j++)
+		{
+			if (factors[i] === unique[j])
+				retArr[j].push(responses[i]);
+		}	
+	}
+
+	return retArr;
+}
 
 
 let UserInputs = new Map<string, string>();
@@ -20,6 +50,8 @@ ws.init().then(gridOptions=> {
 			ws.loadData(value);
 	});
 });
+
+let IsStacked = false;
 
 
 window.onload = (evt)=>
@@ -38,7 +70,17 @@ window.onload = (evt)=>
 		}
 	);
 	
+	let chkStacked = document.querySelector("#stacked") as HTMLInputElement;
+	let txtfactors = document.querySelector("#factors") as HTMLInputElement;
+	IsStacked = chkStacked.checked;
+
+	chkStacked.addEventListener("change", (evt:Event) => {
+		IsStacked = chkStacked.checked;
+		txtfactors.disabled = !chkStacked.checked;
+	});
+
 }
+
 
 
 let btnCompute = document.querySelector("#compute") as HTMLButtonElement;
@@ -47,7 +89,6 @@ btnCompute.onclick = ((evt)=>
 	let txtresponse = document.querySelector("#response") as HTMLInputElement;
 	let txtfactors = document.querySelector("#factors") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
-	let chkStacked = document.querySelector("#stacked") as HTMLInputElement;
 	let chkTukey = document.querySelector("#tukey") as HTMLInputElement;
 	
 	const inputs = document.querySelectorAll("#inputtable input, select");
@@ -65,7 +106,7 @@ btnCompute.onclick = ((evt)=>
 	try
 	{
 		let conflevel = parseFloat(txtconflevel.value);
-		let IsStacked = chkStacked.checked;
+		
 		let IsTukey = chkTukey.checked;
 		let NDigits = parseInt((document.querySelector("#txtDigits")  as HTMLInputElement).value);
 
@@ -77,13 +118,23 @@ btnCompute.onclick = ((evt)=>
 			throw new Error(`Range contains ${rng.ncols} columns. At least 3 expected!`);
 		
 		let responses: number[][] = [];
-		for(let d of rng.data)
-			responses.push(util.FilterNumbers(d));
+
+		if (!IsStacked) {
+			for (let d of rng.data)
+				responses.push(util.FilterNumbers(d));
+		}
+		else
+		{
+			let rngFactors = new Range(txtfactors.value, ws);
+			let factors = util.ToStringArray(rngFactors.data[0]);
+			let Response = util.FilterNumbers(rng.data[0]);
+			responses = parseFactors(factors, Response);
+		}
 
 
 		let res = aov_oneway(responses);
 		
-		let AOVTable = `
+		let Output = `
 		<table>
 		<tr>
 			<th>Source</th>
@@ -121,9 +172,40 @@ btnCompute.onclick = ((evt)=>
 		</table>
 		`
 
+		if (IsTukey)
+		{
+			let TukeyTable = `
+			<table>
+			<tr>
+				<th>Pairs</th>
+				<th>Difference (i-j)</th>
+				<th>Tukey Interval</th>
+			</tr>
+			`;
+			let result = tukey(1 - conflevel / 100, res);
+			for (let r of result)
+			{
+				if (r.CILow * r.CIHigh < 0)
+					TukeyTable += "<tr style='background-color: grey;'>";
+				else
+					TukeyTable += "<tr>";
+
+				TukeyTable += `
+					<td>${r.a + 1} - ${r.b + 1} </td>
+					<td>${np.round(r.MeanValueDiff, NDigits)}</td>
+					<td>${np.round(r.CILow, NDigits)} , ${np.round(r.CIHigh, NDigits)}</td>
+				</tr>
+				`
+			}
+			TukeyTable += "</table>"
+
+			Output += "<p>&nbsp;</p>";
+			Output += TukeyTable;
+		}
+
 		let divCopy = document.createElement("div-copydel");
 		let outDiv = (document.querySelector("#maincontent") as HTMLDivElement).appendChild(divCopy);
-		outDiv.innerHTML = AOVTable;
+		outDiv.innerHTML = Output;
 		outDiv.scrollIntoView();
 
 		set(PAGEID, UserInputs).then(()=>console.log(""));
@@ -140,20 +222,3 @@ btnCompute.onclick = ((evt)=>
 
 	}
 });
-
-
-/*
-Source	df			SS		MS		F	P
-Treatment	3		4194.333333	1398.111111	27.227091	0.000000
-Error	20	1027.0	51.350000		
-Total	23	5221.333333	227.014493		
-					
-Pairwise Diff	Difference (i-j)	Tukey Interval			
-1-2			-0.83	-12.41, 10.75			
-1-3			-16.17	-27.75, -4.59			
-1-4			-32.33	-43.91, -20.75			
-2-3			-15.33	-26.91, -3.75			
-2-4	-		31.5		-43.08, -19.92			
-3-4			-16.17	-27.75, -4.59			
-
-*/
