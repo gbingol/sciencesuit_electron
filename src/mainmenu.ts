@@ -20,9 +20,12 @@ function DesktopMenu(mBar: HTMLElement)
 
 	for (let lnk of links)
 	{
-		let a = mBar.appendChild(document.createElement("a"));
-		a.innerHTML = lnk.lbl;
-		a.href = window.api.dirname() +"/" + lnk.href;
+		let div = mBar.appendChild(document.createElement("div"));
+		div.innerHTML = lnk.lbl;
+		div.onclick = function(e)
+		{
+			location.href = window.api.dirname() +"/" + lnk.href;
+		}
 	}
 }
 
