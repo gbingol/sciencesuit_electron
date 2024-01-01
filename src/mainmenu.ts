@@ -1,11 +1,3 @@
-function createCSS()
-{
-	let link = document.head.appendChild(document.createElement("link"));
-	link.href = window.api.dirname() + "/" + "css/common.css";
-	link.rel = "stylesheet";
-}
-
-
 function sidePanel()
 {
 	let mBar = document.body.appendChild(document.createElement("div"));
@@ -34,7 +26,4 @@ function DesktopMenu(mBar: HTMLElement)
 	}
 }
 
-let pnl = sidePanel();
-createCSS();
-
-DesktopMenu(pnl);
+DesktopMenu(sidePanel());
