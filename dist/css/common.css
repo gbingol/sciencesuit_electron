@@ -12,6 +12,7 @@
 body{
 	display: flex;
 	gap: 0.5em;
+	margin-left: 0px;
 }
 
 
