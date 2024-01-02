@@ -1,6 +1,13 @@
+:root{
+	--linearbg: linear-gradient(to right, rgba(0,200,0,0), rgba(255,150,0,1));
+ }
+
+
+
 *{
 	box-sizing: border-box;
  }
+
  
 body{
 	display: flex;
@@ -21,7 +28,7 @@ body{
 	flex-direction: column;
 	z-index: 1;
 	gap: 1em;
-	background-image: linear-gradient(to right, rgba(0,200,0,0), rgba(255,150,0,1));
+	background-image: var(--linearbg);
 	min-height: 100vh;
 	display: none;
 }
@@ -44,15 +51,9 @@ body{
 #_togglesidepanel
 {
 	font-size: 1em;
-	background-image: linear-gradient(to right, rgba(0,200,0,0), rgba(255,150,0,1));
+	background-image: var(--linearbg);
 	min-height: 100vh;
 }
-
-#_togglesidepanel:hover
-{
-	cursor: pointer;
-}
-
 
 
 
