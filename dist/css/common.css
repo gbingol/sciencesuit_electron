@@ -23,17 +23,14 @@ body{
 
 #_sidepanel
 {
-	padding-top: 2em;
 	display: flex;
 	flex-direction: column;
-	z-index: 1;
+	padding-top: 2em;
 	gap: 1em;
 	background-image: var(--linearbg);
 	min-height: 100vh;
 	display: none;
 }
-
-
 
 #_sidepanel div
 {
@@ -42,15 +39,11 @@ body{
 	text-decoration: none;
 }
 
-#_sidepanel div:hover
-{
-	cursor: pointer;
-}
+#_sidepanel div:hover { cursor: pointer; }
 
 
 #_togglesidepanel
 {
-	font-size: 1em;
 	background-image: var(--linearbg);
 	min-height: 100vh;
 }
