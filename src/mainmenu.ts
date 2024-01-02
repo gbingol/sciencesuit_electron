@@ -1,12 +1,31 @@
 function sidePanel()
 {
-	let mBar = document.body.appendChild(document.createElement("div"));
-	mBar.id = "_sidepanel";
+	let Panel = document.body.appendChild(document.createElement("div"));
+	Panel.id = "_sidepanel";
 
-	return mBar;
+	Panel.addEventListener("mouseleave", (evt)=>{
+		let toggleBtn = document.querySelector("#_togglesidepanel") as HTMLDivElement;
+		toggleBtn.style.display = "block";
+		Panel.style.display = "none";
+	});
+
+	return Panel;
 }
 
+function ToggleSidePanel()
+{
+	let btn = document.body.appendChild(document.createElement("div"));
+	btn.innerHTML = "☰";
+	btn.id = "_togglesidepanel";
 
+	btn.addEventListener("mouseenter", (event)=>
+	{
+		let sidepanel = document.querySelector("#_sidepanel") as HTMLDivElement;
+		sidepanel.style.display = "block";
+		btn.style.display = "none";
+	});
+
+}
 
 function DesktopMenu(mBar: HTMLElement)
 {
@@ -29,4 +48,5 @@ function DesktopMenu(mBar: HTMLElement)
 	}
 }
 
+ToggleSidePanel();
 DesktopMenu(sidePanel());

@@ -7,6 +7,7 @@ var scinodebind = require("./cpp/nodebind.node");
 let {PythonShell} = require('python-shell');
 
 
+
 function dirname()
 {
 	return __dirname;
