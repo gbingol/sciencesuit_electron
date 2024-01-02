@@ -13,12 +13,13 @@ body{
 	display: flex;
 	gap: 0.5em;
 	margin-left: 0px;
+	margin-top: 0px;
 }
 
 
 #maincontent
 {
-	flex:8
+	flex:auto;
 }
 
 
@@ -85,6 +86,7 @@ table.input input[type=text]:focus
 
 
 h1{
+	margin-top: 0px;
 	color: dimgray;
 	background-image: var(--linearbg);
 }
