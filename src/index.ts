@@ -96,11 +96,11 @@ function GenerateHTMLPythonList(output:string, div:HTMLElement)
 	}
 }
 
-let div = (<HTMLElement>document.querySelector("#maincontent")).appendChild(document.createElement("div"));
+let div = (<HTMLDivElement>document.querySelector("#maincontent")).appendChild(document.createElement("div"));
 div.className = "PyHomes";
 
 let pHeader = div.appendChild(document.createElement("p"));
-pHeader.innerHTML = "Manage Python";
+pHeader.innerHTML = "Python Interpreter";
 pHeader.style.cssText = "text-align: center; color: red; font-weight: bold;";
 
 let p_PyHomes = div.appendChild(document.createElement("p"));

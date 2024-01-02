@@ -52,6 +52,32 @@ body{
 
 
 
+h1{
+	margin-top: 0px;
+	color: dimgray;
+	background-image: var(--linearbg);
+}
+
+h2 { color: red; }
+h3 { color: maroon; }
+h4 { color: green; }
+
+a{
+	font-size: large;
+}
+
+
+
+details { width: fit-content; }
+
+summary:hover { cursor: pointer; }
+
+p{
+	font-size:1.2em;
+	line-height: 1.5em; 
+}
+
+
 table.input
 {
 	margin-top: 1em;
@@ -85,138 +111,6 @@ table.input input[type=text]:focus
 }
 
 
-h1{
-	margin-top: 0px;
-	color: dimgray;
-	background-image: var(--linearbg);
-}
-
-h2 { color: red; }
-h3 { color: maroon; }
-h4 { color: green; }
-
-
-
-/*provides headings such as 1) 1.1).. */
-h2.head_l2 
-{
-	counter-increment: counter_h2;
-	counter-reset: counter_h3;
-	padding-top: 12px;
-	padding-bottom: 12px;
-}
-
-h3.head_l3 
-{
-	counter-increment: counter_h3;
-	counter-reset: counter_h4;
-}
-
-h4.head_l4 { counter-increment: counter_h4;}
-
-h2.head_l2::before { content: counter(counter_h2)") "; }
-h3.head_l3::before { content: counter(counter_h2)"."counter(counter_h3)") "; }
-h4.head_l4::before { content: counter(counter_h2)"."counter(counter_h3)"."counter(counter_h4)") ";}
-
-h2.head_l2_reset { counter-reset:level1; }
-
-
-details { width: fit-content; }
-
-summary:hover { cursor: pointer; }
-
-
-
-figure {
-	border: 1px #cccccc solid;
-	padding: 4px;
-	margin: auto;
-}
-
-figcaption {
-	font-style: italic;
-	padding: 2px;
-	text-align: left;
-}
-
-figcaption::before {font-weight: bold;}
-
-.figure {counter-increment: figures;}
-.figure figcaption::before { content: 'Fig. ' counter(figures) ': '; }
-.figure.reset{counter-reset: figures;}
-
-
-
-/**** Table formatting and captioning ****/
-
-table caption 
-{
-	font-style: italic;
-	padding: 2px;
-	padding-top: 10px;
-	text-align: left;
-}
-
-table caption::before {font-weight: bold;}
-
-
-.table {counter-increment: tables;}
-.table caption::before { content: 'Table ' counter(tables) ': '; }
-.table.reset{counter-reset: tables;}
-
-
-p{
-	font-size:1.2em;
-	line-height: 1.5em; 
-}
-
-
-/**** provides headings such as 1) 1.1).. ****/
-p.heading1 { counter-reset: level2; }
-
-p.heading2 
-{
-	counter-reset: level3;
-	margin-left: 20px;
-}
-
-p.heading3 
-{
-	counter-increment: level3;
-	margin-left: 40px;
-}
-
-p.heading1::before 
-{
-	counter-increment: level1;
-	font-weight:bold;   
-	content: counter(level1)") ";
-}
-
-p.heading2::before 
-{
-	counter-increment: level2;
-	font-weight:bold;
-	content: counter(level1)"."counter(level2)") ";
-}
-
-p.heading3::before 
-{
-	font-weight:bold;
-	content: counter(level1)"."counter(level2)"."counter(level3)") ";
-}
-
-p.reset { counter-reset:level1 level2; }
-
-
-
-iframe.youtube
-{
-	width: 35vw;
-	height: 35vh;
-}
-
-
 
 ol.linespaced li, ul.linespaced li 
 {
@@ -232,6 +126,13 @@ img.scaled
 	max-height: 50vh;
 }
 
+div.links
+{
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	overflow: visible;
+}
 
 
 @media only screen and (max-width:900px) 
@@ -257,6 +158,7 @@ img.scaled
 	}
 
 	p { margin-right: 4%; }
+
 }
 
 

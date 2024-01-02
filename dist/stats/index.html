@@ -6,39 +6,15 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Statistics</title>
 
-	<script src ="psyutil.js"></script>
 	<link href="../css/common.css" rel="stylesheet">
     <style>
-		div.links
-		{
-			display: flex;
-			flex-direction: row;
-			gap: 12px;
-			overflow: visible;
-		}
-
-		p.indent
-		{
-			text-indent: 1em;
-		}
-
-
-		@media only screen and (max-width:800px)
-		{
-			div.links
-			{
-				flex-direction: column;
-				gap: 12px;
-			}
-		}
+		p.indent { text-indent: 1em; }
     </style>
 </head>
 
 
 
 <body>
-
-
 
 <script src="../mainmenu.js"></script>
 
@@ -54,9 +30,13 @@
 <h2>Essential Tests</h2>
 
 <div class="links">
-	<a href="basictests/test_t1.html">One-sample t-test</a>
-	<a href="basictests/test_t2.html">Two-sample t-test</a>
-	<a href="basictests/test_tpaired.html">Paired t-test</a>
+	<div style="display: flex; flex-direction: row; gap: 1em;">
+		<span style="font-size: large;"><b>t-tests:</b></span>
+		<a href="basictests/test_t1.html">One-sample</a>
+		<a href="basictests/test_t2.html">Two-sample</a>
+		<a href="basictests/test_tpaired.html">Paired</a>
+	</div>
+	
 	<a href="basictests/test_z.html">z-test</a>
 	<a href="basictests/test_f.html">f-test</a>
 </div>
