@@ -33,7 +33,7 @@ function _DesktopMenu(mBar: HTMLElement)
 	let links = [
 		{"href":"index.html", "lbl": "Home" },
 		{ "href": "psychrometry/index.html", "lbl": "Psychrometry" },
-		{ "href": "thermalproc/index.html", "lbl": "Thermal Proc" },
+		{ "href": "fpe/index.html", "lbl": "FPE" },
 		{ "href": "stats/index.html", "lbl": "Statistics" },
 		{ "href": "pipmngr.html", "lbl": "PIP" },
 	];

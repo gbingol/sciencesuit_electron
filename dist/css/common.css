@@ -83,6 +83,10 @@ table.input input[type=text]:focus
 }
 
 
+h1{
+	color: dimgray;
+	background-image: var(--linearbg);
+}
 
 h2 { color: red; }
 h3 { color: maroon; }
