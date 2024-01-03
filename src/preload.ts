@@ -108,6 +108,15 @@ function test_tpaired(
 	return scinodebind.test_tpaired(x, y, mu, alternative, conflevel)
 }
 
+//two-factor anova
+function test_aov2(
+	responses:number[], 
+	factor1:string[], 
+	factor2:string[])
+{
+	return scinodebind.test_aov2(responses, factor1, factor2);
+}
+
 
 function pf(
 	x: number[] | number, 
@@ -150,6 +159,7 @@ const API =
 		test_t1: test_t1,
 		test_t2: test_t2,
 		test_tpaired: test_tpaired,
+		test_aov2: test_aov2,
 
 		//Statistical Distributions
 		dist:

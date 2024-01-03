@@ -2,6 +2,7 @@ import {Worksheet, Range, Cell} from "../../lib/comp/grid.js";
 import * as np from "../../lib/sci_math.js";
 import * as util from "../../lib/util.js";
 import {get, set} from "../../../node_modules/idb-keyval/dist/index.js";
+import { stat } from "../../global.js";
 
 const PAGEID = "TESTT2";
 const WSKEY = PAGEID + "_WS";
@@ -83,7 +84,7 @@ btnCompute.onclick = ((evt)=>
 			throw new Error(`Range contains ${rng.ncols} columns. 1 expected!`);
 		let ydata = util.FilterNumbers(rng.data[0]);
 
-		let results = window.api.stat.test_t2(xdata, ydata, mu, varequal, alternative, conflevel/100);
+		let results:stat.test_t2_result = window.api.stat.test_t2(xdata, ydata, mu, varequal, alternative, conflevel/100);
 		
 		let s = "<table>";
 		
