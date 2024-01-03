@@ -15,7 +15,7 @@ export function FilterNumbers(arr: any[]): number[]
 //All types can be converted to string!
 export function ToStringArray(arr: any[]): string[]
 {
-	return arr.map(e => String(e));
+	return arr.map(e => String(e).trim());
 }
 
 export function polyval(x:number, Coeffs:number[])
