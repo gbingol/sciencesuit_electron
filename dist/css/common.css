@@ -10,8 +10,6 @@
 
  
 body{
-	display: flex;
-	gap: 0.5em;
 	margin-left: 0px;
 	margin-top: 0px;
 }
@@ -19,20 +17,21 @@ body{
 
 #maincontent
 {
-	flex:auto;
-	padding-left: 1em;
+	padding-left: 1.5em;
+	display: block;
 }
 
 
 #_sidepanel
 {
-	display: flex;
+	display: none;
 	flex-direction: column;
 	padding-top: 2em;
 	gap: 1em;
-	background-image: var(--linearbg);
+	background-image: linear-gradient(to right, rgba(255,200,255,1), rgba(255,150,0,1));
 	min-height: 100vh;
-	display: none;
+	position: fixed;
+	z-index: 1;
 }
 
 #_sidepanel div
@@ -42,13 +41,9 @@ body{
 	text-decoration: none;
 }
 
-#_sidepanel div:hover { cursor: pointer; }
-
-
-#_togglesidepanel
+#_sidepanel div:hover 
 {
-	background-image: var(--linearbg);
-	min-height: 100vh;
+	cursor: pointer; 
 }
 
 

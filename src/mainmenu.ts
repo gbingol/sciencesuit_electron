@@ -1,3 +1,5 @@
+let ID_PLACEHOLDERPANEL = "_placeholderpanel";
+
 function _sidePanel()
 {
 	let Panel = document.body.appendChild(document.createElement("div"));
@@ -5,7 +7,7 @@ function _sidePanel()
 
 	Panel.addEventListener("mouseleave", (evt)=>
 	{
-		let togglePanel = document.querySelector("#_togglesidepanel") as HTMLDivElement;
+		let togglePanel = document.querySelector("#" + ID_PLACEHOLDERPANEL) as HTMLDivElement;
 		togglePanel.style.display = "block";
 		Panel.style.display = "none";
 	});
@@ -13,16 +15,28 @@ function _sidePanel()
 	return Panel;
 }
 
-function _ToggleSidePanel()
+
+function _TogglePlaceHolderPanel()
 {
+	/*
+	Appears at the side as a thin layer
+	When the user enters with mouse it disappears and the actual side panel appears
+	When the user leaves the actual side panel, this appears again
+	*/
 	let TogglePanel = document.body.appendChild(document.createElement("div"));
 	TogglePanel.innerHTML = "☰";
-	TogglePanel.id = "_togglesidepanel";
+	TogglePanel.id = ID_PLACEHOLDERPANEL;
+	TogglePanel.style.cssText = 
+		`
+		background-image: var(--linearbg);
+		min-height: 100vh;
+		position: fixed;
+		`
 
 	TogglePanel.addEventListener("mouseenter", (event)=>
 	{
 		let sidepanel = document.querySelector("#_sidepanel") as HTMLDivElement;
-		sidepanel.style.display = "block";
+		sidepanel.style.display = "flex";
 		TogglePanel.style.display = "none";
 	});
 
@@ -49,5 +63,5 @@ function _DesktopMenu(mBar: HTMLElement)
 	}
 }
 
-_ToggleSidePanel();
+_TogglePlaceHolderPanel();
 _DesktopMenu(_sidePanel());
