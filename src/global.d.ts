@@ -15,7 +15,7 @@ export namespace stat
 	export type test_f_result = {
 		pvalue: number,
 		CI_lower: number, CI_upper: number,
-		fcritical:number,
+		fcritical: number,
 		df1: number, df2: number
 		var1: number, var2: number
 	}
@@ -41,7 +41,7 @@ export namespace stat
 		s1: number, s2: number, sp?: number
 	}
 
-	export type test_tpaired_result ={
+	export type test_tpaired_result = {
 		pvalue: number,
 		CI_lower: number, CI_upper: number,
 		tcritical: number,
@@ -55,16 +55,31 @@ export namespace stat
 
 	export type test_aov2_result = {
 		DFError: number, DFFact1: number, DFFact2: number, DFinteract: number,
-
 		FvalFact1: number, FvalFact2: number, Fvalinteract: number,
-
 		MSError: number, MSFact1: number, MSFact2: number, MSinteract: number,
-
 		pvalFact1: number, pvalFact2: number, pvalinteract: number,
-
 		SSError: number, SSFact1: number, SSFact2: number, SSinteract: number,
+		Residuals: number[], Fits: number[]
+	}
 
-		Residuals:number[], Fits:number[]
+	export namespace regression
+	{
+		export type CoefficientStatistics = {
+			Coefficient: number,
+			pvalue: number, tvalue: number, SE: number,
+			CILow:number, CIHigh:number
+		}
+	
+		export type simple_linregress_result = {
+			DF_Residual: number, DF_Regression: number,
+			SS_Residual: number, MS_Residual: number,
+			SS_Regression: number, MS_Regression: number,
+			SS_Total: number, Fvalue: number,
+			R2: number,
+			SE: number,
+			pvalue: number,
+			CoeffStats:CoefficientStatistics[]
+		}
 	}
 	
 }
