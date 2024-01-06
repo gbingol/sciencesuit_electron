@@ -1,8 +1,6 @@
 import {Worksheet, Range, Cell} from "../../lib/comp/grid.js";
-import * as np from "../../lib/sci_math.js";
 import * as util from "../../lib/util.js";
 import { get, set } from "../../../node_modules/idb-keyval/dist/index.js";
-import { aov_oneway, tukey } from "../../lib/aov.js";
 
 const PAGEID = "REGRESS_SIMPLELINEAR";
 const WSKEY = PAGEID + "_WS";
