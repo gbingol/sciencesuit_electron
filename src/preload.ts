@@ -117,6 +117,15 @@ function test_aov2(
 	return scinodebind.test_aov2(responses, factor1, factor2);
 }
 
+function regression_simplelinear(
+	response: number[],
+	factor: number[],
+	intercept = true,
+	conflevel = 0.95)
+{
+	return scinodebind.regression_simplelinear(response, factor, intercept, conflevel);
+}
+
 
 function pf(
 	x: number[] | number, 
@@ -160,6 +169,11 @@ const API =
 		test_t2: test_t2,
 		test_tpaired: test_tpaired,
 		test_aov2: test_aov2,
+
+		regression:
+		{
+			simple_linear: regression_simplelinear,
+		},
 
 		//Statistical Distributions
 		dist:

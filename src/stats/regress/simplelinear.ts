@@ -1,6 +1,8 @@
-import {Worksheet, Range, Cell} from "../../lib/comp/grid.js";
+import { Worksheet, Range, Cell } from "../../lib/comp/grid.js";
+import * as np from "../../lib/sci_math.js";
 import * as util from "../../lib/util.js";
 import { get, set } from "../../../node_modules/idb-keyval/dist/index.js";
+import { stat } from "../../global.js";
 
 const PAGEID = "REGRESS_SIMPLELINEAR";
 const WSKEY = PAGEID + "_WS";
@@ -32,7 +34,7 @@ window.onload = (evt)=>
 			const inputs = document.querySelectorAll("#inputtable input, select");
 			for (let input of inputs) 
 			{
-				if(input instanceof HTMLInputElement || input instanceof HTMLSelectElement)
+				if(input instanceof HTMLInputElement)
 					input.value = value.get(input.id) as string;
 			}
 		}
@@ -47,11 +49,12 @@ btnCompute.onclick = ((evt)=>
 	let txtresponse = document.querySelector("#response") as HTMLInputElement;
 	let txtfactor = document.querySelector("#factor") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
+	let chkZeroIntercept = document.querySelector("#zerointercept") as HTMLInputElement;
 	
 	const inputs = document.querySelectorAll("#inputtable input");
 	for(let input of inputs)
 	{
-		if(input instanceof HTMLInputElement || input instanceof HTMLSelectElement)
+		if(input instanceof HTMLInputElement)
 		{
 			if(!input.disabled && input.value ==="")
 				throw new Error("All entries must have valid values");
@@ -79,10 +82,17 @@ btnCompute.onclick = ((evt)=>
 			throw new Error(`Factor contains ${rng.ncols} columns. Exactly 1 expected!`);
 
 		let Factor = util.FilterNumbers(rng.data[0]);
+		let HasIntercept = !chkZeroIntercept.checked;
 
-		//let res = aov_oneway(responses);
+		let res: stat.regression.simple_linregress_result =
+			window.api.stat.regression.simple_linear(Response, Factor, HasIntercept, conflevel / 100);
 		
 		let Output = `
+		<p><b>R<sup>2</sup>:</b> ${np.round(res.R2, NDigits)}</p>
+		<p>&nbsp;</p>
+		`;
+		
+		Output += `
 		<table>
 		<tr>
 			<th>Source</th>
@@ -92,9 +102,70 @@ btnCompute.onclick = ((evt)=>
 			<th>F</th>
 			<th>P</th>
 		</tr>
+
+		<tr>
+			<td>Regression</td>
+			<td>${res.DF_Regression}</td>
+			<td>${np.round(res.SS_Regression, NDigits)}</td>
+			<td>${np.round(res.MS_Regression, NDigits)}</td>
+			<td>${np.round(res.Fvalue, NDigits)}</td>
+			<td>${np.round(res.pvalue, NDigits)}</td>
+		</tr>
+
+		<tr>
+			<td>Residual</td>
+			<td>${res.DF_Residual}</td>
+			<td>${np.round(res.SS_Residual, NDigits)}</td>
+			<td>${np.round(res.MS_Residual, NDigits)}</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td>Total</td>
+			<td>${res.DF_Regression + res.DF_Residual}</td>
+			<td>${np.round(res.SS_Total, NDigits)}</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
 		
 		</table>
-		`
+		`;
+
+		Output += "<p>&nbsp</p>";
+
+		Output += `
+		<table>
+		<tr>
+			<th>&nbsp;</th>
+			<th>Coefficient</th>
+			<th>Std Error</th>
+			<th>T-value</th>
+			<th>p-value</th>
+			<th>CI</th>
+		</tr>
+		`;
+
+		let CoeffStat = res.CoeffStats;
+
+		let j = 0;
+		for (let coeff of CoeffStat)
+		{
+			Output += `
+			<tr>
+				<td>${j++==0 && HasIntercept ? "Intercept" : "Variable"}</td>
+				<td>${np.round(coeff.Coefficient, NDigits)}</td>
+				<td>${np.round(coeff.SE, NDigits)}</td>
+				<td>${np.round(coeff.tvalue, NDigits)}</td>
+				<td>${np.round(coeff.pvalue, NDigits)}</td>
+				<td>${np.round(coeff.CILow, NDigits)}, ${np.round(coeff.CIHigh, NDigits)}</td>
+			</tr>
+			`;
+		}
+
+		Output += "</table>";
+
 		let divCopy = document.createElement("div-copydel");
 		let outDiv = (document.querySelector("#maincontent") as HTMLDivElement).appendChild(divCopy);
 		outDiv.innerHTML = Output;

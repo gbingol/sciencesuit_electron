@@ -115,9 +115,6 @@ class Worksheet
 		let clearBtn = btnDiv.appendChild(document.createElement("button"));
 		clearBtn.innerHTML="Clear Cells";
 
-		let SaveBtn = btnDiv.appendChild(document.createElement("button"));
-		SaveBtn.innerHTML="Save";
-
 		this.gridDiv = this._div.appendChild(document.createElement("div"));
 		this.gridDiv.className = "ag-theme-alpine";
 		this.gridDiv.style.height = "100%";
@@ -132,28 +129,6 @@ class Worksheet
 		clearBtn.addEventListener("click", (evt)=>
 		{
 			this.clearCells();
-		});
-
-		SaveBtn.addEventListener("click", evt=>
-		{
-			let retArr:Array<Cell> = [];
-			for (let i = 0; i < this._nrows; i++)
-			{
-				let Row = i;
-				const rowNode = this._gridOptions.api.getRowNode(Row.toString());
-
-				for (let j = 0; j < this._ncols; j++)
-				{	
-					let Col = 65 + j 
-					let value = rowNode.data[String.fromCharCode(Col)];
-					if(value && value !== "")
-					{
-						let obj:Cell = {col:Col, row:Row, value:value};
-						retArr.push(obj);
-					}
-				}
-			}
-			console.log(retArr);
 		});
 	}
 
