@@ -4,7 +4,7 @@ import * as util from "../../lib/util.js";
 import { get, set } from "../../../node_modules/idb-keyval/dist/index.js";
 import { stat } from "../../global.js";
 
-const PAGEID = "REGRESS_SIMPLELINEAR";
+const PAGEID = "REGRESS_MULTIPLELINEAR";
 const WSKEY = PAGEID + "_WS";
 
 

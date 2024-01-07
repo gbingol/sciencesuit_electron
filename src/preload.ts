@@ -126,6 +126,15 @@ function regression_simplelinear(
 	return scinodebind.regression_simplelinear(response, factor, intercept, conflevel);
 }
 
+function regression_multiplelinear(
+	response: number[],
+	factors: Array<number>[],
+	intercept = true,
+	conflevel = 0.95)
+{
+	return scinodebind.regression_multiplelinear(response, factors, intercept, conflevel);
+}
+
 
 function pf(
 	x: number[] | number, 
@@ -173,6 +182,7 @@ const API =
 		regression:
 		{
 			simple_linear: regression_simplelinear,
+			multiple_linear: regression_multiplelinear,
 		},
 
 		//Statistical Distributions

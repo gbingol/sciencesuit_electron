@@ -70,13 +70,13 @@ export namespace stat
 			CILow:number, CIHigh:number
 		}
 	
-		export type simple_linregress_result = {
+		export type linregress_result = {
 			DF_Residual: number, DF_Regression: number,
 			SS_Residual: number, MS_Residual: number,
 			SS_Regression: number, MS_Regression: number,
 			SS_Total: number, Fvalue: number,
 			R2: number,
-			SE: number,
+			SE?: number,
 			pvalue: number,
 			CoeffStats:CoefficientStatistics[]
 		}
