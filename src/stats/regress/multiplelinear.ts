@@ -47,7 +47,7 @@ let btnCompute = document.querySelector("#compute") as HTMLButtonElement;
 btnCompute.onclick = ((evt)=>
 {
 	let txtresponse = document.querySelector("#response") as HTMLInputElement;
-	let txtfactor = document.querySelector("#factor") as HTMLInputElement;
+	let txtfactors = document.querySelector("#factors") as HTMLInputElement;
 	let txtconflevel = document.querySelector("#conflevel") as HTMLInputElement;
 	let chkZeroIntercept = document.querySelector("#zerointercept") as HTMLInputElement;
 	
@@ -77,15 +77,21 @@ btnCompute.onclick = ((evt)=>
 
 		let Response = util.FilterNumbers(rng.data[0]);
 
-		rng = new Range(txtfactor.value, ws);
-		if (rng.ncols !=1)
-			throw new Error(`Factor contains ${rng.ncols} columns. Exactly 1 expected!`);
+		rng = new Range(txtfactors.value, ws);
+		if (rng.ncols <2)
+			throw new Error("Factors require at least 2 columns!");
 
-		let Factor = util.FilterNumbers(rng.data[0]);
+		let Factors:number[][] = []
+		for (let fct of rng.data)
+		{
+			let Factor = util.FilterNumbers(fct);
+			Factors.push(Factor);
+		}
+
 		let HasIntercept = !chkZeroIntercept.checked;
 
 		let res: stat.regression.linregress_result =
-			window.api.stat.regression.simple_linear(Response, Factor, HasIntercept, conflevel / 100);
+			window.api.stat.regression.multiple_linear(Response, Factors, HasIntercept, conflevel / 100);
 		
 		let Output = `
 		<p><b>R<sup>2</sup>:</b> ${np.round(res.R2, NDigits)}</p>
@@ -152,9 +158,20 @@ btnCompute.onclick = ((evt)=>
 		let j = 0;
 		for (let coeff of CoeffStat)
 		{
+			let Label = "";
+			if (j == 0 && HasIntercept)
+			{
+				Label = "Intercept";
+				HasIntercept = false;
+			}
+			else {
+				j++;
+				Label = `Variable #${j}`;
+			}
+
 			Output += `
 			<tr>
-				<td>${j++==0 && HasIntercept ? "Intercept" : "Variable"}</td>
+				<td>${Label}</td>
 				<td>${np.round(coeff.Coefficient, NDigits)}</td>
 				<td>${np.round(coeff.SE, NDigits)}</td>
 				<td>${np.round(coeff.tvalue, NDigits)}</td>
