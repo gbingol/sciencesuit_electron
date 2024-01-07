@@ -76,7 +76,6 @@ export namespace stat
 			SS_Regression: number, MS_Regression: number,
 			SS_Total: number, Fvalue: number,
 			R2: number,
-			SE?: number,
 			pvalue: number,
 			CoeffStats:CoefficientStatistics[]
 		}
