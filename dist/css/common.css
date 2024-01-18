@@ -58,11 +58,6 @@ h2 { color: red; }
 h3 { color: maroon; }
 h4 { color: green; }
 
-a{
-	font-size: large;
-}
-
-
 
 details { width: fit-content; }
 
@@ -107,15 +102,6 @@ table.input input[type=text]:focus
 }
 
 
-
-ol.linespaced li, ul.linespaced li 
-{
-	padding-top: 6px;
-	padding-bottom: 6px;
-	margin-right: 15%;
-}
-
-
 img.scaled
 {
 	max-width: 40vw; 
@@ -154,11 +140,6 @@ div.links a
 
 	details { width: 100%; }
 
-    
-	ol.linespaced li, ul.linespaced li {
-		margin-right: 2%;
-	}
-
 	p { margin-right: 4%; }
 
 }
@@ -169,8 +150,6 @@ div.links a
 @media only screen and (max-width:600px) 
 {
 	table.input{width: 80%;	}
-
-	ol.linespaced li, ul.linespaced li { margin-right: 1%; }
 
 	p { margin-right: 1%; }
 
