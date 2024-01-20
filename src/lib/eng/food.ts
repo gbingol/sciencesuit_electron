@@ -10,12 +10,7 @@ type Ingredient = {
 
 class Food
 {
-	private m_water:number;
-	private m_cho:number;
-	private m_protein:number;
-	private m_lipid:number;
-	private m_ash:number;
-	private m_salt:number;
+	private m_Ingredients:Ingredient;
 
 	constructor(f: Ingredient)
 	{
@@ -31,12 +26,7 @@ class Food
 		if(LessThanZero.length>0)
 			throw new Error("All ingredients must have non-negative values");
 
-		this.m_water = f.water || 0;
-		this.m_cho = f.cho || 0;
-		this.m_lipid = f.lipid || 0;
-		this.m_protein = f.protein || 0;
-		this.m_ash = f.ash || 0;
-		this.m_salt = f.salt || 0;
+		this.m_Ingredients = {...f};
 
 		/*
 		User does not necessarily provide values where total fraction is exactly 1.0
@@ -45,16 +35,14 @@ class Food
 		Note that even if the values were percentages, dividing them
 		by sum forces it to be in the range of [0, 1]
 		*/
-		let Sum = this.m_water + this.m_cho + this.m_protein + this.m_lipid + this.m_ash + this.m_salt
+		let Sum = Object.values(this.m_Ingredients).reduce((acc, e) => acc + e, 0);
 		if(Sum<=0)
 			throw new Error("At least one ingredient must be present")
 
-		this.m_water /= Sum
-		this.m_cho /= Sum
-		this.m_protein /= Sum
-		this.m_lipid /= Sum
-		this.m_ash /= Sum
-		this.m_salt /= Sum
+		for(let e of Object.entries(this.m_Ingredients))
+		{
+			e[1] /= Sum
+		}
 	}
 }
 
