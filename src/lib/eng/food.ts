@@ -86,12 +86,73 @@ class Food
 		return true;
 	}
 
+
+	cp = (T?: number):number=>
+	{
+		/*
+		If T (in °C) is not specified then Food's current temperature will be used.\n
+		Returns specific heat capacity in kJ/kgK
+
+		Thermo-physical properties are valid in the range of -40<=T(C) <=150
+		2006, ASHRAE Handbook Chapter 9, Table 1 (source: Choi and Okos (1986))
+		*/
+		let w = (x:number) => 4.1289 -9.0864e-05*x + 5.4731e-06*x**2;
+		let p = (x:number) => 2.0082 + 0.0012089*x -1.3129e-06*x**2;
+		let f = (x:number)=> 1.9842 + 0.0014733*x -4.8008e-06*x**2;
+		let cho_ = (x:number)=> 1.5488 + 0.0019625*x - 5.9399e-06*x**2;
+		let ash_ =  (x:number)=> 1.0926 + 0.0018896*x -3.6817e-06*x**2;
+		let salt_ =  0.88
+
+		let t = (T === undefined) ?  this.m_T : T;
+
+		let water = this.m_Ingredients.water || 0;
+		let protein = this.m_Ingredients.protein || 0;
+		let lipid = this.m_Ingredients.lipid || 0;
+		let cho = this.m_Ingredients.cho || 0;
+		let ash = this.m_Ingredients.ash || 0;
+		let salt = this.m_Ingredients.salt || 0;
+
+		return water*w(t) + protein*p(t) + lipid*f(t) + 
+			cho*cho_(t) + ash*ash_(t) + salt*salt_
+	}
+
+	k = (T?:number):number=>
+	{
+		/*
+		If T (in °C) is not specified then Food's current temperature will be used.\n
+		Returns conductivity in W/mK
+		*/
+		let w = (x:number) => 0.457109 + 0.0017625*x -6.7036e-06*x**2;
+		let p = (x:number) =>0.17881 + 0.0011958*x -2.7178e-06*x**2;
+		let f = (x:number) =>0.18071 -0.00027604*x -1.7749e-07*x**2;
+		let cho_ = (x:number) =>0.20141 + 0.0013874*x -4.3312e-06*x**2;
+		let ash_ = (x:number) =>0.3296 + 0.0014011*x -2.9069e-06*x**2;
+		let salt_ =  0.574
+		/*
+		For salt: 5.704 molal solution at 20C, Riedel L. (1962),
+		Thermal Conductivities of Aqueous Solutions of Strong Electrolytes 
+		Chem.-1ng.-Technik., 23 (3) P.59 - 64
+		*/
+		
+		let t = (T === undefined) ?  this.m_T : T;
+
+		let water = this.m_Ingredients.water || 0;
+		let protein = this.m_Ingredients.protein || 0;
+		let lipid = this.m_Ingredients.lipid || 0;
+		let cho = this.m_Ingredients.cho || 0;
+		let ash = this.m_Ingredients.ash || 0;
+		let salt = this.m_Ingredients.salt || 0;
+
+
+		return water*w(t)+ protein*p(t) + lipid*f(t) + 
+				cho*cho_(t) + ash*ash_(t) + salt*salt_	
+	}
+
 }
 
 
 let ing:Ingredient = {
-	water:60,
-	protein:30
+	water:88.13, protein:3.15, cho:4.80, lipid:3.25, ash:0.67
 }
 
 let ing2:Ingredient = {
@@ -101,33 +162,13 @@ let ing2:Ingredient = {
 
 let f = new Food(ing);
 let f2 = new Food(ing);
-console.log(f.eq(f2));
+console.log(f.cp(50));
 
 /*
 class Food:
 	"""A class to compute thermal and physical properties of food materials"""
 	
-		def __eq__(self, other:Food)->bool:
-
-		assert isinstance(other, Food), "Food can only be compared with Food"
 		
-		if type(self) != type(other):
-			return False
-
-		fA, fB = self.ingredients(), other.ingredients()
-
-		for k,v in fA.items():
-			#if B does not have the same ingredient A has, then A and B cant be same
-			if fB.get(k) == None:
-				return False
-			
-			#values of the ingredient must be very close
-			if not _math.isclose(v, fB[k], rel_tol=1E-5):
-				return False
-			
-		return True
-			
-
 
 
 	#similar to mixing of two food items
@@ -258,52 +299,6 @@ class Food:
 
 		return retStr
 
-
-
-
-	def cp(self, T:float = None)->float:
-		"""
-		If T (in °C) is not specified then Food's current temperature will be used.\n
-		Returns specific heat capacity in kJ/kgK
-
-		Thermo-physical properties are valid in the range of -40<=T(C) <=150
-		2006, ASHRAE Handbook Chapter 9, Table 1 (source: Choi and Okos (1986))
-		"""
-		w = _np.polynomial.Polynomial([4.1289, -9.0864e-05, 5.4731e-06])
-		p =  _np.polynomial.Polynomial([2.0082, 0.0012089, -1.3129e-06])
-		f =  _np.polynomial.Polynomial([1.9842, 0.0014733, -4.8008e-06])
-		cho =  _np.polynomial.Polynomial([1.5488, 0.0019625, -5.9399e-06])
-		ash =  _np.polynomial.Polynomial([1.0926, 0.0018896, -3.6817e-06])
-		salt =  0.88
-
-		t = T if T != None else self.T
-
-		return self.water*w(t) + self.protein*p(t) + self.lipid*f(t) + \
-			self.cho*cho(t) + self.ash*ash(t) + self.salt*salt
-
-
-
-	def k(self, T:float=None)->float:
-		"""
-		If T (in °C) is not specified then Food's current temperature will be used.\n
-		Returns conductivity in W/mK
-		"""
-		w =  _np.polynomial.Polynomial([0.457109, 0.0017625, -6.7036e-06])
-		p =  _np.polynomial.Polynomial([0.17881, 0.0011958, -2.7178e-06])
-		f =  _np.polynomial.Polynomial([0.18071, -0.00027604, -1.7749e-07])
-		cho =  _np.polynomial.Polynomial([0.20141, 0.0013874, -4.3312e-06])
-		ash =  _np.polynomial.Polynomial([0.32962, 0.0014011, -2.9069e-06])
-		salt =  0.574
-		"""
-		For salt: 5.704 molal solution at 20C, Riedel L. (1962),
-		Thermal Conductivities of Aqueous Solutions of Strong Electrolytes 
-		Chem.-1ng.-Technik., 23 (3) P.59 - 64
-		"""
-		
-		t = T if T != None else self.T
-
-		return self.water*w(t)+ self.protein*p(t) + self.lipid*f(t) + \
-			self.cho*cho(t) + self.ash*ash(t) + self.salt*salt	
 
 
 	def conductivity(self)->float:
