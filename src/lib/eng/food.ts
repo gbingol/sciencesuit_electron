@@ -11,6 +11,8 @@ type Ingredient = {
 class Food
 {
 	private m_Ingredients:Ingredient;
+	private m_T:number;
+	private m_Weight:number;
 
 	constructor(f: Ingredient)
 	{
@@ -37,78 +39,73 @@ class Food
 		*/
 		let Sum = Object.values(this.m_Ingredients).reduce((acc, e) => acc + e, 0);
 		if(Sum<=0)
-			throw new Error("At least one ingredient must be present")
+			throw new Error("At least one ingredient must be present");
 
-		for(let e of Object.entries(this.m_Ingredients))
+		
+
+		for(const property in this.m_Ingredients)
 		{
-			e[1] /= Sum
+			if(this.m_Ingredients.hasOwnProperty(property))
+			{
+				let p = property as keyof Ingredient;
+				this.m_Ingredients[p]= (this.m_Ingredients[p] as number)/ Sum;
+			}
 		}
+
+		this.m_T = 20.0 // C
+		this.m_Weight = 1.0 //Unit weight
 	}
+
+	toString = () =>
+	{
+		return "hello";
+	}
+
+	eq = (other:Food):boolean =>
+	{
+
+		if(!(other instanceof Food))
+			throw new Error("Food can only be compared with Food");
+		
+		if (typeof(this) !== typeof(other))
+			return false;
+
+		let fA = this.m_Ingredients;
+		let fB = other.m_Ingredients;
+
+		for(let e in fA)
+		{
+			let prop = e as keyof Ingredient;
+			//if B does not have the same ingredient A has, then A and B cant be same
+			if(fB[prop]!==fA[prop])
+				return false;
+		}
+			
+		return true;
+	}
+
 }
 
+
+let ing:Ingredient = {
+	water:60,
+	protein:30
+}
+
+let ing2:Ingredient = {
+	ash:60,
+	protein:35
+}
+
+let f = new Food(ing);
+let f2 = new Food(ing2);
+console.log(f.eq(f2));
 
 /*
 class Food:
 	"""A class to compute thermal and physical properties of food materials"""
 	
-	def __init__(
-			self, 
-			water=0.0, 
-			cho=0.0, 
-			protein=0.0, 
-			lipid=0.0, 
-			ash=0.0, 
-			salt=0.0):
-		
-		isOK = water>=0 and isinstance(water, _numbers.Real) and \
-			cho>=0 and isinstance(cho, _numbers.Real) and \
-			protein>=0 and isinstance(protein, _numbers.Real) and \
-			lipid>=0 and isinstance(lipid, _numbers.Real) and \
-			ash>=0 and isinstance(ash, _numbers.Real) and \
-			salt>=0 and isinstance(salt, _numbers.Real)
-			
-		assert isOK, "Ingredients must have non-negative real values."
-
-		self._water = water
-		self._cho = cho
-		self._protein = protein
-		self._lipid = lipid
-		self._ash = ash
-		self._salt = salt
-		
-		"""
-		User does not necessarily provide values where total fraction is exactly 1.0
-		Therefore it is adjusted so that total fraction is ALWAYS exactly 1.0
-		
-		Note that even if the values were percentages, dividing them
-		by sum forces it to be in the range of [0, 1]
-		"""
-		Sum = self._water + self._cho + self._protein + self._lipid + self._ash + self._salt
-		assert Sum>0, "At least one ingredient must be present"
-
-		self._water /= Sum
-		self._cho /= Sum
-		self._protein /= Sum
-		self._lipid /= Sum
-		self._ash /= Sum
-		self._salt /= Sum
-
-
-		self._Ingredients = {
-			"water":self._water, "cho": self._cho, "protein": self._protein,
-			"lipid":self._lipid, "ash":self._ash, "salt":self._salt}
-		
-		filtered = {k:v for k, v in self._Ingredients.items() if v>0}
-		self._Ingredients.clear()
-		self._Ingredients.update(filtered)
-		
-		self._T = 20.0 # C
-		self._Weight = 1.0 #Unit weight
-		
-	
-
-
-	def __eq__(self, other:Food)->bool:
+		def __eq__(self, other:Food)->bool:
 
 		assert isinstance(other, Food), "Food can only be compared with Food"
 		
