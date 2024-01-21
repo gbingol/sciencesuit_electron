@@ -1,11 +1,12 @@
 import { isclose } from "../sci_math.js";
 
-type Ingredient = {
-	water?:number,
-	cho?: number,
-	protein?:number,
-	lipid?: number,
-	ash?: number,
+type Ingredient = 
+{
+	water?:number;
+	cho?: number;
+	protein?:number;
+	lipid?: number;
+	ash?: number;
 	salt?: number
 }
 
@@ -43,8 +44,6 @@ class Food
 		if(Sum<=0)
 			throw new Error("At least one ingredient must be present");
 
-		
-
 		for(const property in this.m_Ingredients)
 		{
 			if(this.m_Ingredients.hasOwnProperty(property))
@@ -58,10 +57,6 @@ class Food
 		this.m_Weight = 1.0 //Unit weight
 	}
 
-	toString = () =>
-	{
-		return "hello";
-	}
 
 	eq = (other:Food):boolean =>
 	{		
@@ -116,6 +111,7 @@ class Food
 			cho*cho_(t) + ash*ash_(t) + salt*salt_
 	}
 
+
 	k = (T?:number):number=>
 	{
 		/*
@@ -136,16 +132,80 @@ class Food
 		
 		let t = (T === undefined) ?  this.m_T : T;
 
-		let water = this.m_Ingredients.water || 0;
-		let protein = this.m_Ingredients.protein || 0;
-		let lipid = this.m_Ingredients.lipid || 0;
-		let cho = this.m_Ingredients.cho || 0;
-		let ash = this.m_Ingredients.ash || 0;
-		let salt = this.m_Ingredients.salt || 0;
+		return this.water*w(t)+ this.protein*p(t) + this.lipid*f(t) + 
+				this.cho*cho_(t) + this.ash*ash_(t) + this.salt*salt_	
+	}
 
 
-		return water*w(t)+ protein*p(t) + lipid*f(t) + 
-				cho*cho_(t) + ash*ash_(t) + salt*salt_	
+	rho = (T?:number):number =>
+	{
+		/*
+		If T (in °C) is not specified then Food's current temperature will be used.\n
+		Returns density in kg/m3
+		*/
+		let w = (x:number) => 997.18 + 0.0031439*x - 0.0037574*x**2; //water
+		let p = (x:number) => 1329.9 - 0.5184*x; //protein
+		let f = (x:number) => 925.59 - 0.41757*x; //lipid
+		let c = (x:number) => 1599.1 - 0.31046*x; //cho
+		let a = (x:number) => 2423.8 - 0.28063*x; //ash
+		let s =  2165 //salt, Wikipedia
+		
+		let t = (T === undefined) ?  this.m_T : T;
+
+		return this.water*w(t) + this.protein*p(t) + this.lipid*f(t) + 
+			this.cho*c(t) + this.ash*a(t) + this.salt*s
+	}
+
+
+	get weight():number
+	{
+		return this.m_Weight;
+	}
+
+	set weight(w:number)
+	{
+		this.m_Weight = w;
+	}
+
+
+	get T():number 
+	{
+		return this.m_T;
+	}
+
+	set T(t:number)
+	{
+		this.m_T = t;
+	}
+
+	get water():number
+	{
+		return this.m_Ingredients.water || 0;
+	}
+
+	get protein():number
+	{
+		return this.m_Ingredients.protein || 0;
+	}
+
+	get cho():number
+	{
+		return this.m_Ingredients.cho || 0;
+	}
+
+	get lipid():number
+	{
+		return this.m_Ingredients.lipid ||0;
+	}
+
+	get ash():number
+	{
+		return this.m_Ingredients.ash || 0;
+	}
+
+	get salt():number
+	{
+		return this.m_Ingredients.salt || 0;
 	}
 
 }
@@ -304,24 +364,6 @@ class Food:
 	def conductivity(self)->float:
 		"""Alias for k()"""
 		return self.k()	
-		
-	
-	def rho(self, T:float = None)->float:
-		"""
-		If T (in °C) is not specified then Food's current temperature will be used.\n
-		Returns density in kg/m3
-		"""
-		w =  _np.polynomial.Polynomial([997.18, 0.0031439, -0.0037574]) #water
-		p =  _np.polynomial.Polynomial([1329.9, -0.5184]) #protein
-		f =  _np.polynomial.Polynomial([925.59, -0.41757]) #lipid
-		c =  _np.polynomial.Polynomial([1599.1, -0.31046]) #cho
-		a =  _np.polynomial.Polynomial([2423.8, -0.28063]) #ash
-		s =  2165 #salt, Wikipedia
-		
-		t = T if T != None else self.T
-
-		return self.water*w(t) + self.protein*p(t) + self.lipid*f(t) + \
-			self.cho*c(t) + self.ash*a(t) + self.salt*s
 
 
 	def density(self)->float:
