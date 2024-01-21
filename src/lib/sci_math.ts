@@ -1,3 +1,8 @@
+export function isclose(a:number, b:number, tol=1E-5):boolean
+{
+	return Math.abs(b-a)<tol;
+}
+
 export function sum(arr: number[]): number
 {
 	if (arr.length == 0)

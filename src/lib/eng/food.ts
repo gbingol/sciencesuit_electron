@@ -1,3 +1,5 @@
+import { isclose } from "../sci_math.js";
+
 type Ingredient = {
 	water?:number,
 	cho?: number,
@@ -62,11 +64,7 @@ class Food
 	}
 
 	eq = (other:Food):boolean =>
-	{
-
-		if(!(other instanceof Food))
-			throw new Error("Food can only be compared with Food");
-		
+	{		
 		if (typeof(this) !== typeof(other))
 			return false;
 
@@ -77,7 +75,11 @@ class Food
 		{
 			let prop = e as keyof Ingredient;
 			//if B does not have the same ingredient A has, then A and B cant be same
-			if(fB[prop]!==fA[prop])
+
+			if(fB[prop] === undefined)
+				return false;
+
+			if(!isclose(fA[prop] as number, fB[prop] as number))
 				return false;
 		}
 			
@@ -98,7 +100,7 @@ let ing2:Ingredient = {
 }
 
 let f = new Food(ing);
-let f2 = new Food(ing2);
+let f2 = new Food(ing);
 console.log(f.eq(f2));
 
 /*
