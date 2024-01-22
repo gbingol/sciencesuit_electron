@@ -157,6 +157,55 @@ class Food
 	}
 
 
+	//similar to mixing of two food items
+	add =(rhs:Food):Food=>
+	{
+		let ma = this.weight;
+		let mb = rhs.weight;
+
+		let Ta = this.T;
+		let Tb = rhs.T;
+		
+		let cpa = this.cp();
+		let cpb = rhs.cp();
+
+		let water = ma*this.water + mb*rhs.water;
+		let cho = ma*this.cho + mb*rhs.cho;
+		let lipid = ma*this.lipid + mb*rhs.lipid;
+		let protein = ma*this.protein + mb*rhs.protein;
+		let ash = ma*this.ash + mb* rhs.ash;
+		let salt = ma*this.salt + mb* rhs.salt;
+
+		let NewIngredient:Ingredient = 
+		{
+			water:water, cho:cho, lipid:lipid, protein:protein, ash:ash, salt:salt
+		}
+
+		let fd = new Food(NewIngredient);
+		fd.weight= ma + mb
+	
+		/*
+		if the other food's temperature is negligibly different (Ta=10, Tb=10.1)
+		then mixtures temperature is one of the food items' temperature
+		*/
+		if(isclose(Ta, Tb))
+			fd.T = Ta
+		else
+		{
+			let mtot = ma + mb
+			let e1 = ma*cpa*Ta;
+			let e2 = mb*cpb*Tb;
+
+			let cp_avg = (ma*cpa + mb*cpb) / mtot;
+			let Tmix = (e1 + e2)/(mtot*cp_avg);
+
+			fd.T = Tmix;
+		}
+
+		return fd;
+	}
+
+
 	get weight():number
 	{
 		return this.m_Weight;
@@ -221,58 +270,15 @@ let ing2:Ingredient = {
 }
 
 let f = new Food(ing);
-let f2 = new Food(ing);
-console.log(f.cp(50));
+let f2 = new Food(ing2);
+let f3 = f.add(f2);
+console.log(f3);
+
+
+
 
 /*
 class Food:
-	"""A class to compute thermal and physical properties of food materials"""
-	
-		
-
-
-	#similar to mixing of two food items
-	def __add__(self, rhs:Food)->Food:
-
-		ma, mb = self.weight,  rhs.weight
-		Ta, Tb = self.T, rhs.T 
-		cpa, cpb = self.cp(), rhs.cp()
-
-		water = ma*self.water + mb*rhs.water
-		cho = ma*self.cho + mb*rhs.cho
-		lipid = ma*self.lipid + mb*rhs.lipid
-		protein = ma*self.protein + mb*rhs.protein
-		ash = ma*self.ash + mb* rhs.ash
-		salt = ma*self.salt + mb* rhs.salt
-
-		fd = Food(water=water, cho=cho, lipid=lipid, protein=protein, ash=ash, salt=salt)
-		fd.weight= ma + mb
-	
-		"""
-		if the other food's temperature is negligibly different (Ta=10, Tb=10.1)
-		then mixtures temperature is one of the food items' temperature
-		"""
-		if _math.isclose(Ta, Tb, abs_tol=T_TOL):
-			fd.T = Ta	
-		else:
-			mtot = ma + mb
-			e1 , e2 = ma*cpa*Ta, mb*cpb*Tb
-			cp_avg = (ma*cpa + mb*cpb) / mtot
-			Tmix = (e1 + e2)/(mtot*cp_avg)
-		
-			fd.T = Tmix
-
-		if type(self) != type(rhs):
-			return fd
-		
-		obj = type(self)
-		f = obj(**fd.ingredients())
-		f.weight = fd.weight
-		f.T = fd.T
-		return f
-
-
-	
 
 	def __sub__(self, B:Food)->Food:
 		assert type(self) == type(B), "Foods must have same type"
@@ -359,16 +365,6 @@ class Food:
 
 		return retStr
 
-
-
-	def conductivity(self)->float:
-		"""Alias for k()"""
-		return self.k()	
-
-
-	def density(self)->float:
-		"""Alias for rho()"""
-		return self.rho()
 
 
 	def aw(self)->float|None:
