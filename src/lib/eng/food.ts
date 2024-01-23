@@ -1,5 +1,15 @@
 import { isclose } from "../sci_math.js";
 
+
+
+/*
+Tolerance for temperature differences
+if less than tolerance food's temperatures assumed equal
+*/
+const T_TOL = 0.1
+
+
+
 type Ingredient = 
 {
 	water?:number;
@@ -11,7 +21,7 @@ type Ingredient =
 }
 
 
-class Food
+export class Food
 {
 	private m_Ingredients:Ingredient;
 	private m_T:number;
@@ -74,7 +84,7 @@ class Food
 			if(fB[prop] === undefined)
 				return false;
 
-			if(!isclose(fA[prop] as number, fB[prop] as number))
+			if(!isclose(fA[prop] as number, fB[prop] as number, T_TOL))
 				return false;
 		}
 			
@@ -188,7 +198,7 @@ class Food
 		if the other food's temperature is negligibly different (Ta=10, Tb=10.1)
 		then mixtures temperature is one of the food items' temperature
 		*/
-		if(isclose(Ta, Tb))
+		if(isclose(Ta, Tb, T_TOL))
 			fd.T = Ta
 		else
 		{
