@@ -92,6 +92,125 @@ export class Food
 	}
 
 
+	//similar to mixing of two food items
+	add =(rhs:Food):Food=>
+	{
+		let ma = this.weight;
+		let mb = rhs.weight;
+
+		let Ta = this.T;
+		let Tb = rhs.T;
+		
+		let cpa = this.cp();
+		let cpb = rhs.cp();
+
+		let water = ma*this.water + mb*rhs.water;
+		let cho = ma*this.cho + mb*rhs.cho;
+		let lipid = ma*this.lipid + mb*rhs.lipid;
+		let protein = ma*this.protein + mb*rhs.protein;
+		let ash = ma*this.ash + mb* rhs.ash;
+		let salt = ma*this.salt + mb* rhs.salt;
+
+		let NewIngredient:Ingredient = 
+		{
+			water:water, cho:cho, lipid:lipid, protein:protein, ash:ash, salt:salt
+		}
+
+		let fd = new Food(NewIngredient);
+		fd.weight= ma + mb
+	
+		/*
+		if the other food's temperature is negligibly different (Ta=10, Tb=10.1)
+		then mixtures temperature is one of the food items' temperature
+		*/
+		if(isclose(Ta, Tb, T_TOL))
+			fd.T = Ta
+		else
+		{
+			let mtot = ma + mb
+			let e1 = ma*cpa*Ta;
+			let e2 = mb*cpb*Tb;
+
+			let cp_avg = (ma*cpa + mb*cpb) / mtot;
+			let Tmix = (e1 + e2)/(mtot*cp_avg);
+
+			fd.T = Tmix;
+		}
+
+		return fd;
+	}
+
+
+	sub = (B:Food):Food=>
+	{
+
+		if(typeof(this) !== typeof(B))
+			throw new Error("Foods must have same type.");
+
+		let ma = this.weight;
+		let mb = B.weight;
+
+		if(ma<mb)
+			throw new Error("weight A > weight B expected.");
+
+		let Ta = this.T;
+		let Tb = B.T;
+		
+		if(!isclose(Ta, Tb, T_TOL))
+			throw new Error("Temperature differences must be negligible.");
+
+		let fA  = this.m_Ingredients;
+		let fB = B.m_Ingredients;
+
+		//A must have all the ingredients B has, check if it is the case
+		for(let key of Object.keys(fB))
+		{
+			let k = key as keyof Ingredient;
+			if(fA[k] === undefined)
+				throw new Error("Food does not have an ingredient:" + key);
+		} 
+		
+		
+		//collect ingredients in a dictionary
+		let ingDict:Ingredient = {};
+
+		for(let key of Object.keys(fA))
+		{
+			let k = key as keyof Ingredient;
+			let _ing = 0;
+			if(fB[k] !== undefined)
+			{
+				_ing = ma*(fA[k] as number) - mb*(fB[k] as number);
+				if(_ing<0)
+					throw new Error("Weigt of " + key + "must be >0.");
+
+				if(isclose(_ing, 0.0)) _ing = 0.0;
+			}
+			else
+				_ing = ma*(fA[k] as number);
+
+			ingDict[k] = _ing;
+		} 
+
+		let fd = new Food(ingDict);
+		fd.weight = ma-mb
+
+		return fd;
+	}
+
+
+	mul = (m:number):Food=>
+	{
+		let ing = this.m_Ingredients;
+
+		let f = new Food(ing);
+		f.weight = this.weight*m;
+
+		return f
+	}
+
+
+
 	cp = (T?: number):number=>
 	{
 		/*
@@ -164,55 +283,6 @@ export class Food
 
 		return this.water*w(t) + this.protein*p(t) + this.lipid*f(t) + 
 			this.cho*c(t) + this.ash*a(t) + this.salt*s
-	}
-
-
-	//similar to mixing of two food items
-	add =(rhs:Food):Food=>
-	{
-		let ma = this.weight;
-		let mb = rhs.weight;
-
-		let Ta = this.T;
-		let Tb = rhs.T;
-		
-		let cpa = this.cp();
-		let cpb = rhs.cp();
-
-		let water = ma*this.water + mb*rhs.water;
-		let cho = ma*this.cho + mb*rhs.cho;
-		let lipid = ma*this.lipid + mb*rhs.lipid;
-		let protein = ma*this.protein + mb*rhs.protein;
-		let ash = ma*this.ash + mb* rhs.ash;
-		let salt = ma*this.salt + mb* rhs.salt;
-
-		let NewIngredient:Ingredient = 
-		{
-			water:water, cho:cho, lipid:lipid, protein:protein, ash:ash, salt:salt
-		}
-
-		let fd = new Food(NewIngredient);
-		fd.weight= ma + mb
-	
-		/*
-		if the other food's temperature is negligibly different (Ta=10, Tb=10.1)
-		then mixtures temperature is one of the food items' temperature
-		*/
-		if(isclose(Ta, Tb, T_TOL))
-			fd.T = Ta
-		else
-		{
-			let mtot = ma + mb
-			let e1 = ma*cpa*Ta;
-			let e2 = mb*cpb*Tb;
-
-			let cp_avg = (ma*cpa + mb*cpb) / mtot;
-			let Tmix = (e1 + e2)/(mtot*cp_avg);
-
-			fd.T = Tmix;
-		}
-
-		return fd;
 	}
 
 
@@ -290,93 +360,8 @@ console.log(f3);
 /*
 class Food:
 
-	def __sub__(self, B:Food)->Food:
-		assert type(self) == type(B), "Foods must have same type"
-
-		ma, mb = self.weight,  B.weight		
-		assert (ma - mb) > 0, "weight A > weight B expected"
-
-		Ta, Tb = self.T, B.T
-		assert _math.isclose(Ta, Tb, abs_tol=T_TOL), "Temperature differences must be negligible."
-
-		fA, fB = self.ingredients(), B.ingredients()
-
-		#A must have all the ingredients B has, check if it is the case
-		for k, _ in fB.items():
-			assert fA.get(k) != None, "Food does not have an ingredient:" + k
-		
-		
-		#collect ingredients in a dictionary
-		ingDict={}
-
-		for k, v in fA.items():
-			#Note that B does not need to have all the ingredients A has
-			_ing = None
-			if fB.get(k) != None:	
-				_ing = ma*v - mb*fB[k]
-				assert _ing>=0, "Weight of " + k + " can not be smaller than zero"
-				
-				if _math.isclose(_ing, 0.0, abs_tol=1E-5): _ing = 0
-			else:
-				_ing = ma*v
-			
-			ingDict[k] = _ing
-
-
-		fd = Food(**ingDict)
-		fd.weight = ma-mb
-		
-		obj = type(self)
-		f = obj(**fd.ingredients())
-		f.weight = fd.weight
-		f.T = fd.T
-
-		return f
-
-
-
-
-	def __mul__(self, m:float)->Food:
-		assert isinstance(m, _numbers.Number), "Foods can only be multiplied by numbers"
-
-		obj = type(self)
-		f = obj(**self.ingredients())
-		f.weight = self.weight*m
-		f.T = self.T
-
-		return f
-
-
-
-
-	def __rmul__(self, m:float)->Food:
-		assert isinstance(m, _numbers.Number), "Foods can only be multiplied by numbers"
-
-		obj = type(self)
-		f = obj(**self.ingredients())
-		f.weight = self.weight*m
-		f.T = self.T
-
-		return f
-
 	
-
-	def __str__(self):
-		retStr ="Type = " + self.__class__.__name__ + "\n"
-		retStr += "Weight (unit weight) = " + str(round(self.weight, 2)) +"\n"
-		retStr += "Temperature (C) = " + str(round(self.temperature, 2)) +"\n"
-
-		for k, v in self._Ingredients.items():
-			retStr += f"{k} (%) = {str(round(v*100, 2))} \n"
-		
-		aw = self.aw()
-		if aw != None:
-			retStr +="aw = " + str(round(aw, 3)) + "\n"	
-
-		return retStr
-
-
-
+	
 	def aw(self)->float|None:
 		"""
 		Returns value of water activity or None \n
@@ -616,74 +601,6 @@ class Food:
 		"""sets the weight to 1.0"""
 		self._Weight = 1.0
 
-
-	@property
-	def temperature(self):
-		"""in Celcius, same as property T"""
-		pass
-
-	@temperature.setter
-	def temperature(self, T):
-		assert T+273.15 >= 0, "Temperature > 0 Kelvin expected"
-		self._T = T
-
-	@temperature.getter
-	def temperature(self)->float:
-		return self._T
-	
-	@property
-	def T(self):
-		"""in Celcius, same as property temperature"""
-		pass
-
-	@T.setter
-	def T(self, T):
-		assert T+273.15 >= 0, "Temperature > 0 Kelvin expected"
-		self._T = T
-
-	@T.getter
-	def T(self)->float:
-		return self._T
-
-
-
-	@property
-	def weight(self):
-		""" unit weight, NOT recommended to set the weight externally """
-		pass
-
-	@weight.setter
-	def weight(self, weight:float):
-		self._Weight=weight
-	
-	@weight.getter
-	def weight(self)->float:
-		return self._Weight
-
-
-	@property
-	def water(self)->float:
-		return self._water
-	
-	@property
-	def cho(self)->float:
-		return self._cho
-
-	@property
-	def lipid(self)->float:
-		return self._lipid
-
-	@property
-	def protein(self)->float:
-		return self._protein
-
-	@property
-	def ash(self)->float:
-		return self._ash
-
-	@property
-	def salt(self)->float:
-		return self._salt
 
 	
 
