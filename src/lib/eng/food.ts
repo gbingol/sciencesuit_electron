@@ -281,8 +281,108 @@ export class Food
 		
 		let t = (T === undefined) ?  this.m_T : T;
 
-		return this.water*w(t) + this.protein*p(t) + this.lipid*f(t) + 
-			this.cho*c(t) + this.ash*a(t) + this.salt*s
+		return  this.water*w(t) + 
+				this.protein*p(t) + 
+				this.lipid*f(t) + 
+				this.cho*c(t) + 
+				this.ash*a(t) + 
+				this.salt*s;
+	}
+
+
+	molecularweight = ():number =>
+	{
+		/*
+		Average molecular weight of the food item
+		returns g/mol
+		*/
+		return this.water*18.02 + 
+				this.cho*180.16 + 
+				this.lipid*92.0944 + 
+				this.protein*89.09 + 
+				this.salt*58.44;
+	}
+
+
+	x_ice = (T:number):number|null =>
+	{
+		/*
+		Computes the fraction of ice \n
+		T: Initial freezing temperature
+		*/
+		
+		//if temperature > initial freezing temperature then no ice can exist
+		if (this.T > T)
+			return null;
+
+		let Tdiff = T -this.T + 1
+
+		//Tchigeov's (1979) equation (Eq #5 in ASHRAE manual)
+		return 1.105*this.water / (1 + 0.7138/Math.log(Tdiff))
+	}
+
+
+	enthalpy =(T:number):number =>
+	{
+		/*
+		Computes enthalpy for frozen and unfrozen foods, returns: kJ/kg 
+
+		## Input:
+		T: Initial freezing temperature
+
+		## Reference:
+		2006 ASHRAE Handbook, thermal properties of foods (Eq #18)
+
+		## Notes:
+		If foods current temperature smaller than Tfreezing it will 
+		compute the enthalpy for frozen foods.
+		*/		
+		let LO = 333.6; //constant
+		let Tref = -40; //reference temperature
+
+		let Tfood = this.T;
+
+		let X_w = this.water;
+
+		//solute
+		let X_slt = this.cho + this.lipid + this.protein + this.ash + this.salt;
+	
+		/*
+		if food's current T is smaller than or equal to (close enough) freezing temp 
+		then it is assumed as frozen
+		*/
+		let IsFrozen = Tfood<T || isclose(Tfood,T, T_TOL);
+
+		if (IsFrozen)
+		{
+			/*
+			If the food temperature is at 0C and it is frozen
+			then return the enthalpy of ice at 0C
+			*/
+			if (isclose(Tfood, 0.0, T_TOL))
+				return 2.050;
+
+			/*
+			fraction of the bound water (Equation #3 in ASHRAE) (Schwartzberg 1976). 
+			Bound water is the portion of water in a food that is bound to solids in the food, 
+			and thus is unavailable for freezing.
+			*/
+			let Xb = 0.4 * this.protein;
+
+			let temp= 1.55 + 1.26* X_slt - (X_w - Xb) * (LO* T) / (Tref*Tfood);
+			return (Tfood - Tref)*temp
+		}
+		
+
+		//UNFROZEN -> Equation #15 in ASHRAE book
+		
+		/*
+		compute enthalpy of food at initial freezing temperature 
+		Chang and Tao (1981) correlation, Eq #25 in ASHRAE manual
+		*/
+		let Hf = 9.79246 + 405.096*X_w;
+
+		return Hf + (Tfood - T)*(4.19 - 2.30*X_slt - 0.628*X_slt**3) 
 	}
 
 
@@ -417,82 +517,6 @@ class Food:
 			aw1 = _Aw.FerroFontan_Chirife_Boquet()
 
 		return ComputeAw_T(self, aw1)
-	
-
-
-	def molecularweight(self)->float:
-		"""
-		Average molecular weight of the food item
-
-		returns g/mol
-		"""
-		water, cho, lipid, protein = self._water, self._cho, self._lipid, self._protein
-		salt = self._salt 
-		
-		return water*18.02 + cho*180.16 + lipid*92.0944 + protein*89.09 + salt*58.44
-
-
-
-	def enthalpy(self, T)->float:
-		"""
-		Computes enthalpy for frozen and unfrozen foods, returns: kJ/kg 
-
-		## Input:
-		T: Initial freezing temperature
-
-		## Reference:
-		2006 ASHRAE Handbook, thermal properties of foods (Eq #18)
-
-		## Notes:
-		If foods current temperature smaller than Tfreezing it will 
-		compute the enthalpy for frozen foods.
-		"""	 			
-		assert isinstance(T, float), "Initial freezing temperature must be float"
-
-		LO = 333.6 #constant
-		Tref = -40 #reference temperature
-
-		Tfood = self.T
-
-		X_w = self.water
-
-		#solute
-		X_slt = self.cho + self.lipid + self.protein + self.ash + self.salt 
-	
-		"""
-		if food's current T is smaller than or equal to (close enough) freezing temp 
-		then it is assumed as frozen
-		"""
-		IsFrozen = Tfood<T or _math.isclose(Tfood,T, abs_tol=T_TOL)
-
-		if IsFrozen:
-			"""
-			If the food temperature is at 0C and it is frozen
-			then return the enthalpy of ice at 0C
-			"""
-			if _math.isclose(Tfood, 0.0, abs_tol=T_TOL):
-				return 2.050
-
-			"""
-			fraction of the bound water (Equation #3 in ASHRAE) (Schwartzberg 1976). 
-			Bound water is the portion of water in a food that is bound to solids in the food, 
-			and thus is unavailable for freezing.
-			"""
-			Xb = 0.4 * self.protein
-
-			temp= 1.55 + 1.26* X_slt - (X_w - Xb) * (LO* T) / (Tref*Tfood)
-			return (Tfood - Tref)*temp
-		
-
-		#UNFROZEN -> Equation #15 in ASHRAE book
-		
-		"""
-		compute enthalpy of food at initial freezing temperature 
-		Chang and Tao (1981) correlation, Eq #25 in ASHRAE manual
-		"""
-		Hf = 9.79246 + 405.096*X_w
-
-		return Hf + (Tfood - T)*(4.19 - 2.30*X_slt - 0.628*X_slt**3) 
 
 
 
@@ -506,24 +530,6 @@ class Food:
 		Not implemented in the base class (Food), raises error
 		"""
 		raise NotImplementedError("Only implemented for Juice, Fruit/Veggies and Meat")
-
-	
-
-
-	def x_ice(self, T:float)->float | None:
-		"""
-		Computes the fraction of ice \n
-		T: Initial freezing temperature
-		"""
-		
-		#if temperature > initial freezing temperature then no ice can exist
-		if self.T > T:
-			return None
-
-		Tdiff = T -self.T + 1
-
-		#Tchigeov's (1979) equation (Eq #5 in ASHRAE manual)
-		return 1.105*self._water / (1 + 0.7138/_math.log(Tdiff))
 	
 	
 
