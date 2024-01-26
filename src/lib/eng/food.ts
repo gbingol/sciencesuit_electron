@@ -440,6 +440,100 @@ export class Food
 }
 
 
+
+
+export function ComputeAw_T(food:Food, aw1:number):number|null
+{
+	/*
+	Computes aw at a different temperatures
+	
+	food: Food material
+	aw1: water activity of food at reference temperature (generally around 20C)
+	T2: the temperature at which water activity will be computed
+	*/
+	const Tref = 20;
+	if (isclose(food.T, Tref, 1.0))
+		return aw1;
+
+	//save the actual temperature
+	let T = food.T
+
+	food.T = Tref;
+	let Cp_20 = food.cp();
+
+	//restore the actual temperature
+	food.T = T;
+	let Cp_T = food.cp();
+
+	let Cp_avg = (Cp_20 + Cp_T) / 2.0;
+	let Qs = food.molecularweight()* Cp_avg*(T - 20.0) //kJ/kg
+
+	const R = 8.314 //kPa*m^3/kgK
+
+	T += 273.15;
+	let dT = 1/293.15 - 1/T;
+
+	let aw2 = aw1*Math.exp(Qs/R*dT);
+	
+	return (aw2>=0 && aw2<=1) ? aw2: null;
+}
+
+
+class Aw
+{
+	private m_Food:Food;
+	constructor(food:Food)
+	{
+		this.m_Food = food;
+	}
+
+	FerroFontan_Chirife_Boquet = ():number =>
+	{
+		/*
+		Assumptions: 
+		CHO (fructose), protein (alanine), lipid (glycerol)
+		*/
+		const MW_CHO = 180.16; //fructose
+		const MW_LIPID = 92.0944; //glycerol
+		const MW_PROTEIN = 89.09; //alanine
+
+		let fd = this.m_Food;
+
+		let NCHO = fd.cho/MW_CHO;
+		let NLipid = fd.lipid/ MW_LIPID;
+		let NProtein = fd.protein/MW_PROTEIN;
+		
+		//number of moles of water
+		let N_w = fd.water/18.02;
+
+		//solute
+		let N_slt = NCHO + NLipid + NProtein;
+
+		let Solute = 1 - fd.water;
+		let C_cho = fd.cho/Solute;
+		let C_Lipid = fd.lipid/Solute;
+		let C_Protein = fd.protein/Solute;
+
+		let Mt = Math.sqrt(C_cho/MW_CHO + C_Lipid/MW_LIPID + C_Protein/MW_PROTEIN);
+
+		//Norrish equation K values using Ferro-Chirife-Boquet equation
+		let Km = C_cho*(Mt/MW_CHO)*(-2.15) +
+				C_Lipid*(Mt/MW_LIPID)*(-1.16) + 
+				C_Protein*(Mt/MW_PROTEIN)*(-2.52) ;
+		
+		// Mole fraction of solute
+		let X_slt = N_slt/(N_slt + N_w);
+
+		// Mole fraction of water
+		let XWater = N_w/(N_slt + N_w) 
+
+		let aw = XWater*Math.exp(Km*X_slt**2);
+
+		return aw
+	}
+}
+
+
 let ing:Ingredient = {
 	water:88.13, protein:3.15, cho:4.80, lipid:3.25, ash:0.67
 }
@@ -460,88 +554,7 @@ console.log(f3);
 /*
 
 
-def ComputeAw_T(food:Food, aw1:float)->float|None:
-	"""
-	Computes aw at a different temperatures
-	
-	food: Food material
-	aw1: water activity of food at reference temperature (generally around 20C)
-	T2: the temperature at which water activity will be computed
-	"""
-	Tref = 20
-	if _math.isclose(food.T, Tref, abs_tol=1.0):
-		return aw1
-
-	#save the actual temperature
-	T = food.T
-
-	food.T = Tref
-	Cp_20 = food.cp()
-
-	#restore the actual temperature
-	food.T = T
-	Cp_T = food.cp()
-
-	Cp_avg = (Cp_20 + Cp_T) / 2.0	
-	Qs = food.molecularweight()* Cp_avg*(T - 20.0) #kJ/kg
-
-	R = 8.314 #kPa*m^3/kgK
-
-	T += 273.15
-	dT = 1/293.15 - 1/T
-
-	aw2 = aw1*_math.exp(Qs/R*dT)
-	
-	return aw2 if aw2>=0 and aw2<=1 else None
-
-
-
-#-----------------------------------------------------------------------------
-
-
 class Aw():
-	def __init__(self, food:Food) -> None:
-		self._food = food
-
-
-	def FerroFontan_Chirife_Boquet(self)->float:
-		"""
-		Assumptions: 
-		CHO (fructose), protein (alanine), lipid (glycerol)
-		"""
-		MW_CHO = 180.16 #fructose
-		MW_LIPID = 92.0944 #glycerol
-		MW_PROTEIN = 89.09 #alanine
-
-		fd = self._food
-
-		NCHO, NLipid, NProtein = fd.cho/MW_CHO, fd.lipid/ MW_LIPID, fd.protein/MW_PROTEIN
-		
-		#number of moles of water
-		N_w = fd.water/18.02
-
-		#solute
-		N_slt = NCHO + NLipid + NProtein
-
-		Solute = 1 - fd.water
-		C_cho, C_Lipid, C_Protein = fd.cho/Solute, fd.lipid/Solute, fd.protein/Solute
-
-		Mt = _math.sqrt(C_cho/MW_CHO + C_Lipid/MW_LIPID + C_Protein/MW_PROTEIN)
-
-		# Norrish equation K values using Ferro-Chirife-Boquet equation
-		Km = C_cho*(Mt/MW_CHO)*(-2.15) +C_Lipid*(Mt/MW_LIPID)*(-1.16) + C_Protein*(Mt/MW_PROTEIN)*(-2.52) 
-		
-		# Mole fraction of solute
-		X_slt = N_slt/(N_slt + N_w) 
-
-		# Mole fraction of water
-		XWater = N_w/(N_slt + N_w) 
-
-		aw = XWater*_math.exp(Km*X_slt**2)
-
-		return aw
-
-
 
 	def Norrish(self)->float:
 		"""Norrish equation"""
