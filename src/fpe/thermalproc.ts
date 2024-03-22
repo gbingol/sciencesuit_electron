@@ -117,7 +117,7 @@ btnCompute.onclick = ((evt)=>
 		rng = new Range(txtTemperature.value, ws);
 		let range_T = rng.data;
 
-		let Results = [];
+		let Results:Array<string> = [];
 		for(let T of range_T)
 		{
 			let s = `
