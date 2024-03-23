@@ -56,7 +56,7 @@ window.onoffline = function(evt)
 	SetStatusText();
 }
 
-interface PIPListEntry
+type PIPListEntry =
 {
 	name:string,
 	version:string,
@@ -90,20 +90,21 @@ btnOutdated.onclick = async function(evt)
 
 	let table = InitTable(fragment, ["Name", "Current", "Latest", ""]);
 
+	let doc = document;
 	for (let i = 0; i <json.length; i++) 
 	{
 		let e = json[i];
 
-		let row = table.appendChild(document.createElement("tr"));
-		let col1 = row.appendChild(document.createElement("td"));
+		let row = table.appendChild(doc.createElement("tr"));
+		let col1 = row.appendChild(doc.createElement("td"));
 		col1.innerHTML=e.name;
-		let col2 = row.appendChild(document.createElement("td"));
+		let col2 = row.appendChild(doc.createElement("td"));
 		col2.innerHTML=e.version;
-		let col3 = row.appendChild(document.createElement("td"));
+		let col3 = row.appendChild(doc.createElement("td"));
 		col3.innerHTML=e.latest_version;
 
-		let col4 = row.appendChild(document.createElement("td"));
-		let btnUpgrade = col4.appendChild(document.createElement("button"));
+		let col4 = row.appendChild(doc.createElement("td"));
+		let btnUpgrade = col4.appendChild(doc.createElement("button"));
 		btnUpgrade.id = "upgrade_"+e.name;
 		btnUpgrade.innerHTML="Upgrade";
 		btnUpgrade.className = "pip"
