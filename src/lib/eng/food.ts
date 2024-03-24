@@ -482,6 +482,7 @@ export function ComputeAw_T(food:Food, aw1:number):number|null
 class Aw
 {
 	private m_Food:Food;
+
 	constructor(food:Food)
 	{
 		this.m_Food = food;
@@ -518,8 +519,8 @@ class Aw
 
 		//Norrish equation K values using Ferro-Chirife-Boquet equation
 		let Km = C_cho*(Mt/MW_CHO)*(-2.15) +
-				C_Lipid*(Mt/MW_LIPID)*(-1.16) + 
-				C_Protein*(Mt/MW_PROTEIN)*(-2.52) ;
+				 C_Lipid*(Mt/MW_LIPID)*(-1.16) + 
+				 C_Protein*(Mt/MW_PROTEIN)*(-2.52) ;
 		
 		// Mole fraction of solute
 		let X_slt = N_slt/(N_slt + N_w);
@@ -530,6 +531,44 @@ class Aw
 		let aw = XWater*Math.exp(Km*X_slt**2);
 
 		return aw
+	}
+
+
+	Norrish = ():number=>
+	{
+		//Norrish equation
+		
+		f = this.m_Food
+
+		//CHO is considered as fructose
+		let N_cho = f.cho/180.16;
+		
+		//lipid is considered as glycerol
+		let N_l = f.lipid/ 92.0944 
+		
+		//protein is considered as alanine
+		let N_p = f.protein/89.09 
+
+		//water
+		let N_w = f.water / 18
+
+		//total
+		let N_tot = N_cho + N_l + N_p + N_w
+
+		//X_l: lipid, X_p: protein, X_w: water
+		let X_cho = N_cho/N_tot;
+		let X_l = N_l/N_tot;
+		let X_p =N_p/N_tot;
+		let X_w = N_w/N_tot;
+
+		
+		// Norrish equation K values using Ferro-Chirife-Boquet equation
+		let SumSq = -(2.15)*X_cho**2 - (1.16)*X_l**2 - (2.52)*X_p**2
+		let SumX2 = X_cho**2 + X_l**2 + X_p**2
+		
+		let rhs = Math.log(X_w) + SumSq/SumX2*(1-X_w)**2
+
+		return Math.exp(rhs)
 	}
 }
 
@@ -555,40 +594,6 @@ console.log(f3);
 
 
 class Aw():
-
-	def Norrish(self)->float:
-		"""Norrish equation"""
-		
-		f = self._food
-
-		#CHO is considered as fructose
-		N_cho = f.cho/180.16 
-		
-		#lipid is considered as glycerol
-		N_l = f.lipid/ 92.0944 
-		
-		#protein is considered as alanine
-		N_p = f.protein/89.09 
-
-		#water
-		N_w = f.water / 18
-
-		#total
-		N_tot = N_cho + N_l + N_p + N_w
-
-		#X_l: lipid, X_p: protein, X_w: water
-		X_cho, X_l, X_p, X_w = N_cho/N_tot, N_l/N_tot, N_p/N_tot, N_w/N_tot
-
-		
-		# Norrish equation K values using Ferro-Chirife-Boquet equation
-		SumSq = -(2.15)*X_cho**2 - (1.16)*X_l**2 - (2.52)*X_p**2
-		SumX2 = X_cho**2 + X_l**2 + X_p**2
-		
-		rhs = _math.log(X_w) + SumSq/SumX2*(1-X_w)**2
-
-		return _math.exp(rhs)
-
-
 
 	#mostly used in confectionaries
 	def MoneyBorn(self)->float:
