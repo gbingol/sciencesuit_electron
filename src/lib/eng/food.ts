@@ -570,6 +570,87 @@ class Aw
 
 		return Math.exp(rhs)
 	}
+
+	//mostly used in confectionaries
+	MoneyBorn = ():number=>
+	{
+		let f = this.m_Food;
+
+		// amount of CHO in 100 g water (equation considers thus way) 
+		let W = 100*f.cho/f.water; 
+		
+		//CHO is considered as fructose
+		let N_cho = W/180.16;
+		
+		return 1.0/(1.0 + 0.27*N_cho);
+	}
+
+	Raoult = (): number =>
+	{
+		//prediction using Raoult's law, all in percentages
+
+		let f = this.m_Food;
+
+		let x_w = f.water, xCHO = f.cho, x_l = f.lipid, x_p =  f.protein
+
+		//solute
+		let x_slt = xCHO + x_l + x_p + f.ash
+
+		//average molecular weight
+		let MW_slt = x_slt>0 ? (xCHO/x_slt)*180.16 + (x_l/x_slt)*92.0944 + (x_p/x_slt)*89.09 : 1;
+			
+		const MW_w=18; //molecular weight of water
+		const MW_nacl = 58.44;
+
+		let temp1 = x_w + (MW_w/MW_slt)*x_slt + 2*(MW_w/MW_nacl)*f.salt;
+		return x_w/temp1;
+	}
+
+}
+
+
+class Cp
+{
+	private m_Food:Food;
+
+	constructor(food:Food)
+	{
+		this.m_Food = food;
+	}
+
+	Siebel = (Tf = -1.7):number =>
+	{
+		/*
+		returns kJ/kg°C \n
+
+		Input:
+		Tf = -1.7; //the default freezing temperature
+
+		## Reference:
+		Siebel, E (1892). Specific heats of various products. Ice and Refrigeration, 2, 256-257.
+		*/
+
+		let food = this.m_Food;
+
+		let Fat = food.lipid;
+		let SNF = food.ash + food.protein + food.cho;
+		let M = food.water;
+		let Tfood = food.T;
+
+
+		//for fat free foods
+		if (isclose(Fat, 0.0, 1E-5))
+		{
+			let r = 837.36;
+			r += Tfood>Tf ? 3349*M : 1256*M;
+			return r/1000;
+		}
+
+		let r = 1674.72*Fat +  837.36*SNF;
+		r += Tfood>Tf ? 4186.8*M : 2093.4*M;
+
+		return r/1000;
+	}
 }
 
 
@@ -593,84 +674,11 @@ console.log(f3);
 /*
 
 
-class Aw():
-
-	#mostly used in confectionaries
-	def MoneyBorn(self)->float:
-		f = self._food
-
-		# amount of CHO in 100 g water (equation considers thus way) 
-		W = 100*f.cho/f.water 
-		
-		#CHO is considered as fructose
-		N_cho = W/180.16 
-		
-		return 1.0/(1.0 + 0.27*N_cho)
-
-
-
-	def Raoult(self)->float:
-		#prediction using Raoult's law
-		#all in percentages
-
-		f = self._food
-
-		x_w = f.water
-		xCHO =  f.cho
-		x_l = f.lipid
-		x_p =  f.protein
-
-		#solute
-		x_slt = xCHO + x_l + x_p + f.ash
-
-		#average molecular weight
-		MW_slt = (xCHO/x_slt)*180.16 + (x_l/x_slt)*92.0944 + (x_p/x_slt)*89.09 if x_slt>0 else 1
-			
-		MW_w=18 #molecular weight of water
-		MW_nacl = 58.44
-
-		temp1 = x_w + (MW_w/MW_slt)*x_slt + 2*(MW_w/MW_nacl)*f.salt
-		return x_w/temp1
-
-
-
-
-
-""" ------------------------------------------------------------------------------- """
-
 class Cp():
 	def __init__(self, food:Food) -> None:
 		self._food = food
 
-	def Siebel(self, Tf = -1.7)->float:
-		"""
-		returns kJ/kg°C \n
-
-		## Input:
-		Tf = -1.7 is the default freezing temperature
-
-		## Reference:
-		Siebel, E (1892). Specific heats of various products. Ice and Refrigeration, 2, 256-257.
-		"""
-
-		food = self._food
-
-		Fat = food.lipid
-		SNF = food.ash + food.protein + food.cho
-		M = food.water
-		Tfood = food.T
-
-
-		#for fat free foods
-		if _math.isclose(Fat, 0.0, abs_tol=1E-5):
-			r = 837.36
-			r += 3349*M if Tfood>Tf else 1256*M
-			return r/1000
-
-		r = 1674.72*Fat +  837.36*SNF
-		r += 4186.8*M if Tfood>Tf else 2093.4*M
-
-		return r/1000
+	
 
 
 	def Heldman(self)->float:
