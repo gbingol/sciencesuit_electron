@@ -25,12 +25,6 @@ function DisableButtons(disable=true)
 	}
 }
 
-function SetStatusText()
-{
-	(document.querySelector("#connection") as HTMLSpanElement).innerHTML= 
-		window.navigator.onLine?"<b>online</b>":"<b>offline</b>";
-}
-
 
 
 const btnOutdated:HTMLButtonElement = document.querySelector('#btnOutdated') as HTMLButtonElement;
@@ -39,22 +33,10 @@ btnOutdated.disabled = !window.navigator.onLine;
 
 window.onload = (evt)=>
 {
-	SetStatusText();
 	(document.querySelector("#version") as HTMLSpanElement).innerHTML = 
 	`<b>${localStorage.getItem("pyversion")}</b>`
 }
 
-window.ononline = function(evt:Event)
-{
-	btnOutdated.disabled=!window.navigator.onLine;
-	SetStatusText();
-}
-
-window.onoffline = function(evt)
-{
-	btnOutdated.disabled=!window.navigator.onLine;
-	SetStatusText();
-}
 
 type PIPListEntry =
 {
