@@ -38,7 +38,7 @@ window.onload = (evt)=>
 }
 
 
-type PIPListEntry =
+type PIPModule =
 {
 	name:string,
 	version:string,
@@ -49,14 +49,12 @@ type PIPListEntry =
 btnOutdated.onclick = async function(evt)
 {
 	const divModules = document.querySelector('#modules') as HTMLDivElement;
-
-	let i=0;
-	let timer = setInterval(()=> divModules.innerHTML = "Working on it, elapsed time: " + i++, 1000);
+	divModules.innerHTML = "Working on it...";
 
 	let divPip = document.querySelector("#pipoutput") as HTMLDivElement;
 	divPip.innerText="";
 
-	let json:Array<PIPListEntry>;
+	let json:Array<PIPModule>;
 	try {
 		DisableButtons();
 
@@ -67,7 +65,6 @@ btnOutdated.onclick = async function(evt)
 	catch(e) 
 	{
 		divModules.innerText = e as string;
-		clearInterval(timer);
 		return false;
 	}
 	
@@ -94,7 +91,6 @@ btnOutdated.onclick = async function(evt)
 		btnUpgrade.innerHTML="Upgrade";
 		btnUpgrade.className = "pip"
 		
-		clearInterval(timer);
 		table.appendChild(row);
 
 		
@@ -132,14 +128,12 @@ const btnInstalled = document.querySelector('#btnInstalled') as HTMLButtonElemen
 btnInstalled.onclick = async function(evt) 
 {
 	const divModules = document.querySelector('#modules') as HTMLDivElement;
-	
-	let i=0;
-	let timer = setInterval(()=> divModules.innerHTML = "Working on it, elapsed time: " + i++, 1000);
+	divModules.innerHTML = "Working on it...";
 
 	let divPip = document.querySelector("#pipoutput") as HTMLDivElement;
 	divPip.innerText="";
 
-	let json:Array<PIPListEntry>;
+	let json:Array<PIPModule>;
 	try {
 		DisableButtons();
 
@@ -149,7 +143,6 @@ btnInstalled.onclick = async function(evt)
 	}
 	catch(e) {
 		divModules.innerText = e as string;
-		clearInterval(timer);
 		return false;
 	}
 	
@@ -226,6 +219,5 @@ btnInstalled.onclick = async function(evt)
 	}
 
 	divModules.innerHTML="";
-	clearInterval(timer);
 	divModules.appendChild(fragment)
 }
