@@ -2,7 +2,7 @@ const { contextBridge } = require('electron')
 const path = require('node:path')
 const { exec } = require('child_process');
 
-var scinodebind = require("./cpp/nodebind.node");
+var scinodebind = require('bindings')("nodebind.node");
 let {PythonShell} = require('python-shell');
 
 
