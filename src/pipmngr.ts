@@ -27,7 +27,7 @@ function DisableButtons(disable=true)
 
 
 
-const btnOutdated:HTMLButtonElement = document.querySelector('#btnOutdated') as HTMLButtonElement;
+const btnOutdated = document.querySelector('#btnOutdated') as HTMLButtonElement;
 btnOutdated.disabled = !window.navigator.onLine;
 
 
@@ -124,13 +124,13 @@ btnOutdated.onclick = async function(evt)
 
 
 
-const btnInstalled = document.querySelector('#btnInstalled') as HTMLButtonElement;
+const btnInstalled = <HTMLButtonElement>document.querySelector('#btnInstalled');
 btnInstalled.onclick = async function(evt) 
 {
-	const divModules = document.querySelector('#modules') as HTMLDivElement;
+	const divModules = <HTMLDivElement>document.querySelector('#modules');
 	divModules.innerHTML = "Working on it...";
 
-	let divPip = document.querySelector("#pipoutput") as HTMLDivElement;
+	let divPip = <HTMLDivElement>document.querySelector("#pipoutput");
 	divPip.innerText="";
 
 	let json:Array<PIPModule>;
@@ -142,7 +142,7 @@ btnInstalled.onclick = async function(evt)
 		json = JSON.parse(output as string);
 	}
 	catch(e) {
-		divModules.innerText = e as string;
+		divModules.innerText = <string>e;
 		return false;
 	}
 	
@@ -174,7 +174,8 @@ btnInstalled.onclick = async function(evt)
 
 		btnInfo.disabled = !window.navigator.onLine;
 		btnInfo.onclick = async (evt)=> {
-			try {
+			try 
+			{
 				DisableButtons();
 				divPip.innerText="";
 
@@ -182,13 +183,14 @@ btnInstalled.onclick = async function(evt)
 					" -m pip show " + e.name;
 				let output = await window.api.runcmd(ShowCmd);
 				divPip.scrollIntoView();
-				divPip.innerText = output as string;
+				divPip.innerText = <string>output;
 
 				DisableButtons(false);
 			}
-			catch(error) {
+			catch(error) 
+			{
 				divPip.scrollIntoView();
-				divPip.innerText=error as string;
+				divPip.innerText = <string>error;
 			}
 		}
 
