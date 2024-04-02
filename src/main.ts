@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron')
-const path = require('node:path')
+const NodePath = require('node:path')
 
 
 const createWindow = () =>
@@ -14,7 +14,7 @@ const createWindow = () =>
 		webPreferences:
 		{
 			nodeIntegration: true,
-			preload: path.join(__dirname, 'preload.js'),
+			preload: NodePath.join(__dirname, 'preload.js'),
 			sandbox: false
 		},
 

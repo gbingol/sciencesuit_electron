@@ -1,0 +1,4 @@
+node_modules/
+.vscode
+*.dll
+dist/**/*.js

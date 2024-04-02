@@ -96,23 +96,23 @@ function GenerateHTMLPythonList(output:string, div:HTMLElement)
 	}
 }
 
-let div = (<HTMLDivElement>document.querySelector("#maincontent")).appendChild(document.createElement("div"));
-div.className = "PyHomes";
+let PyHomes = (<HTMLDivElement>document.querySelector("#maincontent")).appendChild(document.createElement("div"));
+PyHomes.className = "PyHomes";
 
-let pHeader = div.appendChild(document.createElement("p"));
+let pHeader = PyHomes.appendChild(document.createElement("p"));
 pHeader.innerHTML = "Python Interpreter";
 pHeader.style.cssText = "text-align: center; color: red; font-weight: bold;";
 
-let p_PyHomes = div.appendChild(document.createElement("p"));
+let p_PyHomes = PyHomes.appendChild(document.createElement("p"));
 
 
 window.api.runcmd("py --list-paths").
 //@ts-ignore
 then(output=> 
 {	
-	GenerateHTMLPythonList(output as string, div);
+	GenerateHTMLPythonList(output as string, PyHomes);
 }).
 catch((error:string)=>
 {
-	//p.innerText=error;
+	PyHomes.innerHTML = error;
 });
