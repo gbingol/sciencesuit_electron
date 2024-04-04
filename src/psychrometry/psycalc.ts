@@ -1,3 +1,19 @@
+document.body.onload = function(evt)
+{
+	/*
+	Most likely defers are not necessary
+	*/
+	
+	const script = document.head.appendChild(document.createElement("script"));
+	script.src = "../lib/comp/div_copydel.js";
+	script.defer;
+
+	const script2 = document.head.appendChild(document.createElement("script"));
+	script2.src = "../lib/comp/div_transientpopwnd.js";
+	script2.defer;
+}
+
+
 const btn = document.getElementById('compute') as HTMLButtonElement;
 const chkP =  document.getElementById('chkP') as HTMLInputElement;
 const chkTdb =  document.getElementById('chkTdb') as HTMLInputElement;
@@ -122,3 +138,30 @@ btn.addEventListener("click", (evt) =>
 		infoDiv.innerHTML = e as string;
 	}
 });
+
+
+const chartBtn = <HTMLButtonElement>document.getElementById('chartbtn');
+let options = {pythonPath: localStorage.getItem("pypath")};
+chartBtn.onclick = async function(evt)
+{
+	let cmd = 
+`
+import scisuit.plot as plt
+plt.psychrometry()
+plt.show()
+`			
+	try{
+		let output = await window.api.runpython(cmd, options, true);
+		return false;
+	}
+	catch(e)
+	{
+		let msgBox = document.createElement("div-transientpopwnd");
+		// @ts-ignore
+		msgBox.timeout = 3500;
+		// @ts-ignore
+		msgBox.innerHTML = e;
+		document.body.appendChild(msgBox);
+	}
+		
+}
