@@ -8,9 +8,8 @@ function ParseListPaths(str:string)
 	for(let s  of arr)
 	{
 		s = s.trim();
-		let start = s.indexOf(":");
-		let end = s.indexOf(" ");
-		let version = s.substring(start+1, end);
+		let start = s.indexOf(":"), end = s.indexOf(" ");
+		let version = s.substring(start + 1, end);
 
 		start = s.indexOf("*");
 		let IsGlobal=false;
@@ -31,6 +30,7 @@ function ParseListPaths(str:string)
 	return retObj;
 }
 
+
 function GenerateHTMLPythonList(output:string, div:HTMLElement)
 {
 	const Arr = ParseListPaths(output);
@@ -39,7 +39,6 @@ function GenerateHTMLPythonList(output:string, div:HTMLElement)
 	ol.className = "linespaced";
 
 	let PyVersion = localStorage.getItem("pyversion");
-	let PyPath = localStorage.getItem("pypath");
 
 	let prevInput: HTMLInputElement;
 	
@@ -50,9 +49,9 @@ function GenerateHTMLPythonList(output:string, div:HTMLElement)
 		let li = ol.appendChild(document.createElement("li"));
 
 		let input = li.appendChild(document.createElement("input"));
-		input.type="radio";
-		input.name="pyhome";
-		input.id=version;
+		input.type = "radio";
+		input.name = "pyhome";
+		input.id = version;
 		input.value = path;
 
 		let label = li.appendChild(document.createElement("label"));
@@ -72,8 +71,8 @@ function GenerateHTMLPythonList(output:string, div:HTMLElement)
 		if(PyVersion !== null)
 		{
 			input.checked = (PyVersion == input.id);
-			if(input.checked)  
-				prevInput=input;
+			if (input.checked)
+				prevInput = input;
 			li.style.color = input.checked ? "green":"inherit";
 		}
 
@@ -85,13 +84,14 @@ function GenerateHTMLPythonList(output:string, div:HTMLElement)
 			if (evt.target instanceof HTMLElement && evt.target.parentElement instanceof HTMLElement)
 				evt.target.parentElement.style.color = "green";
 
-			if (evt.target instanceof HTMLInputElement) {
+			if (evt.target instanceof HTMLInputElement)
+			{
 				localStorage.setItem("pyversion", evt.target.id);
 				localStorage.setItem("pypath", evt.target.value);
 			}
 
-			if(input!=prevInput)
-				prevInput=input;
+			if (input != prevInput)
+				prevInput = input;
 		}
 	}
 }
@@ -107,7 +107,6 @@ let p_PyHomes = PyHomes.appendChild(document.createElement("p"));
 
 
 window.api.runcmd("py --list-paths").
-//@ts-ignore
 then(output=> 
 {	
 	GenerateHTMLPythonList(output as string, PyHomes);
