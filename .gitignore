@@ -2,3 +2,5 @@ node_modules/
 .vscode
 *.dll
 dist/**/*.js
+build/**/*.*
+!build/nodebind.node
