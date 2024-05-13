@@ -26,11 +26,6 @@ function DisableButtons(disable=true)
 }
 
 
-
-const btnOutdated = document.querySelector('#btnOutdated') as HTMLButtonElement;
-btnOutdated.disabled = !window.navigator.onLine;
-
-
 window.onload = (evt)=>
 {
 	(document.querySelector("#version") as HTMLSpanElement).innerHTML = 
@@ -46,6 +41,7 @@ type PIPModule =
 }
 
 
+const btnOutdated = document.querySelector('#btnOutdated') as HTMLButtonElement;
 btnOutdated.onclick = async function(evt)
 {
 	const divModules = document.querySelector('#modules') as HTMLDivElement;
